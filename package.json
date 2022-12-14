@@ -1,0 +1,24 @@
+{
+  "name": "qgexam-frontend-front",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "ant-design-vue": "^3.2.15",
+    "axios": "^1.2.1",
+    "less": "^4.1.3",
+    "pinia": "^2.0.28",
+    "pinia-plugin-persistedstate": "^3.0.1",
+    "unplugin-vue-components": "^0.22.12",
+    "vue": "^3.2.41"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.2.0",
+    "vite": "^3.2.3"
+  }
+}

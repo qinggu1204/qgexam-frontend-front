@@ -9,13 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
     "ant-design-vue": "^3.2.15",
     "axios": "^1.2.1",
     "less": "^4.1.3",
     "pinia": "^2.0.28",
     "pinia-plugin-persistedstate": "^3.0.1",
     "unplugin-vue-components": "^0.22.12",
-    "vue": "^3.2.41"
+    "vue": "^3.2.41",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.2.0",

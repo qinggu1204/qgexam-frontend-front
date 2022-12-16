@@ -2,11 +2,11 @@ import axios from 'axios'
 import {notification} from "ant-design-vue";
 import 'ant-design-vue/es/message/style/css'
 import 'ant-design-vue/es/notification/style/css'
-import {useUserStore} from "@/store/index.js";
+import {useUserStore} from "@/store/user.js";
 import {showMessage} from "@/utils/status.js";
 
 const request = axios.create({
-    baseURL: 'http://127.0.0.1:4523/m1/2033038-0-default',
+    baseURL: import.meta.env.VITE_API_DOMAIN,
     timeout: 100000
 })
 

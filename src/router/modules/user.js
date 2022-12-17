@@ -17,9 +17,18 @@ export default [
     {
         path: '/register',
         name: 'register',
-        component: import('@/views/user/register/Register.vue'),
+        component: () => import('@/views/user/register/Register.vue'),
         meta: {
             title: '注册',
+        }
+    },
+    // 修改密码
+    {
+        path: '/updatePassword',
+        name: 'updatePassword',
+        component: () => import('@/views/user/updatePassword/UpdatePassword.vue'),
+        meta: {
+            title: '修改密码',
         }
     }
 ]

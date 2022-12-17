@@ -8,7 +8,7 @@
     </div>
     <div class="login-wrapper">
       <a-row justify="center">
-        <a-col>
+        <a-col :span="4">
           <a-tabs v-model="activeKey" centered>
             <a-tab-pane key="1" tab="密码登录">
               <a-form
@@ -39,6 +39,14 @@
                   </a-button>
                 </a-form-item>
               </a-form>
+              <div>
+                <div style="display: inline;float: left">
+                  <router-link to="/register">注册</router-link>
+                </div>
+                <div style="display: inline;float: right">
+                  <router-link to="/updatePassword">忘记密码</router-link>
+                </div>
+              </div>
             </a-tab-pane>
             <a-tab-pane key="2" tab="验证码登录">
               <a-form
@@ -58,7 +66,6 @@
                       v-model:value="formType2.code"
                       placeholder="请输入验证码"
                       @search="onSearch"
-                      style="max-width: 204px"
                   >
                     <template #prefix>
                       <MessageOutlined style="color: rgba(0, 0, 0, 0.25)"/>
@@ -67,11 +74,6 @@
                       <a-button>发送</a-button>
                     </template>
                   </a-input-search>
-                  <!--<a-input v-model:value="formType2.code" type="password"  placeholder="请输入密码">
-                    <template #prefix>
-                      <LockOutlined style="color: rgba(0, 0, 0, 0.25)"/>
-                    </template>
-                  </a-input>-->
                 </a-form-item>
                 <a-form-item>
                   <a-button
@@ -82,11 +84,16 @@
                   </a-button>
                 </a-form-item>
               </a-form>
+              <div>
+                <div style="display: inline;float: left">
+                  <router-link to="/register">注册</router-link>
+                </div>
+                <div style="display: inline;float: right">
+                  <router-link to="/updatePassword">忘记密码</router-link>
+                </div>
+              </div>
             </a-tab-pane>
           </a-tabs>
-          <div style="text-align: center">
-            <router-link to="/register">没有账号？去注册</router-link>
-          </div>
         </a-col>
       </a-row>
     </div>
@@ -101,9 +108,9 @@
   import Loading from "@/components/Loading.vue";
 
   const loading = storeToRefs(useLoadingStore()).isLoading;
-  
+
   const activeKey = ref('1');
-  
+
   const formType1 = reactive({
     loginName: '',
     password: '',
@@ -139,9 +146,14 @@
     min-height: 70vh;
   }
 
-  .login-wrapper :deep(.ant-btn) {
+  .login-wrapper :deep(.ant-col-4) {
     display: block;
-    margin: 0 auto;
+    flex: 0 0 13.5%;
+    max-width: 13.5%;
+  }
+
+  .login-wrapper :deep(.ant-btn) {
+    width: 100%;
   }
 
   .login-wrapper :deep(.ant-tabs-nav) {
@@ -151,4 +163,5 @@
   .login-wrapper a {
     color: #5eaf7d;
   }
+
 </style>

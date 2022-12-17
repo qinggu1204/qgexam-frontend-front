@@ -156,7 +156,7 @@
 </template>
 
 <script setup>
-  import {nextTick, onBeforeMount, reactive, ref} from "vue";
+  import {nextTick, onActivated, onMounted, reactive, ref} from "vue";
   import Loading from "@/components/Loading.vue";
   // 上传图片
   import {LeftOutlined, LoadingOutlined, PlusOutlined} from "@ant-design/icons-vue";
@@ -172,10 +172,13 @@
   // loading, first-step, second-step 
   const status = ref('loading');
 
-  onBeforeMount(() => {
+  onMounted(() => {
     setTimeout(() => {
       status.value = 'first-step';
     }, 1500)
+  })
+  onActivated(() => {
+    status.value = 'first-step';
   })
 
   // 第一步检查手机号表单
@@ -257,10 +260,11 @@
 
   const btnRegisterLoading = ref(false);
   const handleFinish2 = values => {
+    btnRegisterLoading.value = true;
     console.log(values, formCheckPhone);
     resultStore.setResult(
         'success',
-        '登录成功！',
+        '注册成功',
         '点击去登录按钮跳转到登录页面',
         '去登录',
         'login',
@@ -268,9 +272,10 @@
     nextTick(() => {
       setTimeout(() => {
         router.push({name: 'result'});
+        btnRegisterLoading.value = false;
       }, 1500)
     })
-    btnRegisterLoading.value = true;
+
   };
 
 </script>
@@ -297,8 +302,9 @@
   }
 
   .register-wrapper :deep(.ant-btn-primary) {
-    display: block;
-    margin: 0 auto;
+    //display: block;
+    //margin: 0 auto;
+    width: 100%;
   }
 
   // 上传

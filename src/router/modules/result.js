@@ -7,6 +7,6 @@ export default [
     {
         path: '/result',
         name: 'result',
-        component: import('@/views/result/Result.vue'),
+        component: () => import('@/views/result/Result.vue'),
     },
 ]

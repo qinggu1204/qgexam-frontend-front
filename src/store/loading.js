@@ -12,5 +12,5 @@ export const useLoadingStore = defineStore('loading', {
             this.isLoading = flag;
         }
     },
-    persist: true
+    // persist: true
 })

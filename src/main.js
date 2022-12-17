@@ -7,6 +7,8 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 // vue-router
 import router from "@/router/index.js";
+// 路由守卫
+import '@/utils/permission'
 
 
 const pinia = createPinia();

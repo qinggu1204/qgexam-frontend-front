@@ -1,9 +1,6 @@
 <template>
-  <div v-if="loading" class="loading-wrapper">
-    <Loading></Loading>
-  </div>
-  <div v-else>
-    <router-view v-slot="{ Component }">
+  <div>
+    <router-view v-slot="{ Component }" :key="$route.fullPath">
       <transition name="router-fade" mode="out-in">
         <keep-alive>
           <component :is="Component"/>
@@ -14,14 +11,7 @@
 </template>
 
 <script setup>
-  import {onMounted, ref} from "vue";
 
-  const loading = ref(true);
-  onMounted(() => {
-    setTimeout(() => {
-      loading.value = false;
-    }, 1500)
-  })
 </script>
 
 <style lang="less">

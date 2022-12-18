@@ -8,5 +8,8 @@ export default [
         path: '/result',
         name: 'result',
         component: () => import('@/views/result/Result.vue'),
+        meta: {
+            title: '结果页',
+        }
     },
 ]

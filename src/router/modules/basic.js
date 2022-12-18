@@ -11,6 +11,7 @@ export default [
         component: () => import('@/views/dashboard/StudentDashboard.vue'),
         meta: {
             title: '个人主页',
+            requireAuth: true,
         }
     }
 ]

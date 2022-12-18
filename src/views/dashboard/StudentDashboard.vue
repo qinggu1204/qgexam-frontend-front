@@ -1,5 +1,8 @@
 <template>
-  <div class="layout-wrapper">
+  <div v-if="!id||loading" class="loading-wrapper">
+    <Loading></Loading>
+  </div>
+  <div v-else class="layout-wrapper">
     <a-layout>
       <a-layout-header>
         <div class="logo">
@@ -10,25 +13,35 @@
         </div>
         <div class="avatar-wrapper">
           <a-space :size="12">
-            <a-button type="text">加入课程</a-button>
+            <a-button type="text" @click="showModal">加入课程</a-button>
+            <a-modal v-model:visible="visible" @ok="handleOk" cancel-text="取消" ok-text="加入">
+              <template #title>
+                <a-typography-title :level="5">加入课程</a-typography-title>
+              </template>
+              <div style="display: flex">
+                <a-input v-model:value="courseId" placeholder="请输入课程编号"/>
+              </div>
+            </a-modal>
             <a-divider type="vertical" style="height: 24px"/>
             <a-dropdown>
               <a class="ant-dropdown-link" @click.prevent>
                 <a-space :size="10">
-                  <a-avatar src="https://img1.imgtp.com/2022/12/17/pO3TGJOg.png" size="large" />
-                  <span>用户名</span>
+                  <a-avatar :src="avatar" size="large"/>
+                  <span>{{ username }}</span>
                 </a-space>
               </a>
               <template #overlay>
                 <a-menu>
                   <a-menu-item>
-                    <a href="javascript:;">1st menu item</a>
+                    <a href="javascript:;">
+                      <user-outlined/>
+                      <span> 个人信息</span></a>
                   </a-menu-item>
                   <a-menu-item>
-                    <a href="javascript:;">2nd menu item</a>
-                  </a-menu-item>
-                  <a-menu-item>
-                    <a href="javascript:;">3rd menu item</a>
+                    <a href="javascript:;" @click.prevent="showLogoutConfirm">
+                      <LogoutOutlined/>
+                      <span> 退出登录</span>
+                    </a>
                   </a-menu-item>
                 </a-menu>
               </template>
@@ -46,8 +59,59 @@
 </template>
 
 <script setup>
-  import {ref} from "vue";
-  import { DownOutlined } from '@ant-design/icons-vue';
+  import {createVNode, onBeforeMount, ref} from "vue";
+  import {ExclamationCircleOutlined, LogoutOutlined, UserOutlined} from '@ant-design/icons-vue';
+  import {message, Modal} from "ant-design-vue";
+  import 'ant-design-vue/es/message/style/css'
+  import {useUserStore} from "@/store/user.js";
+  import {storeToRefs} from "pinia";
+  import Loading from "@/components/Loading.vue";
+  import {useLoadingStore} from "@/store/loading.js";
+  import {useRouter} from "vue-router";
+
+  const userStore = useUserStore();
+  const loading = storeToRefs(useLoadingStore()).isLoading;
+  onBeforeMount(() => {
+    userStore.GetUserInfo();
+  })
+  const {username, avatar, id} = storeToRefs(userStore);
+
+  // 添加课程
+  const visible = ref(false);
+  const showModal = () => {
+    visible.value = true;
+  };
+  const courseId = ref('');
+  const handleOk = () => {
+    message.success('加入课程成功！');
+    visible.value = false;
+    courseId.value = '';
+  };
+
+  // 退出登录
+  const router = useRouter();
+  const logout = async () => {
+    const res = await userStore.Logout();
+    if (res.code === 200) {
+      localStorage.clear();
+      await router.push({name: 'login'});
+    }
+  }
+  const showLogoutConfirm = () => {
+    Modal.confirm({
+      title: '您确定要退出登录吗？',
+      icon: createVNode(ExclamationCircleOutlined),
+      // content: 'Some descriptions',
+      okText: '确认',
+      okType: 'danger',
+      cancelText: '取消',
+      onOk() {
+        // logout
+        logout();
+      },
+      onCancel() {},
+    });
+  }
 
 </script>
 
@@ -64,7 +128,7 @@
     height: 31px;
     margin: 0 16px 0 32px;
   }
-  
+
   .logo-text {
     float: left;
     margin-right: 6px;
@@ -81,12 +145,12 @@
   .layout-wrapper :deep(.ant-layout-header .ant-menu) {
     background: #f0f2f5;
   }
-  
+
   .avatar-wrapper {
     float: right;
     margin-right: 40px;
   }
-  
+
   .avatar-wrapper .ant-dropdown-link {
     color: rgba(0, 0, 0, 0.85);
   }

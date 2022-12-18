@@ -1,5 +1,4 @@
 import {createRouter, createWebHashHistory} from "vue-router";
-import {useLoadingStore} from "@/store/loading.js";
 
 // 批量引入modules
 const modules = import.meta.glob('./modules/*.js',{eager: true});

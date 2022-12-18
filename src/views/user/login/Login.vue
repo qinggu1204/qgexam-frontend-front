@@ -106,8 +106,11 @@
   import {storeToRefs} from "pinia";
   import {useLoadingStore} from "@/store/loading.js";
   import Loading from "@/components/Loading.vue";
+  import {useRouter} from "vue-router";
+  import {useUserStore} from "@/store/user.js";
 
   const loading = storeToRefs(useLoadingStore()).isLoading;
+  const router = useRouter();
 
   const activeKey = ref('1');
 
@@ -117,6 +120,8 @@
   });
   const handleFinish = values => {
     console.log(values, formType1);
+    useUserStore().token = 'slsadkjfsdaf41sda65f456';
+    router.push({name: 'dashboard'});
   };
   const handleFinishFailed = errors => {
     console.log(errors);

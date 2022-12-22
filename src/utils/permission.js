@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
         const userStore = useUserStore();
         const {token} = storeToRefs(userStore);
         if (!token.value) {
-            message.warn('您还未登录！请先登录！');
+            message.warn('您还未登录，请先登录！');
             next('/login');
         }
     }

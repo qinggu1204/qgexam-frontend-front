@@ -40,7 +40,6 @@ request.interceptors.response.use((response) => {
             message: response.data.msg,
             description: showMessage(response.data.code),
         })
-        return ;
     }
     return response.data
 }, errorHandler)

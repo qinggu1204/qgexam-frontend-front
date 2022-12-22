@@ -1,5 +1,5 @@
 /**
- * 用户接口
+ * 用户公共接口
  */
 import {request} from "@/utils/request.js";
 

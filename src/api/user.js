@@ -14,6 +14,7 @@ const userApi = {
     TeacherRegister: '/user/tea/register', // 教师注册
     GetUserInfo: '/user/common/getUserInfo',// 获取用户个人信息
     ValidateCode: '/user/validateCode', // 校验验证码是否正确
+    Upload: '/common/upload', // 上传图片
 }
 
 export function login(parameter) {
@@ -69,6 +70,14 @@ export function studentRegister(parameter) {
     })
 }
 
+export function teacherRegister(parameter) {
+    return request({
+        url: userApi.TeacherRegister,
+        method: 'post',
+        data: parameter
+    })
+}
+
 export function getUserInfo() {
     return request({
         url: userApi.GetUserInfo,
@@ -80,6 +89,15 @@ export function validateCode(parameter) {
     return request({
         url: userApi.ValidateCode,
         method: 'post',
+        data: parameter
+    })
+}
+
+export function upload(parameter) {
+    return request({
+        url: userApi.Upload,
+        method: 'post',
+        headers: { 'Content-Type': 'multipart/form-data'},
         data: parameter
     })
 }

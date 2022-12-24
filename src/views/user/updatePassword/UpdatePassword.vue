@@ -85,7 +85,7 @@
   const btnLoading = ref(false);
   const router = useRouter();
   const resultStore = useResultStore();
-  const handleFinish = values => {
+  const nextStep = values => {
     btnLoading.value = true;
     console.log(values, formUpdatePassword);
     setTimeout(() => {

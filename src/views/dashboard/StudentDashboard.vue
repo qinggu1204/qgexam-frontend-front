@@ -230,7 +230,7 @@
                     router.push({name: 'login'});
                     setTimeout(() => {
                       window.location.reload();
-                    }, 100)
+                    }, 500)
                   })
                   resolve();
                 }

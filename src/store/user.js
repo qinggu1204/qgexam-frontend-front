@@ -1,5 +1,14 @@
 import {defineStore} from "pinia";
-import {getUserInfo, login, logout} from "@/api/user";
+import {
+    getSchoolList,
+    getUserInfo,
+    login,
+    loginByCode,
+    logout,
+    sendCode,
+    studentRegister, teacherRegister, upload,
+    validateCode
+} from "@/api/user";
 
 /**
  * 用户store
@@ -31,14 +40,35 @@ export const useUserStore = defineStore('user', {
                     })
             })
         },
-        Login() {
+        Login(params) {
             return new Promise((resolve, reject) => {
-                login()
+                login(params)
                     .then(res => {
+                        if (res.code === 200) {
+                            // 先清空之前的store，再赋值token
+                            this.$reset();
+                            this.token = res.data;
+                        }
                         resolve(res);
                     })
                     .catch(error => {
-                        reject(error)
+                        reject(error);
+                    })
+            })
+        },
+        LoginByCode(params) {
+            return new Promise((resolve, reject) => {
+                loginByCode(params)
+                    .then(res => {
+                        if (res.code === 200) {
+                            // 先清空之前的store，再赋值token
+                            this.$reset();
+                            this.token = res.data;
+                        }
+                        resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error);
                     })
             })
         },
@@ -53,7 +83,72 @@ export const useUserStore = defineStore('user', {
                     })
             })
         },
-
+        SendCode(params) {
+            return new Promise((resolve, reject) => {
+                sendCode(params)
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        ValidateCode(params) {
+            return new Promise((resolve, reject) => {
+                validateCode(params)
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        GetSchoolList() {
+            return new Promise((resolve, reject) => {
+                getSchoolList()
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        StudentRegister(params){
+            return new Promise((resolve, reject) => {
+                studentRegister(params)
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        TeacherRegister(params) {
+            return new Promise((resolve, reject) => {
+                teacherRegister(params)
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        Upload(params) {
+            return new Promise((resolve, reject) => {
+                upload(params)
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        }
     },
     persist: true,
 })

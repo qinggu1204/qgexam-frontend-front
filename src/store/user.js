@@ -6,7 +6,7 @@ import {
     loginByCode,
     logout,
     sendCode,
-    studentRegister, teacherRegister, upload,
+    studentRegister, teacherRegister, updatePassword, upload,
     validateCode
 } from "@/api/user";
 
@@ -33,7 +33,7 @@ export const useUserStore = defineStore('user', {
                             this.id = data.userId, this.username = data.userName;
                             this.avatar = data.headImg, this.role = data.roleList;
                         }
-                        resolve();
+                        resolve(res);
                     })
                     .catch(error => {
                         reject(error)
@@ -141,6 +141,17 @@ export const useUserStore = defineStore('user', {
         Upload(params) {
             return new Promise((resolve, reject) => {
                 upload(params)
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        UpdatePassword(params) {
+            return new Promise((resolve, reject) => {
+                updatePassword(params)
                     .then(res => {
                         resolve(res);
                     })

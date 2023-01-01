@@ -5,12 +5,14 @@
   <div v-else class="layout-wrapper">
     <a-layout>
       <a-layout-header>
-        <div class="logo">
-          <img src="./img/logo.png" alt="青谷教育" style="max-width: 100%;margin-bottom: 6px;">
-        </div>
-        <div class="logo-text">
-          <img src="./img/logo-text.png" alt="青谷教育·考试系统" style="max-width: 100%;margin-bottom: 12px;">
-        </div>
+        <a @click.prevent="router.push('/')">
+          <div class="logo">
+            <img src="./img/logo.png" alt="青谷教育" style="max-width: 100%;margin-bottom: 6px;">
+          </div>
+          <div class="logo-text">
+            <img src="./img/logo-text.png" alt="青谷教育·考试系统" style="max-width: 100%;margin-bottom: 12px;">
+          </div>
+        </a>
         <div class="avatar-wrapper">
           <a-space :size="12">
             <a-button type="text" @click="showModal">加入课程</a-button>
@@ -36,7 +38,7 @@
               <template #overlay>
                 <a-menu>
                   <a-menu-item>
-                    <a href="javascript:;">
+                    <a href="javascript:;" @click.prevent="router.push({name: 'userinfo'})">
                       <user-outlined/>
                       <span> 个人信息</span></a>
                   </a-menu-item>
@@ -54,39 +56,7 @@
       </a-layout-header>
       <a-layout-content style="padding: 0 25px;">
         <div class="content">
-          <div class="search-course-input">
-            <a-row justify="end">
-              <a-input-search
-                  v-model:value="examinationName"
-                  placeholder="课程名"
-                  enter-button
-                  @search="onSearch"
-                  style="width: 350px"
-              />
-            </a-row>
-          </div>
-          <div style="min-height: 60%">
-            <a-list :grid="{ gutter: 16, column: 6 }" :data-source="examList"
-                    :pagination="pagination" :loading="{spinning:examListLoading, size:'large', delay: '300'}"
-            >
-              <template #renderItem="{ item }">
-                <a-list-item key="item.examinationId">
-                  <a-card hoverable>
-                    <a-card-meta :title="item.examinationName">
-                      <template #description>
-                        <calendar-outlined/>
-                        {{item.startTime}} <br>
-                        <clock-circle-outlined/>
-                        {{getExamTime(item.startTime, item.endTime)}} 分钟
-                        <a-tag :color="getStatusColor(item.status)">{{item.status}}</a-tag>
-                      </template>
-                    </a-card-meta>
-                  </a-card>
-                </a-list-item>
-
-              </template>
-            </a-list>
-          </div>
+          <router-view></router-view>
         </div>
       </a-layout-content>
     </a-layout>
@@ -94,121 +64,23 @@
 </template>
 
 <script setup>
-  import {createVNode, nextTick, onBeforeMount, reactive, ref} from "vue";
-  import {
-    CalendarOutlined,
-    ClockCircleOutlined,
-    ExclamationCircleOutlined,
-    LogoutOutlined,
-    UserOutlined
-  } from '@ant-design/icons-vue';
+  import {createVNode, nextTick, onBeforeMount, ref} from "vue";
+  import {ExclamationCircleOutlined, LogoutOutlined, UserOutlined} from '@ant-design/icons-vue';
   import {message, Modal} from "ant-design-vue";
   import 'ant-design-vue/es/message/style/css'
   import {useUserStore} from "@/store/user.js";
-  import {storeToRefs} from "pinia";
   import Loading from "@/components/Loading.vue";
-  import {useLoadingStore} from "@/store/loading.js";
   import {useRouter} from "vue-router";
-  import {joinCourse} from "@/api/student.js";
-  import {useStudentStore} from "@/store/student.js";
-  import dayjs from "dayjs";
   import 'dayjs/locale/zh-cn';
-
-
-  // 获取学生考试列表
-  const studentStore = useStudentStore();
-  const examList = ref([]);
-  // 搜索课程
-  const examinationName = ref(undefined);
-  const examListLoading = ref(true);
-  // 分页
-  const pagination = reactive({
-    onChange: (currentPage, pageSize) => {
-      // 切换页面时的分页查询
-      pagination.pageSize = pageSize, pagination.current = currentPage;
-      examListLoading.value = true;
-      getExamList(null, currentPage, pageSize, examinationName);
-    },
-    pageSize: 24,
-    current: 1,
-    total: 0,
-    defaultCurrent: 1,
-    defaultPageSize: 24,
-  });
-
-  const getExamList = (courseId = null, currentPage = 1, pageSize = 24, examinationName = null) => {
-    examListLoading.value = true;
-    studentStore.GetExamList(courseId, {currentPage, pageSize:pagination.pageSize, examinationName})
-        .then(res => {
-          if (res.code === 200) {
-            const {data} = res;
-            examList.value = [...data.records];
-            pagination.total = data.total;
-          }
-        })
-        .finally(() => {
-          examListLoading.value = false;
-        })
-  }
-  // 获取考试时间，转化为分钟
-  const getExamTime = (startTime, endTime) => {
-    const S = dayjs(startTime, 'YYYY-MM-dd HH:mm:ss');
-    const E = dayjs(endTime, 'YYYY-MM-dd HH:mm:ss');
-    return dayjs(E).diff(dayjs(S), 'seconds');
-  }
-  // 获取考试状态的颜色
-  const getStatusColor = (status) => {
-    if (status === '未开始') return 'default';
-    else if (status === '进行中') return 'blue';
-    else return 'success';
-  }
+  import {storeToRefs} from "pinia";
+  import {useLoadingStore} from "@/store/loading.js";
 
   const userStore = useUserStore();
   const loading = storeToRefs(useLoadingStore()).isLoading;
   onBeforeMount(() => {
     userStore.GetUserInfo();
-    getExamList(null, {
-      currentPage: 1,
-      pageSize: pagination.pageSize,
-      examinationName: null,
-    });
   })
   const {username, avatar, id} = storeToRefs(userStore);
-
-  // 添加课程
-  const visible = ref(false);
-  const joinCourseLoading = ref(false);
-  const courseId = ref('');
-  const showModal = () => {
-    visible.value = true;
-  };
-  const handleOk = () => {
-    if (!courseId.value) {
-      message.warn('请先输入课程编号！');
-      return;
-    }
-    joinCourseLoading.value = true;
-    joinCourse(courseId.value)
-        .then(res => {
-          if (res.code === 200) {
-            message.success('添加课程成功，即将刷新页面！');
-            setTimeout(() => {
-              window.location.reload();
-            }, 2500)
-          }
-        })
-        .finally(() => {
-          visible.value = false;
-          courseId.value = '';
-          joinCourseLoading.value = false;
-        })
-  };
-  const handleCancel = () => {
-    visible.value = false;
-    courseId.value = '';
-    joinCourseLoading.value = false;
-  }
-  
 
   // 退出登录
   const router = useRouter();
@@ -242,6 +114,40 @@
       onCancel() {
       },
     });
+  }
+
+  // 添加课程
+  const visible = ref(false);
+  const joinCourseLoading = ref(false);
+  const courseId = ref('');
+  const showModal = () => {
+    visible.value = true;
+  };
+  const handleOk = () => {
+    if (!courseId.value) {
+      message.warn('请先输入课程编号！');
+      return;
+    }
+    joinCourseLoading.value = true;
+    joinCourse(courseId.value)
+        .then(res => {
+          if (res.code === 200) {
+            message.success('添加课程成功，即将刷新页面！');
+            setTimeout(() => {
+              window.location.reload();
+            }, 2500)
+          }
+        })
+        .finally(() => {
+          visible.value = false;
+          courseId.value = '';
+          joinCourseLoading.value = false;
+        })
+  };
+  const handleCancel = () => {
+    visible.value = false;
+    courseId.value = '';
+    joinCourseLoading.value = false;
   }
 
 </script>

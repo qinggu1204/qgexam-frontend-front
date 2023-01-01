@@ -38,9 +38,11 @@ router.beforeEach((to, from, next) => {
 
 // 全局后置路由守卫
 router.afterEach((to, from) => {
-    setTimeout(() => {
+    /*setTimeout(() => {
         const loadingStore = useLoadingStore();
         loadingStore.setLoading(false);
-    }, 1200)
+    }, 1200)*/
 
+    const loadingStore = useLoadingStore();
+    loadingStore.setLoading(false);
 })

@@ -5,7 +5,7 @@
           v-model:value="examinationName"
           placeholder="课程名"
           enter-button
-          @search="onSearch"
+          @search="getExamList(null,1,pagination.pageSize,examinationName)"
           style="width: 350px"
       />
     </a-row>
@@ -36,7 +36,6 @@
 
 <script setup>
   import {onBeforeMount, reactive, ref} from "vue";
-  import {message} from "ant-design-vue/es";
   import 'dayjs/locale/zh-cn';
 
   // 获取学生考试列表
@@ -94,14 +93,10 @@
 
 
   onBeforeMount(() => {
-    getExamList(null, {
-      currentPage: 1,
-      pageSize: pagination.pageSize,
-      examinationName: null,
-    });
+    getExamList();
   })
 
-  
+
 </script>
 
 <style lang="less" scoped>

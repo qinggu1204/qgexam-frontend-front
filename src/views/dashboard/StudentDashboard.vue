@@ -74,6 +74,7 @@
   import 'dayjs/locale/zh-cn';
   import {storeToRefs} from "pinia";
   import {useLoadingStore} from "@/store/loading.js";
+  import {joinCourse} from "@/api/student.js";
 
   const userStore = useUserStore();
   const loading = storeToRefs(useLoadingStore()).isLoading;

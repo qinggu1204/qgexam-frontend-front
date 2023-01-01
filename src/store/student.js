@@ -3,7 +3,7 @@
  * 加入课程接口没有封装到学生store actions中
  */
 import {defineStore} from "pinia";
-import {getExamList, getStudentInfo, updateStudentInfo} from "@/api/student.js";
+import {getExamList, getScore, getScoreDetail, getStudentInfo, updateStudentInfo} from "@/api/student.js";
 
 export const useStudentStore = defineStore('student', {
     actions: {
@@ -32,6 +32,28 @@ export const useStudentStore = defineStore('student', {
         UpdateStudentInfo(params){
             return new Promise((resolve, reject) => {
                 updateStudentInfo(params)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        GetScore(path) {
+            return new Promise((resolve, reject) => {
+                getScore(path)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        GetScoreDetail(params){
+            return new Promise((resolve, reject) => {
+                getScoreDetail(params)
                     .then(res => {
                         if (res) resolve(res);
                     })

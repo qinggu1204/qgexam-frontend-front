@@ -68,9 +68,10 @@ export function getScore(path) {
     })
 }
 
-export function getScoreDetail() {
+export function getScoreDetail(parameter) {
     return request({
         url: studentApi.GetScoreDetail,
         method: 'get',
+        params: parameter
     })
 }

@@ -46,7 +46,7 @@ export default defineConfig({
         port: 5173, // 端口 
         proxy: {
             '/api': {
-                target: 'http://localhost:8080/',
+                target: 'http://localhost:7777/',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, '')
             }

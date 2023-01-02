@@ -36,7 +36,7 @@ request.interceptors.request.use(config => {
     if (token) {
         config.headers['token'] = token
     }
-    console.log(config)
+    // console.log(config)
     return config
 }, errorHandler)
 

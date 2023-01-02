@@ -7,7 +7,7 @@ export default [
     {
         path: '/',
         name: 'dashboard',
-        component: import('@/views/dashboard/StudentDashboard.vue'),
+        component: () => import('@/views/dashboard/StudentDashboard.vue'),
         redirect: {name: 'examList'},
         meta: {
             title: '个人主页',

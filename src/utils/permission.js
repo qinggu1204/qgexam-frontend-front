@@ -9,6 +9,7 @@ import {useUserStore} from "@/store/user.js";
 import {storeToRefs} from "pinia";
 import {message} from "ant-design-vue";
 import 'ant-design-vue/es/message/style'
+import {nextTick} from "vue";
 
 router.beforeEach((to, from, next) => {
     // 切换页面标题
@@ -29,7 +30,8 @@ router.beforeEach((to, from, next) => {
         const {token} = storeToRefs(userStore);
         if (!token.value) {
             message.warn('您还未登录，请先登录！');
-            next('/login');
+            next('/login')
+            return;
         }
     }
     

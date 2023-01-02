@@ -66,7 +66,7 @@
 
   const getExamList = (courseId = null, currentPage = 1, pageSize = 24, examinationName = null) => {
     examListLoading.value = true;
-    studentStore.GetExamList(courseId, {currentPage, pageSize: pagination.pageSize, examinationName})
+    studentStore.GetExamList({courseId, currentPage, pageSize: pagination.pageSize, examinationName})
         .then(res => {
           if (res.code === 200) {
             const {data} = res;

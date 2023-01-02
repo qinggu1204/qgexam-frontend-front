@@ -7,7 +7,7 @@ const studentApi = {
     UpdateStudentInfo: '/stu/updateStudentInfo', // 修改学生个人信息
     GetStudentInfo: '/stu/getStudentInfo', // 获取学生个人信息
     JoinCourse: '/stu/joinCourse', // 学生加入课程
-    GetExamList: `/stu/getExamList`, // 学生查看考试列表 {courseId}
+    GetExamList: `/stu/getExamList`, // 学生查看考试列表
     JoinExam: `/stu/joinExam`, // 学生开始考试查看试卷 {examinationId}
     SaveOrSubmit: '/stu/saveOrSubmit', // 发送验证码
     StudentRegister: '/user/stu/register', // 学生提交或保存作答情况
@@ -38,9 +38,9 @@ export function joinCourse(parameter) {
     })
 }
 
-export function getExamList(path, parameter) {
+export function getExamList(parameter) {
     return request({
-        url: studentApi.GetExamList + '/' + path,
+        url: studentApi.GetExamList,
         method: 'get',
         params: parameter
     })

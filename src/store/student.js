@@ -7,9 +7,9 @@ import {getExamList, getScore, getScoreDetail, getStudentInfo, updateStudentInfo
 
 export const useStudentStore = defineStore('student', {
     actions: {
-        GetExamList(courseId, parameter) {
+        GetExamList(parameter) {
             return new Promise((resolve, reject) => {
-                getExamList(courseId, parameter)
+                getExamList(parameter)
                     .then(res => {
                         if (res) resolve(res);
                     })

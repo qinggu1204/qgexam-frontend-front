@@ -442,7 +442,7 @@
             )
             setTimeout(() => {
               router.push({name: 'result'});
-              formRegister = {
+              formRegister = reactive({
                 role: 'student',
                 studentName: '',
                 teacherName: '',
@@ -454,11 +454,11 @@
                 qualificationImg: '',
                 password: '',
                 checkPass: '',
-              }
-              formCheckPhone = {
+              })
+              formCheckPhone = reactive({
                 phoneNumber: '',
                 code: '',
-              }
+              })
             })
           }
         })

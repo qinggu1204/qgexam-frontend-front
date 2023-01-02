@@ -44,13 +44,13 @@ export default defineConfig({
     },
     server: {
         port: 5173, // 端口 
-        proxy: {
+        /*proxy: {
             '/api': {
                 target: 'http://localhost:7777/',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, '')
             }
-        }
+        }*/
     },
 
 })

@@ -113,7 +113,7 @@
       }
     }, 1000)
 
-    userStore.SendCode(formUpdatePassword.loginName)
+    userStore.SendCode(formUpdatePassword)
         .then(res => {
           if (res.code === 200) {
             message.success('验证码发送成功，请注意查收！');

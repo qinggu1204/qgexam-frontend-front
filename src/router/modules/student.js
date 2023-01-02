@@ -18,7 +18,7 @@ export default [
             {
                 path: '',
                 name: 'examList',
-                component: import('@/views/student/examList/ExamList.vue'),
+                component: () => import('@/views/student/examList/ExamList.vue'),
                 meta: {
                     title: '个人主页',
                 }
@@ -27,7 +27,7 @@ export default [
             {
                 path: 'userinfo',
                 name: 'userinfo',
-                component: import('@/views/student/userinfo/StudentInfo.vue'),
+                component:  () =>import('@/views/student/userinfo/StudentInfo.vue'),
                 meta: {
                     title: '个人信息',
                 }
@@ -38,7 +38,7 @@ export default [
     {
         path: '/exam/:examinationId',
         name: 'exam',
-        component: import('@/views/student/examDetail/ExamDetail.vue'),
+        component: () => import('@/views/student/examDetail/ExamDetail.vue'),
         props: true,
         meta: {
             title: '考试详情',

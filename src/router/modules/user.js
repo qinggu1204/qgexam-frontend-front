@@ -8,7 +8,7 @@ export default [
     {
         path: '/login',
         name: 'login',
-        component: import('@/views/user/login/Login.vue'),
+        component: () => import('@/views/user/login/Login.vue'),
         meta: {
             title: '用户登录',
         },
@@ -17,7 +17,7 @@ export default [
     {
         path: '/register',
         name: 'register',
-        component: import('@/views/user/register/Register.vue'),
+        component: () => import('@/views/user/register/Register.vue'),
         meta: {
             title: '注册',
         }
@@ -26,7 +26,7 @@ export default [
     {
         path: '/updatePassword',
         name: 'updatePassword',
-        component: import('@/views/user/updatePassword/UpdatePassword.vue'),
+        component: () => import('@/views/user/updatePassword/UpdatePassword.vue'),
         meta: {
             title: '修改密码',
         }

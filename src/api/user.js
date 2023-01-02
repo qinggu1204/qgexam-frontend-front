@@ -56,11 +56,11 @@ export function getSchoolList() {
     })
 }
 
-export function sendCode(params) {
+export function sendCode(parameter) {
     return request({
         url: userApi.SendCode,
         method: 'get',
-        params: qs.stringify(params),
+        params: parameter,
     })
 }
 
@@ -68,7 +68,7 @@ export function studentRegister(parameter) {
     return request({
         url: userApi.StudentRegister,
         method: 'post',
-        data: {parameter}
+        data: parameter
     })
 }
 

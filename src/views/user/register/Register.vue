@@ -236,7 +236,7 @@
       }
     }, 1000)
 
-    userStore.SendCode(formCheckPhone.phoneNumber)
+    userStore.SendCode(formCheckPhone)
         .then(res => {
           if (res.code === 200) {
             message.success('验证码发送成功，请注意查收！');

@@ -55,10 +55,11 @@ export function getSchoolList() {
     })
 }
 
-export function sendCode() {
+export function sendCode(params) {
     return request({
         url: userApi.SendCode,
         method: 'get',
+        params: params,
     })
 }
 

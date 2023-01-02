@@ -144,10 +144,10 @@
           }
         })
         .finally(() => {
-          formType1 = {
+          formType1 = reactive({
             loginName: '',
             password: '',
-          };
+          });
           loginLoading1.value = false;
         })
   };
@@ -180,7 +180,7 @@
       }
     }, 1000)
 
-    userStore.SendCode(formType2)
+    userStore.SendCode({phoneNumber: formType1.code})
         .then(res => {
           if (res.code === 200) {
             message.success('验证码发送成功，请注意查收！');
@@ -214,17 +214,17 @@
 
     loginLoading2.value = true;
 
-    userStore.LoginByCode(formType2)
+    userStore.LoginByCode({phoneNumber: formType2.code})
         .then(res => {
           if (res.code === 200) {
             router.push({name: 'dashboard'});
           }
         })
         .finally(() => {
-          formType2 = {
+          formType2 = reactive({
             phoneNumber: '',
             code: '',
-          };
+          });
           loginLoading2.value = false;
         })
     

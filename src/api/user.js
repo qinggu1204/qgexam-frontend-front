@@ -22,7 +22,7 @@ export function login(parameter) {
     return request({
         url: userApi.Login,
         method: 'post',
-        data: {parameter}
+        data: parameter
     })
 }
 
@@ -30,7 +30,7 @@ export function loginByCode(parameter) {
     return request({
         url: userApi.LoginByCode,
         method: 'post',
-        data: {parameter}
+        data: parameter
     })
 }
 
@@ -45,7 +45,7 @@ export function updatePassword(parameter) {
     return request({
         url: userApi.UpdatePassword,
         method: 'put',
-        data: {parameter}
+        data: parameter
     })
 }
 
@@ -76,7 +76,7 @@ export function teacherRegister(parameter) {
     return request({
         url: userApi.TeacherRegister,
         method: 'post',
-        data: {parameter}
+        data: parameter
     })
 }
 
@@ -91,7 +91,7 @@ export function validateCode(parameter) {
     return request({
         url: userApi.ValidateCode,
         method: 'post',
-        data: {parameter}
+        data: parameter
     })
 }
 
@@ -100,6 +100,6 @@ export function upload(parameter) {
         url: userApi.Upload,
         method: 'post',
         headers: { 'Content-Type': 'multipart/form-data'},
-        data: {parameter}
+        data: parameter
     })
 }

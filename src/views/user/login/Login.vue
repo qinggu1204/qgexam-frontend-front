@@ -180,7 +180,7 @@
       }
     }, 1000)
 
-    userStore.SendCode({phoneNumber: formType1.code})
+    userStore.SendCode({phoneNumber: formType2.phoneNumber})
         .then(res => {
           if (res.code === 200) {
             message.success('验证码发送成功，请注意查收！');
@@ -214,7 +214,7 @@
 
     loginLoading2.value = true;
 
-    userStore.LoginByCode({phoneNumber: formType2.code})
+    userStore.LoginByCode(formType2)
         .then(res => {
           if (res.code === 200) {
             router.push({name: 'dashboard'});

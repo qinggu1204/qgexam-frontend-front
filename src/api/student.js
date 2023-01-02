@@ -42,7 +42,7 @@ export function getExamList(path, parameter) {
     return request({
         url: studentApi.GetExamList + '/' + path,
         method: 'get',
-        params: {parameter}
+        params: parameter
     })
 }
 

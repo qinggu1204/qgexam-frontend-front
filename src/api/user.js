@@ -2,6 +2,7 @@
  * 用户公共接口
  */
 import {request} from "@/utils/request.js";
+import qs from "qs";
 
 const userApi = {
     Login: '/user/login', // 登录名密码登录
@@ -59,7 +60,7 @@ export function sendCode(params) {
     return request({
         url: userApi.SendCode,
         method: 'get',
-        params: {params},
+        params: qs.stringify(params),
     })
 }
 

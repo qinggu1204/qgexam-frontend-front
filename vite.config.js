@@ -47,7 +47,7 @@ export default defineConfig({
         // 后端测试时取消此段proxy注释
         /*proxy: {
             '/api': {
-                target: 'http://localhost:7777/',
+                target: 'http://localhost:7777',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, '')
             }

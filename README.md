@@ -23,7 +23,7 @@ npm run dev
 ```js
     /*proxy: {
         '/api': {
-            target: 'http://localhost:7777/',
+            target: 'http://localhost:7777',
             changeOrigin: true,
             rewrite: (path) => path.replace(/^\/api/, '')
         }

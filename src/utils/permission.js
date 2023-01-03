@@ -30,7 +30,9 @@ router.beforeEach((to, from, next) => {
         const {token} = storeToRefs(userStore);
         if (!token.value) {
             message.warn('您还未登录，请先登录！');
-            next('/login')
+            setTimeout(()=>{
+                next('/login')
+            },500)
             return;
         }
     }

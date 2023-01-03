@@ -2,7 +2,6 @@
  * 用户公共接口
  */
 import {request} from "@/utils/request.js";
-import qs from "qs";
 
 const userApi = {
     Login: '/user/login', // 登录名密码登录

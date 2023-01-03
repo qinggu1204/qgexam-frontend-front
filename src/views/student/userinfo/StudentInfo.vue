@@ -196,10 +196,6 @@
         })
         .finally(() => {
           updatePhoneVisible.value = false;
-          formUpdatePhone = reactive({
-            phoneNumber: '',
-            code: '',
-          })
           updatePhoneLoading.value = false;
         })
   }

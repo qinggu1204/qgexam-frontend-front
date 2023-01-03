@@ -144,10 +144,6 @@
           }
         })
         .finally(() => {
-          formType1 = reactive({
-            loginName: '',
-            password: '',
-          });
           loginLoading1.value = false;
         })
   };
@@ -221,10 +217,6 @@
           }
         })
         .finally(() => {
-          formType2 = reactive({
-            phoneNumber: '',
-            code: '',
-          });
           loginLoading2.value = false;
         })
     

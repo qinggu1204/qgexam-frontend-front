@@ -368,28 +368,7 @@
                 '去登录',
                 'login',
             )
-            nextTick(() => {
-              setTimeout(() => {
-                router.push({name: 'result'});
-                formRegister = {
-                  role: 'student',
-                  studentName: '',
-                  teacherName: '',
-                  phoneNumber: '',
-                  studentNumber: '',
-                  teacherNumber: '',
-                  schoolId: '',
-                  schoolName: '',
-                  qualificationImg: '',
-                  password: '',
-                  checkPass: '',
-                }
-                formCheckPhone = {
-                  phoneNumber: '',
-                  code: '',
-                }
-              }, 1500)
-            })
+            router.push({name: 'result'});
           }
         })
         .finally(() => {
@@ -440,26 +419,7 @@
                 '去登录',
                 'login',
             )
-            setTimeout(() => {
-              router.push({name: 'result'});
-              formRegister = reactive({
-                role: 'student',
-                studentName: '',
-                teacherName: '',
-                phoneNumber: '',
-                studentNumber: '',
-                teacherNumber: '',
-                schoolId: '',
-                schoolName: '',
-                qualificationImg: '',
-                password: '',
-                checkPass: '',
-              })
-              formCheckPhone = reactive({
-                phoneNumber: '',
-                code: '',
-              })
-            })
+            router.push({name: 'result'});
           }
         })
         .finally(() => {

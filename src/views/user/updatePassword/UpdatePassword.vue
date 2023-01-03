@@ -165,12 +165,6 @@
           }
         })
         .finally(() => {
-          formUpdatePassword = {
-            loginName: '',
-            password: '',
-            checkPass: '',
-            code: '',
-          }
           btnLoading.value = false;
         })
   };

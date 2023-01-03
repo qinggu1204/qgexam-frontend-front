@@ -156,7 +156,7 @@
           if (res.code === 200) {
             resultStore.setResult(
                 'success',
-                '注册成功',
+                '修改成功',
                 '点击去登录按钮跳转到登录页面',
                 '去登录',
                 'login'

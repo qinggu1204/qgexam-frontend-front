@@ -44,6 +44,7 @@ export default defineConfig({
     },
     server: {
         port: 5173, // 端口 
+        // 后端测试时取消此段proxy注释
         /*proxy: {
             '/api': {
                 target: 'http://localhost:7777/',

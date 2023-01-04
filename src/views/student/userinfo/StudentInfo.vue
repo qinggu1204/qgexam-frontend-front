@@ -2,7 +2,7 @@
   <div v-if="infoLoading" class="loading-wrapper">
     <Loading></Loading>
   </div>
-  <div style="margin-top: 5%;"></div>
+  <div style="margin-top: 1%;"></div>
   <a-form
       :model="formStudentInfo"
       name="basic"
@@ -82,8 +82,33 @@
             </div>
             <div v-show="!loading">
               <plus-outlined></plus-outlined>
-              <div class="ant-upload-text">修改头像</div>
+              <div class="ant-upload-text">上传头像</div>
             </div>
+          </div>
+        </a-upload>
+      </a-space>
+    </a-form-item>
+    <a-form-item label="人脸信息">
+      <a-space align="start">
+        <a-image
+            v-if="formStudentInfo.faceImg"
+            :width="104"
+            :src="formStudentInfo.faceImg"
+        />
+        <a-upload
+            name="image"
+            list-type="picture-card"
+            class="avatar-uploader"
+            accept="image/png, image/jpeg"
+            :action="actionURL"
+            @change="handleFaceChange"
+            :max-count="1"
+            :multiple="false"
+            :show-upload-list="false"
+        >
+          <div>
+            <plus-outlined></plus-outlined>
+            <div class="ant-upload-text">上传人脸</div>
           </div>
         </a-upload>
       </a-space>
@@ -101,7 +126,7 @@
 </template>
 
 <script setup>
-  import {onActivated, reactive, ref} from "vue";
+  import {onActivated, onMounted, reactive, ref} from "vue";
   import {message} from "ant-design-vue/es"
   import {useUserStore} from "@/store/user.js";
   import {LoadingOutlined, PlusOutlined} from "@ant-design/icons-vue";
@@ -207,6 +232,7 @@
     userName: '',
     headImg: '',
     loginName: '',
+    faceImg: '',
   });
   const updateStudentInfoLoading = ref(false);
   const updateStudentInfo = () => {
@@ -233,7 +259,6 @@
   };
   const beforeUpload = file => {
     if (fileList.value.length >= 1) {
-      message.warn('只能上传一张图片，将为您覆盖上一张！');
       fileList.value = [];
     }
     const isImg = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -264,6 +289,20 @@
         .finally(() => {
           loading.value = false;
         })
+  }
+  
+  // 人脸
+  const actionURL = ref(import.meta.env.VITE_API_DOMAIN + '/common/upload');
+  const handleFaceChange = (info) => {
+    console.log(info)
+    const {response} = info.file;
+    if (info.file.status === 'done' && response && response.code === 200) {
+      message.success('上传成功！需要点“修改”应用修改！');
+      formStudentInfo.faceImg = response.data.url;
+    }
+    else if (info.file.status !== 'uploading') {
+      message.error('上传失败！');
+    }
   }
 </script>
 

@@ -46,10 +46,11 @@ export function getExamList(parameter) {
     })
 }
 
-export function joinExam(path) {
+export function joinExam(parameter) {
     return request({
-        url: studentApi.JoinExam + '/' + path,
+        url: studentApi.JoinExam,
         method: 'get',
+        params: parameter
     })
 }
 

@@ -1,11 +1,11 @@
 <!--考试详情，路由匹配：/exam/:examinationId-->
 <template>
   <!--加载中-->
-  <!--<div class="loading-wrapper">
+  <div class="loading-wrapper" v-show="status === 'loading'">
     <Loading></Loading>
-  </div>-->
+  </div>
   <!--已结束的考试，展示成绩-->
-  <div style="margin-left: 8%;margin-top: 1%;" v-if="true">
+  <div style="margin-left: 8%;margin-top: 1%;" v-if="status === 'done'">
     <a-row>
       <a-col :span="12">
         <router-link style="color: black;" to="/">
@@ -21,8 +21,13 @@
         <a-row type="flex">
           <a-col :flex="1">
             <a-space direction="vertical">
-              <span style="font-size:xx-large">操作系统期末考试</span>
-              <span style="color: gray;font-size: large">考试时间：2022-12-10 10:10 至 2022-12-10 12:10</span>
+              <span style="font-size:xx-large">{{examInfo.examinationName}}</span>
+              <span style="color: gray;font-size: large">
+                考试时间：
+                {{dayjs(examInfo.startTime).format('YYYY-MM-DD HH:mm:ss')}} 
+                至 
+                {{dayjs(examInfo.endTime).format('YYYY-MM-DD HH:mm:ss')}}
+              </span>
             </a-space>
           </a-col>
           <a-col :flex="2">
@@ -258,7 +263,7 @@
     </a-row>
   </div>
   <!--进行中的考试，展示答题页面-->
-  <div style="margin-top: 1%;" v-if="false">
+  <div style="margin-top: 1%;" v-if="status === 'doing'">
     <a-row justify="space-between">
       <a-col :span="8" class="center-col">
         <router-link style="color: black;" to="/">
@@ -269,7 +274,7 @@
         </router-link>
       </a-col>
       <a-col :span="8" class="center-col">
-        <span style="font-size:x-large">操作系统期末考试</span>
+        <span style="font-size:x-large">{{examInfo.examinationName}}</span>
       </a-col>
       <a-col :span="8" class="center-col">
         <a-space>
@@ -303,13 +308,17 @@
               <span style="font-size: large">考试开始时间：</span>
             </div>
             <div class="center-col">
-              <span style="font-size: large">yyyy-mm-dd hh:ss</span>
+              <span style="font-size: large">
+                {{dayjs(examInfo.startTime).format('YYYY-MM-DD HH:mm:ss')}}
+              </span>
             </div>
             <div class="center-col">
               <span style="font-size: large">考试结束时间：</span>
             </div>
             <div class="center-col">
-              <span style="font-size: large">yyyy-mm-dd hh:ss</span>
+              <span style="font-size: large">
+                {{dayjs(examInfo.endTime).format('YYYY-MM-DD HH:mm:ss')}}
+              </span>
             </div>
           </div>
         </a-affix>
@@ -496,32 +505,78 @@
 <script setup>
   import {CheckOutlined, ClockCircleOutlined, CloseOutlined, RollbackOutlined} from "@ant-design/icons-vue";
   import {useRouter} from "vue-router";
-  import {computed, nextTick, onMounted, reactive, ref} from "vue";
-  import {message} from "ant-design-vue/es";
+  import {computed, h, nextTick, onBeforeMount, onMounted, reactive, ref} from "vue";
+  import {message, Modal} from "ant-design-vue";
+  import 'ant-design-vue/es/message/style';
+  import 'ant-design-vue/es/modal/style';
   import {QuillEditor} from '@vueup/vue-quill';
   import '@vueup/vue-quill/dist/vue-quill.snow.css';
   import ImageUploader from 'quill-image-uploader';
   import {useUserStore} from "@/store/user.js";
   import {useStudentStore} from "@/store/student.js";
+  import 'dayjs/locale/zh-cn';
+  import 'dayjs/plugin/advancedFormat';
+  import dayjs from "dayjs";
+  import {useResultStore} from "@/store/result.js";
 
   const props = defineProps(['examinationId']);
   const router = useRouter();
   const userStore = useUserStore();
   const studentStore = useStudentStore();
+  const resultStore = useResultStore();
+  const status = ref('loading');
 
   // 动态锚点
   const targetOffset = ref(undefined);
   onMounted(() => {
     targetOffset.value = window.innerHeight / 2 - 150;
   })
+  
+  // 判断状态
+  const examInfo = ref({
+    examinationName: '',
+    startTime: '',
+    endTime: '',
+    status: '',
+  })
+  onBeforeMount(async () => {
+    status.value = 'loading';
+    let res = await studentStore.GetExam({examinationId: props.examinationId});
+    if (res.code !== 200) {
+      resultStore.setResult(
+          '404',
+          '404',
+          '对不起，您访问的页面不存在，请检查后重试...',
+          '返回主页',
+          'dashboard'
+      )
+      await router.push({name: 'result'});
+      return;
+    } 
+    examInfo.value = res.data;
+    if (dayjs(examInfo.value.endTime, 'YYYY-MM-DD HH:mm:ss') < dayjs()) 
+      examInfo.value.status = '已结束';
+    if (dayjs(examInfo.value.startTime, 'YYYY-MM-DD HH:mm:ss') > dayjs()) 
+      examInfo.value.status = '未开始';
+    if (examInfo.value.status === '未开始') {
+      message.warn('考试未开始！');
+      await router.push('/');
+      return;
+    }
+    await getStudentInfo();
+    if (examInfo.value.status === '进行中') {
+      await joinExam();
+      deadline.value = dayjs(examInfo.value.endTime, 'YYYY-MM-DD HH:mm:ss').toDate();
+      status.value = 'doing'
+    }
+    else {
+      await getExamScoreDetail();
+      status.value = 'done';
+    }
+  })
 
   // 获取试卷
   // 参加考试
-  onMounted(() => {
-    joinExam();
-    getExamScoreDetail();
-    getStudentInfo();
-  })
   const map = {
     1: '一', 2: '二', 3: '三', 4: '四', 5: '五'
   }, alphaMap = {
@@ -618,14 +673,26 @@
       answerPaperId: answerPaperId.value,
       question: answer.value
     })
-    if (res.code === 200) message.success(type === 'save' ? '保存成功！' : '交卷成功！');
+    if (res.code === 200) {
+      message.success(type === 'save' ? '保存成功！' : '交卷成功！');
+    }
+    if (type === 'submit') await router.push('/');
     saveLoading.value = false, submitLoading.value = false;
   }
 
   // 倒计时
-  const deadline = ref(Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30);
+  const deadline = ref(new Date());
   const onFinish = () => {
-    console.log('finished!');
+    Modal.info({
+      title: '考试已结束',
+      content: h('div', {}, [
+        h('p', '考试已经结束，即将为您强制交卷...'),
+      ]),
+      okText: '确认',
+      onOk() {
+        saveOrSubmit('submit');
+      },
+    })
   };
 
   // 综合题

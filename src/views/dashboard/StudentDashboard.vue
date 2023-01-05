@@ -5,54 +5,58 @@
   <div v-else class="layout-wrapper">
     <a-layout>
       <a-layout-header>
-        <a @click.prevent="router.push('/')">
-          <div class="logo">
-            <img src="./img/logo.png" alt="青谷教育" style="max-width: 100%;margin-bottom: 6px;">
+          <a @click.prevent="router.push('/')">
+            <div class="logo">
+              <img src="./img/logo.png" alt="青谷教育" style="max-width: 100%;margin-bottom: 6px;">
+            </div>
+            <div class="logo-text">
+              <img src="./img/logo-text.png" alt="青谷教育·考试系统" style="max-width: 100%;margin-bottom: 12px;">
+            </div>
+          </a>
+          <a-menu v-model:selected-keys="current" mode="horizontal">
+            <a-menu-item key="examList" @click="router.push({name: 'examList'})">考试</a-menu-item>
+            <a-menu-item key="courseList" @click="router.push({name: 'dashboard'})">课程</a-menu-item>
+          </a-menu>
+          <div class="avatar-wrapper">
+            <a-space :size="12">
+              <a-button type="text" @click="showModal">加入课程</a-button>
+              <a-modal v-model:visible="visible" @ok="handleOk"
+                       cancel-text="取消" ok-text="加入" @cancel="handleCancel"
+                       :confirm-loading="joinCourseLoading"
+              >
+                <template #title>
+                  <a-typography-title :level="5">加入课程</a-typography-title>
+                </template>
+                <div style="display: flex">
+                  <a-input v-model:value="courseId" placeholder="请输入课程编号"/>
+                </div>
+              </a-modal>
+              <a-divider type="vertical" style="height: 24px"/>
+              <a-dropdown>
+                <a class="ant-dropdown-link" @click.prevent>
+                  <a-space :size="10">
+                    <a-avatar :src="avatar" size="large"/>
+                    <span>{{ username }}</span>
+                  </a-space>
+                </a>
+                <template #overlay>
+                  <a-menu>
+                    <a-menu-item>
+                      <a href="javascript:;" @click.prevent="router.push({name: 'userinfo'})">
+                        <user-outlined/>
+                        <span> 个人信息</span></a>
+                    </a-menu-item>
+                    <a-menu-item>
+                      <a href="javascript:;" @click.prevent="showLogoutConfirm">
+                        <LogoutOutlined/>
+                        <span> 退出登录</span>
+                      </a>
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+            </a-space>
           </div>
-          <div class="logo-text">
-            <img src="./img/logo-text.png" alt="青谷教育·考试系统" style="max-width: 100%;margin-bottom: 12px;">
-          </div>
-        </a>
-        <div class="avatar-wrapper">
-          <a-space :size="12">
-            <a-button type="text" @click="showModal">加入课程</a-button>
-            <a-modal v-model:visible="visible" @ok="handleOk"
-                     cancel-text="取消" ok-text="加入" @cancel="handleCancel"
-                     :confirm-loading="joinCourseLoading"
-            >
-              <template #title>
-                <a-typography-title :level="5">加入课程</a-typography-title>
-              </template>
-              <div style="display: flex">
-                <a-input v-model:value="courseId" placeholder="请输入课程编号"/>
-              </div>
-            </a-modal>
-            <a-divider type="vertical" style="height: 24px"/>
-            <a-dropdown>
-              <a class="ant-dropdown-link" @click.prevent>
-                <a-space :size="10">
-                  <a-avatar :src="avatar" size="large"/>
-                  <span>{{ username }}</span>
-                </a-space>
-              </a>
-              <template #overlay>
-                <a-menu>
-                  <a-menu-item>
-                    <a href="javascript:;" @click.prevent="router.push({name: 'userinfo'})">
-                      <user-outlined/>
-                      <span> 个人信息</span></a>
-                  </a-menu-item>
-                  <a-menu-item>
-                    <a href="javascript:;" @click.prevent="showLogoutConfirm">
-                      <LogoutOutlined/>
-                      <span> 退出登录</span>
-                    </a>
-                  </a-menu-item>
-                </a-menu>
-              </template>
-            </a-dropdown>
-          </a-space>
-        </div>
       </a-layout-header>
       <a-layout-content style="padding: 0 25px;">
         <div class="content">
@@ -150,6 +154,9 @@
     courseId.value = '';
     joinCourseLoading.value = false;
   }
+  
+  // 导航
+  const current = ref(['examList']);
 
 </script>
 
@@ -158,6 +165,10 @@
     min-height: 100vh;
     background: #f0f2f5;
     display: flex;
+  }
+
+  :deep(.ant-menu) {
+    display: inline-block;
   }
 
   .logo {

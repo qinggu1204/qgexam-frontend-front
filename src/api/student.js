@@ -13,6 +13,7 @@ const studentApi = {
     StudentRegister: '/user/stu/register', // 学生提交或保存作答情况
     GetScore: `/stu/getScore`, // 学生查看成绩 {examinationId}
     GetExamScoreDetail: '/stu/getExamScoreDetail',// 学生查看成绩明细
+    GetExam: '/stu/getExam', //学生进入考试页面查询考试信息
 }
 
 export function updateStudentInfo(parameter) {
@@ -72,6 +73,14 @@ export function getScore(path) {
 export function getExamScoreDetail(parameter) {
     return request({
         url: studentApi.GetExamScoreDetail,
+        method: 'get',
+        params: parameter
+    })
+}
+
+export function getExam(parameter) {
+    return request({
+        url: studentApi.GetExam,
         method: 'get',
         params: parameter
     })

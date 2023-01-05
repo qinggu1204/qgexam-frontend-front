@@ -5,7 +5,7 @@
     <Loading></Loading>
   </div>-->
   <!--已结束的考试，展示成绩-->
-  <div style="margin-left: 8%;margin-top: 1%;" v-if="false">
+  <div style="margin-left: 8%;margin-top: 1%;" v-if="true">
     <a-row>
       <a-col :span="12">
         <router-link style="color: black;" to="/">
@@ -17,198 +17,267 @@
       </a-col>
     </a-row>
     <a-row type="flex" style="min-height: 90vh;margin-top: 2%;">
-      <a-col flex="auto">
+      <a-col flex="1 1 200px">
         <a-row type="flex">
-          <a-col flex="auto">
+          <a-col :flex="1">
             <a-space direction="vertical">
               <span style="font-size:xx-large">操作系统期末考试</span>
               <span style="color: gray;font-size: large">考试时间：2022-12-10 10:10 至 2022-12-10 12:10</span>
             </a-space>
           </a-col>
-          <a-col flex="100px">
-            <span style="font-size: x-large;color: palevioletred">100.0分</span>
+          <a-col :flex="2">
+            <span style="font-size: x-large;color: palevioletred">
+              {{ examScoreDetail.stuTotalScore }} / {{ examScoreDetail.totalScore }} 分
+            </span>
           </a-col>
         </a-row>
         <a-row style="min-height: 100%;margin-top: 1%;">
-          <div>
-            <a-typography-title :level="2">一、单选题（共10题，50.0分）</a-typography-title>
-            <div id="1">
+          <div v-if="examScoreDetail.single.singleList.length" style="max-width: 700px">
+            <a-typography-title :level="2">
+              单选题（共{{ examScoreDetail.single.singleList.length }}题
+              ，{{ examScoreDetail.single.singleList.length * examScoreDetail.single.singleList[0].questionScore }}分）
+            </a-typography-title>
+            <div v-for="(item, index) in examScoreDetail.single.singleList" :key="item.questionId"
+                 :id="item.questionId">
               <a-typography-paragraph>
-                1.单选题（5分）
+                <b>{{ index + 1 }}.单选题（{{ item.questionScore }}分）</b>
               </a-typography-paragraph>
               <a-typography-paragraph>
-                消费者调查、生产者调查、价格调查属于（）
+                {{ item.description }}
               </a-typography-paragraph>
-              <a-typography-paragraph>
-                A. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                B. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                C. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                D. 消费者调查、生产者调查、价格调查属于（）
+              <a-typography-paragraph v-for="(option, optionIndex) in item.optionInfo" :key="option.value">
+                {{ alphaMap[optionIndex + 1] }}{{ option.label }}
               </a-typography-paragraph>
               <a-typography-paragraph>
                 <blockquote>
                   <a-space :size="30" align="baseline">
-                    <span><b>我的答案：A</b></span>
-                    <span style="color: #56b870"><b>正确答案：D</b></span>
-                    <close-outlined :style="{color: '#dd3927'}"/>
-                    <span style="font-size: large"><b>0.0分</b></span>
-                  </a-space>
-                </blockquote>
-              </a-typography-paragraph>
-            </div>
-            <div id="2">
-              <a-typography-paragraph>
-                2.单选题（5分）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                A. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                B. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                C. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                D. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                <blockquote>
-                  <a-space :size="30" align="baseline">
-                    <span><b>我的答案：A</b></span>
-                    <span style="color: #56b870"><b>正确答案：D</b></span>
-                    <close-outlined :style="{color: '#dd3927'}"/>
-                    <span style="font-size: large"><b>0.0分</b></span>
-                  </a-space>
-                </blockquote>
-              </a-typography-paragraph>
-            </div>
-            <div id="3">
-              <a-typography-paragraph>
-                3.单选题（5分）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                A. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                B. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                C. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                D. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                <blockquote>
-                  <a-space :size="30" align="baseline">
-                    <span><b>我的答案：A</b></span>
-                    <span style="color: #56b870"><b>正确答案：D</b></span>
-                    <close-outlined :style="{color: '#dd3927'}"/>
-                    <span style="font-size: large"><b>0.0分</b></span>
-                  </a-space>
-                </blockquote>
-              </a-typography-paragraph>
-            </div>
-            <div id="4">
-              <a-typography-paragraph>
-                4.单选题（5分）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                A. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                B. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                C. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                D. 消费者调查、生产者调查、价格调查属于（）
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                <blockquote>
-                  <a-space :size="30" align="baseline">
-                    <span><b>我的答案：A</b></span>
-                    <span style="color: #56b870"><b>正确答案：A</b></span>
-                    <check-outlined :style="{color: '#56b870'}"/>
-                    <span style="font-size: large"><b>5.0分</b></span>
+                    <span><b>我的答案：{{ item.answer }}</b></span>
+                    <span style="color: #56b870"><b>正确答案：{{ item.questionAns }}</b></span>
+                    <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
+                    <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
+                    <span style="font-size: large"><b>{{ item.score }}分</b></span>
                   </a-space>
                 </blockquote>
               </a-typography-paragraph>
             </div>
           </div>
+          <div v-if="examScoreDetail.multi.multiList.length" style="max-width: 700px">
+            <a-typography-title :level="2">
+              多选题（共{{ examScoreDetail.multi.multiList.length }}题
+              ，{{ examScoreDetail.multi.multiList.length * examScoreDetail.multi.multiList[0].questionScore }}分）
+            </a-typography-title>
+            <div v-for="(item, index) in examScoreDetail.multi.multiList" :key="item.questionId" :id="item.questionId">
+              <a-typography-paragraph>
+                <b>{{ index + 1 }}.多选题（{{ item.questionScore }}分）</b>
+              </a-typography-paragraph>
+              <a-typography-paragraph>
+                {{ item.description }}
+              </a-typography-paragraph>
+              <a-typography-paragraph v-for="(option, optionIndex) in item.optionInfo" :key="option.value">
+                {{ alphaMap[optionIndex + 1] }}{{ option.label }}
+              </a-typography-paragraph>
+              <a-typography-paragraph>
+                <blockquote>
+                  <a-space :size="30" align="baseline">
+                    <span><b>我的答案：{{ item.answer }}</b></span>
+                    <span style="color: #56b870"><b>正确答案：{{ item.questionAns }}</b></span>
+                    <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
+                    <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
+                    <span style="font-size: large"><b>{{ item.score }}分</b></span>
+                  </a-space>
+                </blockquote>
+              </a-typography-paragraph>
+            </div>
+          </div>
+          <div v-if="examScoreDetail.judge.judgeList.length" style="max-width: 700px">
+            <a-typography-title :level="2">
+              判断题（共{{ examScoreDetail.judge.judgeList.length }}题
+              ，{{ examScoreDetail.judge.judgeList.length * examScoreDetail.judge.judgeList[0].questionScore }}分）
+            </a-typography-title>
+            <div v-for="(item, index) in examScoreDetail.judge.judgeList" :key="item.questionId" :id="item.questionId">
+              <a-typography-paragraph>
+                <b>{{ index + 1 }}.判断题（{{ item.questionScore }}分）</b>
+              </a-typography-paragraph>
+              <a-typography-paragraph>
+                {{ item.description }}
+              </a-typography-paragraph>
+              <a-typography-paragraph v-for="(option, optionIndex) in item.optionInfo" :key="option.value">
+                {{ alphaMap[optionIndex + 1] }}{{ option.label }}
+              </a-typography-paragraph>
+              <a-typography-paragraph>
+                <blockquote>
+                  <a-space :size="30" align="baseline">
+                    <span><b>我的答案：{{ item.answer }}</b></span>
+                    <span style="color: #56b870"><b>正确答案：{{ item.questionAns }}</b></span>
+                    <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
+                    <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
+                    <span style="font-size: large"><b>{{ item.score }}分</b></span>
+                  </a-space>
+                </blockquote>
+              </a-typography-paragraph>
+            </div>
+          </div>
+          <div v-if="examScoreDetail.completion.completionList.length" style="max-width: 700px">
+            <a-typography-title :level="2">
+              填空题（共{{ examScoreDetail.completion.completionList.length }}题
+              ，{{ examScoreDetail.completion.completionList.length * examScoreDetail.completion.completionList[0].questionScore }}分）
+            </a-typography-title>
+            <div v-for="(item, index) in examScoreDetail.completion.completionList" :key="item.questionId" :id="item.questionId">
+              <a-typography-paragraph>
+                <b>{{ index + 1 }}.填空题（{{ item.questionScore }}分）</b>
+              </a-typography-paragraph>
+              <a-typography-paragraph>
+                {{ item.description }}
+              </a-typography-paragraph>
+              <a-typography-paragraph>
+                <blockquote>
+                  <a-space :size="5" align="baseline" direction="vertical">
+                    <a-typography-paragraph>
+                      <span><b>我的答案：</b>{{ item.answer }}</span>
+                    </a-typography-paragraph>
+                    <a-typography-paragraph>
+                      <span style="color: #56b870"><b>正确答案：</b>{{ item.questionAns }}</span>
+                    </a-typography-paragraph>
+                    <a-typography-paragraph>
+                      <a-space :size="30">
+                        <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
+                        <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
+                        <span style="font-size: large"><b>{{ item.score }}分</b></span>
+                      </a-space>
+                    </a-typography-paragraph>
+                  </a-space>
+                </blockquote>
+              </a-typography-paragraph>
+            </div>
+          </div>
+          <div v-if="examScoreDetail.complex.complexList.length" style="max-width: 700px">
+            <a-typography-title :level="2">
+              综合题（共{{ examScoreDetail.complex.complexList.length }}题
+              ，{{ leftScore }}分）
+            </a-typography-title>
+            <div v-for="(item, index) in examScoreDetail.complex.complexList" :key="item.questionId" :id="item.questionId">
+              <a-typography-paragraph>
+                <b>{{ index + 1 }}.综合题（{{ item.questionScore }}分）</b>
+              </a-typography-paragraph>
+              <a-typography-paragraph>
+                {{ item.description }}
+              </a-typography-paragraph>
+              <a-typography-paragraph 
+                  v-if="item.hasSubQuestion"
+                  v-for="(sub, subIndex) in item.subQuestionInfo" :key="sub.subQuestionId"
+              >
+                <a-typography-paragraph>
+                  （{{subIndex + 1}}）{{sub.subQuestionDesc}}
+                </a-typography-paragraph>
+                <blockquote>
+                  <a-space :size="5" align="baseline" direction="vertical">
+                    <a-typography-paragraph>
+                      <span><b>我的答案：</b>{{ sub.subQuestionAnswer }}</span>
+                    </a-typography-paragraph>
+                    <a-typography-paragraph>
+                      <span style="color: #56b870"><b>正确答案：</b>{{ sub.subQuestionAns }}</span>
+                    </a-typography-paragraph>
+                  </a-space>
+                </blockquote>
+              </a-typography-paragraph>
+              <a-typography-paragraph>
+                <a-space :size="30">
+                  <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
+                  <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
+                  <span style="font-size: large"><b>{{ item.score }}分</b></span>
+                </a-space>
+              </a-typography-paragraph>
+            </div>
+          </div>
         </a-row>
       </a-col>
-      <a-col flex="350px">
-        <div>
-          <a-anchor :target-offset="targetOffset">
-            <div>
-              <span style="font-size:xx-large">一、单选题</span>
-            </div>
-            <div>
-              <a-anchor-link href="#1">
+      <a-col flex="0 1 350px">
+        <a-anchor :target-offset="targetOffset" :affix="true">
+          <div v-if="examScoreDetail.single.singleList.length">
+            <span style="font-size:xx-large;margin-left: 15px;">单选题</span>
+            <div v-if="examScoreDetail.single.singleList.length">
+              <a-anchor-link v-for="(item, index) in examScoreDetail.single.singleList"
+                             :href="'#' + item.questionId"
+              >
                 <template #title>
-                  <a-button type="primary" ghost>1</a-button>
-                </template>
-              </a-anchor-link>
-              <a-anchor-link href="#2">
-                <template #title>
-                  <a-button type="primary" ghost>2</a-button>
-                </template>
-              </a-anchor-link>
-              <a-anchor-link href="#3">
-                <template #title>
-                  <a-button type="primary" ghost>3</a-button>
-                </template>
-              </a-anchor-link>
-              <a-anchor-link href="#4">
-                <template #title>
-                  <a-button type="primary" ghost>4</a-button>
+                  <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
                 </template>
               </a-anchor-link>
             </div>
-          </a-anchor>
-        </div>
+          </div>
+          <div v-if="examScoreDetail.multi.multiList.length">
+            <span style="font-size:xx-large;margin-left: 15px;">多选题</span>
+            <div v-if="examScoreDetail.multi.multiList.length">
+              <a-anchor-link v-for="(item, index) in examScoreDetail.multi.multiList"
+                             :href="'#' + item.questionId"
+              >
+                <template #title>
+                  <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
+                </template>
+              </a-anchor-link>
+            </div>
+          </div>
+          <div v-if="examScoreDetail.judge.judgeList.length">
+            <span style="font-size:xx-large;margin-left: 15px;">判断题</span>
+            <div v-if="examScoreDetail.judge.judgeList.length">
+              <a-anchor-link v-for="(item, index) in examScoreDetail.judge.judgeList"
+                             :href="'#' + item.questionId"
+              >
+                <template #title>
+                  <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
+                </template>
+              </a-anchor-link>
+            </div>
+          </div>
+          <div v-if="examScoreDetail.completion.completionList.length">
+            <span style="font-size:xx-large;margin-left: 15px;">填空题</span>
+            <div v-if="examScoreDetail.completion.completionList.length">
+              <a-anchor-link v-for="(item, index) in examScoreDetail.completion.completionList"
+                             :href="'#' + item.questionId"
+              >
+                <template #title>
+                  <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
+                </template>
+              </a-anchor-link>
+            </div>
+          </div>
+          <div v-if="examScoreDetail.complex.complexList.length">
+            <span style="font-size:xx-large;margin-left: 15px;">综合题</span>
+            <div v-if="examScoreDetail.complex.complexList.length">
+              <a-anchor-link v-for="(item, index) in examScoreDetail.complex.complexList"
+                             :href="'#' + item.questionId"
+              >
+                <template #title>
+                  <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
+                </template>
+              </a-anchor-link>
+            </div>
+          </div>
+        </a-anchor>
       </a-col>
     </a-row>
   </div>
   <!--进行中的考试，展示答题页面-->
-  <div style="margin-top: 1%;">
-      <a-row justify="space-between">
-        <a-col :span="8" class="center-col">
-          <router-link style="color: black;" to="/">
-            <a-space>
-              <rollback-outlined :style="{fontSize: '32px'}"/>
-              <b>返回</b>
-            </a-space>
-          </router-link>
-        </a-col>
-        <a-col :span="8" class="center-col">
-          <span style="font-size:x-large">操作系统期末考试</span>
-        </a-col>
-        <a-col :span="8" class="center-col">
+  <div style="margin-top: 1%;" v-if="false">
+    <a-row justify="space-between">
+      <a-col :span="8" class="center-col">
+        <router-link style="color: black;" to="/">
           <a-space>
-            <a-button @click="saveOrSubmit('save')" :loading="saveLoading">保存</a-button>
-            <a-button type="primary" @click="saveOrSubmit('submit')" :loading="SubmitLoading">交卷</a-button>
+            <rollback-outlined :style="{fontSize: '32px'}"/>
+            <b>返回</b>
           </a-space>
-        </a-col>
-      </a-row>
+        </router-link>
+      </a-col>
+      <a-col :span="8" class="center-col">
+        <span style="font-size:x-large">操作系统期末考试</span>
+      </a-col>
+      <a-col :span="8" class="center-col">
+        <a-space>
+          <a-button @click="saveOrSubmit('save')" :loading="saveLoading">保存</a-button>
+          <a-button type="primary" @click="saveOrSubmit('submit')" :loading="submitLoading">交卷</a-button>
+        </a-space>
+      </a-col>
+    </a-row>
     <a-row type="flex" style="margin-top: 3%;">
       <a-col flex="350px" style="margin-top: 1%">
         <a-affix :offset-top="10">
@@ -222,13 +291,13 @@
               />
             </a-space>
             <div class="center-col">
-              <span style="font-size: large">姓名：张三</span>
+              <span style="font-size: large">姓名：{{ userStore.username }}</span>
             </div>
             <div class="center-col">
-              <span style="font-size: large">学号：202000001111</span>
+              <span style="font-size: large">学号：{{ studentInfo.studentNumber }}</span>
             </div>
             <div class="center-col">
-              <span style="font-size: large">总分：{{sum}}分</span>
+              <span style="font-size: large">总分：{{ sum }}分</span>
             </div>
             <div class="center-col">
               <span style="font-size: large">考试开始时间：</span>
@@ -247,27 +316,33 @@
       </a-col>
       <a-col flex="auto" style="margin-bottom: 10%;">
         <div class="choice" v-if="singleList.list.length">
-          <a-typography-title :level="2">{{map[singleList.idx]}}、单选题（共{{singleList.list.length}}题，{{singleList.num}}分）</a-typography-title>
-          <div v-for="(item, index) in singleList.list" :key="item.questionId" :id="item.questionId" style="max-width: 600px">
+          <a-typography-title :level="2">
+            {{ map[singleList.idx] }}、单选题（共{{ singleList.list.length }}题，{{ singleList.num }}分）
+          </a-typography-title>
+          <div v-for="(item, index) in singleList.list" :key="item.questionId" :id="item.questionId"
+               style="max-width: 600px">
             <a-typography-paragraph>
-              <b>{{index + 1}}.单选题（{{item.questionScore}}分）</b>
+              <b>{{ index + 1 }}.单选题（{{ item.questionScore }}分）</b>
             </a-typography-paragraph>
             <a-typography-paragraph>
-              {{item.description}}
+              {{ item.description }}
             </a-typography-paragraph>
             <a-typography-paragraph>
-              <a-radio-group v-model:value="singleAns[index].questionAnswer" :options="item.optionInfo" />
+              <a-radio-group v-model:value="singleAns[index].questionAnswer" :options="item.optionInfo"/>
             </a-typography-paragraph>
           </div>
         </div>
         <div class="choice" v-if="multiList.list.length">
-          <a-typography-title :level="2">{{map[multiList.idx]}}、多选题（共{{multiList.list.length}}题，{{multiList.num}}分）</a-typography-title>
-          <div v-for="(item, index) in multiList.list" :key="item.questionId" :id="item.questionId" style="max-width: 600px">
+          <a-typography-title :level="2">
+            {{ map[multiList.idx] }}、多选题（共{{ multiList.list.length }}题，{{ multiList.num }}分）
+          </a-typography-title>
+          <div v-for="(item, index) in multiList.list" :key="item.questionId" :id="item.questionId"
+               style="max-width: 600px">
             <a-typography-paragraph>
-              <b>{{index + 1}}.多选题（{{item.questionScore}}分）</b>
+              <b>{{ index + 1 }}.多选题（{{ item.questionScore }}分）</b>
             </a-typography-paragraph>
             <a-typography-paragraph>
-              {{item.description}}
+              {{ item.description }}
             </a-typography-paragraph>
             <a-typography-paragraph>
               <a-checkbox-group v-model:value="multiAns[index].questionAnswer" :options="item.optionInfo"/>
@@ -275,28 +350,34 @@
           </div>
         </div>
         <div class="choice" v-if="judgeList.list.length">
-          <a-typography-title :level="2">{{map[judgeList.idx]}}、判断题（共{{judgeList.list.length}}题，{{judgeList.num}}分）</a-typography-title>
-          <div v-for="(item, index) in judgeList.list" :key="item.questionId" :id="item.questionId" style="max-width: 600px">
+          <a-typography-title :level="2">
+            {{ map[judgeList.idx] }}、判断题（共{{ judgeList.list.length }}题，{{ judgeList.num }}分）
+          </a-typography-title>
+          <div v-for="(item, index) in judgeList.list" :key="item.questionId" :id="item.questionId"
+               style="max-width: 600px">
             <a-typography-paragraph>
-              <b>{{index + 1}}.判断题（{{item.questionScore}}分）</b>
+              <b>{{ index + 1 }}.判断题（{{ item.questionScore }}分）</b>
             </a-typography-paragraph>
             <a-typography-paragraph>
-              {{item.description}}
+              {{ item.description }}
             </a-typography-paragraph>
             <a-typography-paragraph>
-              <a-radio-group v-model:value="judgeAns[index].questionAnswer" :options="item.optionInfo" />
+              <a-radio-group v-model:value="judgeAns[index].questionAnswer" :options="item.optionInfo"/>
             </a-typography-paragraph>
           </div>
         </div>
         <div class="choice" v-if="completionList.list.length">
-          <a-typography-title :level="2">{{map[completionList.idx]}}、填空题（共{{completionList.list.length}}题，{{completionList.num}}分）</a-typography-title>
-          <div v-for="(item, index) in completionList.list" :key="item.questionId" :id="item.questionId" style="max-width: 600px">
+          <a-typography-title :level="2">
+            {{ map[completionList.idx] }}、填空题（共{{ completionList.list.length }}题，{{ completionList.num }}分）
+          </a-typography-title>
+          <div v-for="(item, index) in completionList.list" :key="item.questionId" :id="item.questionId"
+               style="max-width: 600px">
             <a-typography-paragraph>
-              <b>{{index + 1}}.填空题（{{item.questionScore}}分）</b>
+              <b>{{ index + 1 }}.填空题（{{ item.questionScore }}分）</b>
             </a-typography-paragraph>
             <a-typography-paragraph>
               <a-space direction="vertical">
-                {{item.description}}
+                {{ item.description }}
                 <a-textarea
                     v-model:value="completionAns[index].questionAnswer"
                     auto-size
@@ -306,22 +387,26 @@
           </div>
         </div>
         <div class="choice" v-if="complexList.list.length">
-          <a-typography-title :level="2">{{map[complexList.idx]}}、综合题（共{{complexList.list.length}}题，{{complexList.num}}分）</a-typography-title>
-          <div v-for="(item, index) in complexList.list" :key="item.questionId" :id="item.questionId" style="max-width: 600px">
+          <a-typography-title :level="2">
+            {{ map[complexList.idx] }}、综合题（共{{ complexList.list.length }}题，{{ complexList.num }}分）
+          </a-typography-title>
+          <div v-for="(item, index) in complexList.list" :key="item.questionId" :id="item.questionId"
+               style="max-width: 600px">
             <a-typography-paragraph>
-              <b>{{index + 1}}.综合题（{{item.questionScore}}分）</b>
+              <b>{{ index + 1 }}.综合题（{{ item.questionScore }}分）</b>
             </a-typography-paragraph>
-            <a-typography-paragraph>
-              {{item.description}}
+            <a-typography-paragraph v-if="item.description">
+              {{ item.description }}
             </a-typography-paragraph>
             <a-typography-paragraph>
               <a-space direction="vertical" style="margin-bottom: 5px;"
-                v-for="(sub, subIndex) in item.subQuestionInfo" :key="sub.subQuestionId"
+                       v-for="(sub, subIndex) in item.subQuestionInfo" :key="sub.subQuestionId"
               >
-                （{{subIndex + 1}}）{{sub.subQuestionDesc}}
+                （{{ subIndex + 1 }}）{{ sub.subQuestionDesc }}
                 <QuillEditor theme="snow"
                              :toolbar="quillToolBar"
-                             v-model:content="complexAns[index].subQuestion[subIndex].subQuestionAnswer" content-type="html"
+                             v-model:content="complexAns[index].subQuestion[subIndex].subQuestionAnswer"
+                             content-type="html"
                              @paste.native.capture.prevent="handlePaste"
                              :modules="modules"
                 />
@@ -336,60 +421,65 @@
             <a-anchor :target-offset="targetOffset" :affix="false">
               <div v-if="singleList.list.length">
                 <div>
-                  <span style="font-size:xx-large">{{map[singleList.idx]}}、单选题</span>
+                  <span style="font-size:xx-large">{{ map[singleList.idx] }}、单选题</span>
                 </div>
                 <div>
-                  <a-anchor-link v-for="(item, index) in singleList.list" :href="'#'+item.questionId" :key="item.questionId">
+                  <a-anchor-link v-for="(item, index) in singleList.list" :href="'#'+item.questionId"
+                                 :key="item.questionId">
                     <template #title>
-                      <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
+                      <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
                     </template>
                   </a-anchor-link>
                 </div>
               </div>
               <div v-if="multiList.list.length">
                 <div>
-                  <span style="font-size:xx-large">{{map[multiList.idx]}}、多选题</span>
+                  <span style="font-size:xx-large">{{ map[multiList.idx] }}、多选题</span>
                 </div>
                 <div>
-                  <a-anchor-link v-for="(item, index) in multiList.list" :href="'#'+item.questionId" :key="item.questionId">
+                  <a-anchor-link v-for="(item, index) in multiList.list" :href="'#'+item.questionId"
+                                 :key="item.questionId">
                     <template #title>
-                      <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
+                      <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
                     </template>
                   </a-anchor-link>
                 </div>
               </div>
               <div v-if="judgeList.list.length">
                 <div>
-                  <span style="font-size:xx-large">{{map[judgeList.idx]}}、判断题</span>
+                  <span style="font-size:xx-large">{{ map[judgeList.idx] }}、判断题</span>
                 </div>
                 <div>
-                  <a-anchor-link v-for="(item, index) in judgeList.list" :href="'#'+item.questionId" :key="item.questionId">
+                  <a-anchor-link v-for="(item, index) in judgeList.list" :href="'#'+item.questionId"
+                                 :key="item.questionId">
                     <template #title>
-                      <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
+                      <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
                     </template>
                   </a-anchor-link>
                 </div>
               </div>
               <div v-if="completionList.list.length">
                 <div>
-                  <span style="font-size:xx-large">{{map[completionList.idx]}}、填空题</span>
+                  <span style="font-size:xx-large">{{ map[completionList.idx] }}、填空题</span>
                 </div>
                 <div>
-                  <a-anchor-link v-for="(item, index) in completionList.list" :href="'#'+item.questionId" :key="item.questionId">
+                  <a-anchor-link v-for="(item, index) in completionList.list" :href="'#'+item.questionId"
+                                 :key="item.questionId">
                     <template #title>
-                      <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
+                      <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
                     </template>
                   </a-anchor-link>
                 </div>
               </div>
               <div v-if="complexList.list.length">
                 <div>
-                  <span style="font-size:xx-large">{{map[complexList.idx]}}、综合题</span>
+                  <span style="font-size:xx-large">{{ map[complexList.idx] }}、综合题</span>
                 </div>
                 <div>
-                  <a-anchor-link v-for="(item, index) in complexList.list" :href="'#'+item.questionId" :key="item.questionId">
+                  <a-anchor-link v-for="(item, index) in complexList.list" :href="'#'+item.questionId"
+                                 :key="item.questionId">
                     <template #title>
-                      <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
+                      <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
                     </template>
                   </a-anchor-link>
                 </div>
@@ -406,39 +496,44 @@
 <script setup>
   import {CheckOutlined, ClockCircleOutlined, CloseOutlined, RollbackOutlined} from "@ant-design/icons-vue";
   import {useRouter} from "vue-router";
-  import {nextTick, onMounted, reactive, ref} from "vue";
+  import {computed, nextTick, onMounted, reactive, ref} from "vue";
   import {message} from "ant-design-vue/es";
   import {QuillEditor} from '@vueup/vue-quill';
   import '@vueup/vue-quill/dist/vue-quill.snow.css';
   import ImageUploader from 'quill-image-uploader';
   import {useUserStore} from "@/store/user.js";
-  import Loading from "@/components/Loading.vue";
   import {useStudentStore} from "@/store/student.js";
 
   const props = defineProps(['examinationId']);
   const router = useRouter();
   const userStore = useUserStore();
   const studentStore = useStudentStore();
-  
+
   // 动态锚点
   const targetOffset = ref(undefined);
   onMounted(() => {
-    targetOffset.value = window.innerHeight / 2 - 100;
+    targetOffset.value = window.innerHeight / 2 - 150;
   })
-  
+
   // 获取试卷
+  // 参加考试
   onMounted(() => {
     joinExam();
+    getExamScoreDetail();
+    getStudentInfo();
   })
   const map = {
     1: '一', 2: '二', 3: '三', 4: '四', 5: '五'
+  }, alphaMap = {
+    1: 'A. ', 2: 'B. ', 3: 'C. ', 4: 'D. ', 5: 'E. ', 6: 'F. '
   }
-  let singleList = reactive({idx: 0,num: 0, list: []}), multiList = reactive({idx: 0,num: 0, list: []}), judgeList = reactive({idx: 0,num: 0, list: []}),
-      completionList = reactive({idx: 0,num: 0, list: []}), complexList = reactive({idx: 0,num: 0, list: []});
+  let singleList = reactive({idx: 0, num: 0, list: []}), multiList = reactive({idx: 0, num: 0, list: []}),
+      judgeList = reactive({idx: 0, num: 0, list: []}),
+      completionList = reactive({idx: 0, num: 0, list: []}), complexList = reactive({idx: 0, num: 0, list: []});
   let answer = ref([]), sum = ref(0), answerPaperId = ref('');
   let singleAns = ref([]), multiAns = ref([]), judgeAns = ref([]), completionAns = ref([]);
   let complexAns = ref([]);
-  const joinExam = async() => {
+  const joinExam = async () => {
     const res = await studentStore.JoinExam({examinationId: props.examinationId});
     if (res.code !== 200) return;
     const {data} = res;
@@ -448,7 +543,7 @@
       singleList.idx = idx++, singleList.num = data.single.singleList[0].questionScore * data.single.singleList.length;
       singleList.list = data.single.singleList;
       sum.value += singleList.num;
-      for(let i = 0; i < singleList.list.length; i++) {
+      for (let i = 0; i < singleList.list.length; i++) {
         singleAns.value.push({
           questionId: singleList.list[i].questionId,
           questionAnswer: null,
@@ -460,7 +555,7 @@
       multiList.idx = idx++, multiList.num = data.multi.multiList[0].questionScore * data.multi.multiList.length;
       multiList.list = data.multi.multiList;
       sum.value += multiList.num;
-      for(let i = 0; i < multiList.list.length; i++) {
+      for (let i = 0; i < multiList.list.length; i++) {
         multiAns.value.push({
           questionId: multiList.list[i].questionId,
           questionAnswer: null,
@@ -472,7 +567,7 @@
       judgeList.idx = idx++, judgeList.num = data.judge.judgeList[0].questionScore * data.judge.judgeList.length;
       judgeList.list = data.judge.judgeList;
       sum.value += judgeList.num;
-      for(let i = 0; i < judgeList.list.length; i++) {
+      for (let i = 0; i < judgeList.list.length; i++) {
         judgeAns.value.push({
           questionId: judgeList.list[i].questionId,
           questionAnswer: null,
@@ -484,7 +579,7 @@
       completionList.idx = idx++, completionList.num = data.completion.completionList[0].questionScore * data.completion.completionList.length;
       completionList.list = data.completion.completionList;
       sum.value += completionList.num;
-      for(let i = 0; i < completionList.list.length; i++) {
+      for (let i = 0; i < completionList.list.length; i++) {
         completionAns.value.push({
           questionId: completionList.list[i].questionId,
           questionAnswer: null,
@@ -496,7 +591,7 @@
       let sum_score = 0;
       complexList.idx = idx++;
       complexList.list = data.complex.complexList;
-      for(let i = 0; i < complexList.list.length; i++) {
+      for (let i = 0; i < complexList.list.length; i++) {
         sum_score += complexList.list[i].questionScore;
         complexAns.value.push({
           questionId: complexList.list[i].questionId,
@@ -523,45 +618,24 @@
       answerPaperId: answerPaperId.value,
       question: answer.value
     })
-    if (res.code === 200) message.success(type === 'save' ? '保存成功！':'交卷成功！');
+    if (res.code === 200) message.success(type === 'save' ? '保存成功！' : '交卷成功！');
     saveLoading.value = false, submitLoading.value = false;
   }
-  
+
   // 倒计时
   const deadline = ref(Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30);
   const onFinish = () => {
     console.log('finished!');
   };
 
-  // 选择题测试(可以从数组生成)
-  // 多选
-  const plainOptions = [{
-    label: 'A. 消费者调查、生产者调查、价格调查属于（）',
-    value: 'Apple',
-  }, {
-    label: 'B. 消费者调查、生产者调查、价格调查属于（）',
-    value: 'Pear',
-  }, {
-    label: 'C. 消费者调查、生产者调查、价格调查属于（）',
-    value: 'Orange',
-  }];
-  const state = reactive({
-    value1: [],
-    value2: ['Apple'],
-    value3: ['Pear'],
-    value4: ['Apple'],
-  });
-  // 填空题
-  
   // 综合题
   // 富文本
   const quillToolBar = [
-      'bold', 'italic', 'underline', 'color', 'background', 'image', 'clean'
+    'bold', 'italic', 'underline', 'color', 'background', 'image', 'clean'
   ]
   const handlePaste = () => {
     message.warn('考试中不允许粘贴！如需上传图片请点击上传按钮！', 5);
   }
-  const text = ref('');
   const modules = {
     name: 'imageUploader',
     module: ImageUploader,
@@ -570,7 +644,7 @@
         return new Promise((resolve, reject) => {
           const formData = new FormData();
           formData.append("image", file);
-          
+
           userStore.Upload(formData)
               .then(res => {
                 if (res.code === 200) {
@@ -592,6 +666,54 @@
         })
       }
     }
+  }
+
+  // 显示已结束的考试
+  let examScoreDetail = ref({
+    totalScore: null,
+    stuTotalScore: null,
+    single: {
+      singleList: [],
+    },
+    multi: {
+      multiList: [],
+    },
+    judge: {
+      judgeList: [],
+    },
+    completion: {
+      completionList: [],
+    },
+    complex: {
+      complexList: [],
+    }
+  })
+  const getExamScoreDetail = async () => {
+    const res = await studentStore.GetExamScoreDetail({examinationId: props.examinationId});
+    if (res.code !== 200) return;
+    examScoreDetail.value = res.data;
+  }
+  const leftScore = computed(() => {
+    return parseFloat(examScoreDetail.value.totalScore)
+        - examScoreDetail.value.single.singleList.length * examScoreDetail.value.single.singleList[0].questionScore
+        - examScoreDetail.value.multi.multiList.length * examScoreDetail.value.multi.multiList[0].questionScore
+        - examScoreDetail.value.judge.judgeList.length * examScoreDetail.value.judge.judgeList[0].questionScore
+        - examScoreDetail.value.completion.completionList.length * examScoreDetail.value.completion.completionList[0].questionScore
+  })
+
+  // 获取学生信息
+  let studentInfo = ref({
+    studentNumber: null,
+    schoolName: null,
+    userName: null,
+    headImg: null,
+    loginName: null,
+    faceImg: null
+  });
+  const getStudentInfo = async () => {
+    const res = await studentStore.GetStudentInfo();
+    if (res.code !== 200) return;
+    studentInfo.value = res.data;
   }
 
 </script>
@@ -634,11 +756,11 @@
   :deep(.ql-toolbar) {
     width: @rich-text-container;
   }
-  
+
   :deep(.ql-snow) {
     width: @rich-text-container;
   }
-  
+
   :deep(.ql-container) {
     width: @rich-text-container;
   }

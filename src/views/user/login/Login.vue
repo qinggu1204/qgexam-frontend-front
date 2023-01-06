@@ -223,7 +223,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
   .logo-img {
     height: 30vh;
     display: flex;

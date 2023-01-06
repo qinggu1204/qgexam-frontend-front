@@ -1,6 +1,8 @@
 import {defineStore} from "pinia";
 import {
-    getCourseList,
+    deleteMessage,
+    getBadgeNumber,
+    getCourseList, getMessage, getMessageList,
     getSchoolList,
     getUserInfo,
     login,
@@ -164,6 +166,50 @@ export const useUserStore = defineStore('user', {
         GetCourseList(params) {
             return new Promise((resolve, reject) => {
                 getCourseList(params)
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        GetMessageList(params) {
+            return new Promise((resolve, reject) => {
+                getMessageList(params)
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        GetMessage(params) {
+            return new Promise((resolve, reject) => {
+                getMessage(params)
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        GetBadgeNumber(){
+            return new Promise((resolve, reject) => {
+                getBadgeNumber()
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        DeleteMessage(params){
+            return new Promise((resolve, reject) => {
+                deleteMessage(params)
                     .then(res => {
                         resolve(res);
                     })

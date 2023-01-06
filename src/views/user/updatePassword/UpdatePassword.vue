@@ -171,7 +171,7 @@
 
 </script>
 
-<style lang="less" scoped>
+<style scoped>
   .bg {
     min-height: 100vh;
     background: #f5f5f7;

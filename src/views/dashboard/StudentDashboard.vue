@@ -31,6 +31,52 @@
                   <a-input v-model:value="courseId" placeholder="请输入课程编号"/>
                 </div>
               </a-modal>
+              <a-badge :dot="unreadNum > 0">
+                <a-tooltip>
+                  <template #title>
+                    {{unreadNum > 0 ? '您有未读消息' : '您没有消息或全部已读'}}
+                  </template>
+                  <a @click.prevent="messageVisible = true">
+                    <bell-outlined :style="{fontSize: '16px'}"/>
+                  </a>
+                </a-tooltip>
+              </a-badge>
+              <a-modal 
+                  v-model:visible="messageVisible" title="消息列表"
+                  @ok="messageVisible = false" width="700px"
+              >
+                <a-table
+                    :columns="columns"
+                    :row-key="record => record.messageId"
+                    :data-source="messageList"
+                    :loading="messageLoading"
+                    :pagination="messagePagination"
+                >
+                  <template #bodyCell="{ column, record }">
+                    <template v-if="column.key==='status'">
+                      <a-badge v-if="record.status===0" status="processing" text="未读" />
+                      <a-badge v-else status="default" text="已读" />
+                    </template>
+                    <template v-else-if="column.key==='action'">
+                      <a-button 
+                          type="link" style="font-weight: 500"
+                          @click="getMessage(record.messageId, record.title)"
+                      >
+                        查看
+                      </a-button>
+                      <a-divider type="vertical"></a-divider>
+                      <a-popconfirm
+                          title="你确定要删除该消息吗？"
+                          ok-text="确定" :okButtonProps="{style: {fontWeight: '500'}}"
+                          cancel-text="取消" :cancelButtonProps="{style: {fontWeight: '500'}}"
+                          @confirm="deleteMessage(record.messageId)"
+                      >
+                        <a-button type="link" style="font-weight: 500">删除</a-button>
+                      </a-popconfirm>
+                    </template>
+                  </template>
+                </a-table>
+              </a-modal>
               <a-divider type="vertical" style="height: 24px"/>
               <a-dropdown>
                 <a class="ant-dropdown-link" @click.prevent>
@@ -68,9 +114,9 @@
 </template>
 
 <script setup>
-  import {computed, createVNode, nextTick, onBeforeMount, ref} from "vue";
-  import {ExclamationCircleOutlined, LogoutOutlined, UserOutlined} from '@ant-design/icons-vue';
-  import {message, Modal} from "ant-design-vue";
+  import {computed, createVNode, h, nextTick, onBeforeMount, reactive, ref} from "vue";
+  import {ExclamationCircleOutlined, LogoutOutlined, UserOutlined, BellOutlined} from '@ant-design/icons-vue';
+  import {message, Modal, notification} from "ant-design-vue";
   import 'ant-design-vue/es/message/style/css'
   import {useUserStore} from "@/store/user.js";
   import Loading from "@/components/Loading.vue";
@@ -83,8 +129,9 @@
   const userStore = useUserStore();
   const loading = storeToRefs(useLoadingStore()).isLoading;
   const route = useRoute();
-  onBeforeMount(() => {
-    userStore.GetUserInfo();
+  onBeforeMount(async () => {
+     await userStore.GetUserInfo();
+     await getMessageList();
   })
   const {username, avatar, id} = storeToRefs(userStore);
 
@@ -94,7 +141,6 @@
     Modal.confirm({
       title: '您确定要退出登录吗？',
       icon: createVNode(ExclamationCircleOutlined),
-      // content: 'Some descriptions',
       okText: '确认',
       okType: 'danger',
       cancelText: '取消',
@@ -160,10 +206,76 @@
   const current = computed(()=>{
     return [route.name];
   })
+  
+  // 消息
+  const messageVisible = ref(false);
+  const unreadNum = ref(0);
+  const unreadMsg = async () => {
+    const res = await userStore.GetBadgeNumber();
+    if (res.code === 200) unreadNum.value = res.data;
+  }
+  const messageLoading = ref(false);
+  const messageList = ref({
+    messageId: '',
+    title: '',
+    status: '',
+  })
+  const columns = [{
+    title: '标题',
+    dataIndex: 'title',
+    key: 'title'
+  }, {
+    title: '状态',
+    dataIndex: 'status',
+    key: 'status'
+  }, {
+    title: '操作',
+    dataIndex: 'action',
+    key: 'action'
+  }];
+  const messagePagination = reactive({
+    onChange: (currentPage, pageSize) => {
+      messagePagination.pageSize = pageSize, messagePagination.current = currentPage;
+      getMessageList(currentPage, pageSize);
+    },
+    total: 0,
+    current: 1,
+    pageSize: 5,
+  })
+  const getMessageList = async (currentPage = 1, pageSize = 5) => {
+    messageLoading.value = true;
+    const res = await userStore.GetMessageList({currentPage, pageSize});
+    if (res.code !== 200) return;
+    messageList.value = res.data.records;
+    messagePagination.total = res.data.total;
+    await unreadMsg();
+    messageLoading.value = false;
+  }
+  const getMessage = async (messageId, title) => {
+    const res = await userStore.GetMessage({messageId});
+    if (res.code !== 200) return;
+    const {examination_name, start_time, end_time} = res.data;
+    let desc = '考试名称：' + examination_name + '\n';
+    if (start_time) desc += '开始时间：' + start_time + '\n';
+    if (end_time) desc += '结束时间：' + end_time + '\n';
+    notification.info({
+      message: title,
+      description: desc,
+      duration: 25,
+    })
+    await getMessageList(messagePagination.current, messagePagination.pageSize);
+  }
+  const deleteMessage = async (messageId) => {
+    console.log(messageId);
+    const res = await userStore.DeleteMessage({messageId});
+    if (res.code !== 200) return;
+    message.success('删除成功');
+    await getMessageList(messagePagination.current, messagePagination.pageSize);
+  }
 
 </script>
 
-<style lang="less" scoped>
+<style scoped>
   .layout-wrapper {
     min-height: 100vh;
     background: #f0f2f5;
@@ -242,5 +354,13 @@
 
   .content :deep(.ant-card-bordered) {
     border: 2px solid #f0f0f0;
+  }
+  
+  a {
+    color: black;
+  }
+  
+  a:hover {
+    color: #56b870;
   }
 </style>

@@ -16,6 +16,10 @@ const userApi = {
     ValidateCode: '/user/validateCode', // 校验验证码是否正确
     Upload: '/common/upload', // 上传图片
     GetCourseList: '/common/getCourseList', // 查看课程列表
+    GetMessageList: '/common/getMessageList', // 获取消息列表
+    GetMessage: '/common/getMessage', // 查看消息
+    GetBadgeNumber: '/common/getBadgeNumber', // 获取未读消息数量
+    DeleteMessage: '/common/deleteMessage', // 删除消息
 }
 
 export function login(parameter) {
@@ -108,6 +112,37 @@ export function getCourseList(parameter) {
     return request({
         url: userApi.GetCourseList,
         method: 'get',
+        params: parameter
+    })
+}
+
+export function getMessageList(parameter) {
+    return request({
+        url: userApi.GetMessageList,
+        method: 'get',
+        params: parameter
+    })
+}
+
+export function getMessage(parameter){
+    return request({
+        url: userApi.GetMessage,
+        method: 'get',
+        params: parameter
+    })
+}
+
+export function getBadgeNumber() {
+    return request({
+        url: userApi.GetBadgeNumber,
+        method: 'get',
+    })
+}
+
+export function deleteMessage(parameter) {
+    return request({
+        url: userApi.DeleteMessage,
+        method: 'delete',
         params: parameter
     })
 }

@@ -99,7 +99,7 @@
 
 </script>
 
-<style lang="less" scoped>
+<style scoped>
   .layout-wrapper {
     min-height: 100vh;
     background: #f0f2f5;

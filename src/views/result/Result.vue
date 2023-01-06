@@ -43,7 +43,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
   .result-wrapper {
       display: flex;
       justify-content: center;

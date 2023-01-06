@@ -143,7 +143,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
   .content {
     background: #fff;
     border-radius: 18px;

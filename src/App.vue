@@ -16,7 +16,7 @@
   import locale from 'ant-design-vue/lib/locale-provider/zh_CN';
 </script>
 
-<style lang="less">
+<style>
   .loading-wrapper {
     display: flex;
     justify-content: center;

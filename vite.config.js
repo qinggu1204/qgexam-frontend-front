@@ -13,7 +13,7 @@ export default defineConfig({
             resolvers: [AntDesignVueResolver({
                 importStyle: "less",
             })]
-        })
+        }),
     ],
     resolve: {
         // 配置路径别名

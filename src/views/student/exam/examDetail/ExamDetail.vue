@@ -785,7 +785,7 @@
 
 </script>
 
-<style lang="less" scoped>
+<style scoped>
   .center-col {
     display: flex;
     align-items: center;

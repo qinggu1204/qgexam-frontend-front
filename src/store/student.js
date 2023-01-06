@@ -5,11 +5,10 @@
 import {defineStore} from "pinia";
 import {
     getExamList,
-    getScore,
     getExamScoreDetail,
     getStudentInfo,
     joinExam, saveOrSubmit,
-    updateStudentInfo, getExamInfo
+    updateStudentInfo, getExamInfo, getCourseScore
 } from "@/api/student.js";
 
 export const useStudentStore = defineStore('student', {
@@ -47,9 +46,9 @@ export const useStudentStore = defineStore('student', {
                     })
             })
         },
-        GetScore(path) {
+        GetCourseScore(params) {
             return new Promise((resolve, reject) => {
-                getScore(path)
+                getCourseScore(params)
                     .then(res => {
                         if (res) resolve(res);
                     })

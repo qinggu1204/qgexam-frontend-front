@@ -9,7 +9,7 @@ const studentApi = {
     JoinCourse: '/stu/joinCourse', // 学生加入课程
     SaveOrSubmit: '/stu/saveOrSubmit', // 发送验证码
     StudentRegister: '/user/stu/register', // 学生提交或保存作答情况
-    GetScore: `/stu/getScore`, // 学生查看成绩 {examinationId}
+    GetCourseScore: '/stu/getCourseScore', // 学生查看成绩
     GetExamScoreDetail: '/stu/getExamScoreDetail',// 学生查看成绩明细
     JoinExam: `/stu/enterExam/joinExam`, // 学生开始考试查看试卷
     GetExamInfo: '/stu/enterExam/getExamInfo', //学生进入考试页面查询考试信息
@@ -63,10 +63,11 @@ export function saveOrSubmit(parameter) {
     })
 }
 
-export function getScore(path) {
+export function getCourseScore(parameter) {
     return request({
-        url: studentApi.GetScore + '/' + path,
+        url: studentApi.GetCourseScore,
         method: 'get',
+        params: parameter
     })
 }
 

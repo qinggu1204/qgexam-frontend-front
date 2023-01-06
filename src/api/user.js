@@ -15,6 +15,7 @@ const userApi = {
     GetUserInfo: '/user/common/getUserInfo',// 获取用户个人信息
     ValidateCode: '/user/validateCode', // 校验验证码是否正确
     Upload: '/common/upload', // 上传图片
+    GetCourseList: '/common/getCourseList', // 查看课程列表
 }
 
 export function login(parameter) {
@@ -100,5 +101,13 @@ export function upload(parameter) {
         method: 'post',
         headers: { 'Content-Type': 'multipart/form-data'},
         data: parameter
+    })
+}
+
+export function getCourseList(parameter) {
+    return request({
+        url: userApi.GetCourseList,
+        method: 'get',
+        params: parameter
     })
 }

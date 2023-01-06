@@ -15,7 +15,7 @@
           </a>
           <a-menu v-model:selected-keys="current" mode="horizontal">
             <a-menu-item key="examList" @click="router.push({name: 'examList'})">考试</a-menu-item>
-            <a-menu-item key="courseList" @click="router.push({name: 'dashboard'})">课程</a-menu-item>
+            <a-menu-item key="courseList" @click="router.push({name: 'courseList'})">课程</a-menu-item>
           </a-menu>
           <div class="avatar-wrapper">
             <a-space :size="12">
@@ -68,13 +68,13 @@
 </template>
 
 <script setup>
-  import {createVNode, nextTick, onBeforeMount, ref} from "vue";
+  import {computed, createVNode, nextTick, onBeforeMount, ref} from "vue";
   import {ExclamationCircleOutlined, LogoutOutlined, UserOutlined} from '@ant-design/icons-vue';
   import {message, Modal} from "ant-design-vue";
   import 'ant-design-vue/es/message/style/css'
   import {useUserStore} from "@/store/user.js";
   import Loading from "@/components/Loading.vue";
-  import {useRouter} from "vue-router";
+  import {useRoute, useRouter} from "vue-router";
   import 'dayjs/locale/zh-cn';
   import {storeToRefs} from "pinia";
   import {useLoadingStore} from "@/store/loading.js";
@@ -82,6 +82,7 @@
 
   const userStore = useUserStore();
   const loading = storeToRefs(useLoadingStore()).isLoading;
+  const route = useRoute();
   onBeforeMount(() => {
     userStore.GetUserInfo();
   })
@@ -156,7 +157,9 @@
   }
   
   // 导航
-  const current = ref(['examList']);
+  const current = computed(()=>{
+    return [route.name];
+  })
 
 </script>
 

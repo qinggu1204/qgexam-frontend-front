@@ -7,13 +7,13 @@ const studentApi = {
     UpdateStudentInfo: '/stu/updateStudentInfo', // 修改学生个人信息
     GetStudentInfo: '/stu/getStudentInfo', // 获取学生个人信息
     JoinCourse: '/stu/joinCourse', // 学生加入课程
-    GetExamList: `/stu/getExamList`, // 学生查看考试列表
-    JoinExam: `/stu/joinExam`, // 学生开始考试查看试卷 {examinationId}
     SaveOrSubmit: '/stu/saveOrSubmit', // 发送验证码
     StudentRegister: '/user/stu/register', // 学生提交或保存作答情况
     GetScore: `/stu/getScore`, // 学生查看成绩 {examinationId}
     GetExamScoreDetail: '/stu/getExamScoreDetail',// 学生查看成绩明细
-    GetExam: '/stu/getExam', //学生进入考试页面查询考试信息
+    JoinExam: `/stu/enterExam/joinExam`, // 学生开始考试查看试卷
+    GetExamInfo: '/stu/enterExam/getExamInfo', //学生进入考试页面查询考试信息
+    GetExamList: `/stu/enterExam/getExamList`, // 学生查看考试列表
 }
 
 export function updateStudentInfo(parameter) {
@@ -78,9 +78,9 @@ export function getExamScoreDetail(parameter) {
     })
 }
 
-export function getExam(parameter) {
+export function getExamInfo(parameter) {
     return request({
-        url: studentApi.GetExam,
+        url: studentApi.GetExamInfo,
         method: 'get',
         params: parameter
     })

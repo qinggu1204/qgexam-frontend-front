@@ -9,7 +9,7 @@ import {
     getExamScoreDetail,
     getStudentInfo,
     joinExam, saveOrSubmit,
-    updateStudentInfo, getExam
+    updateStudentInfo, getExamInfo
 } from "@/api/student.js";
 
 export const useStudentStore = defineStore('student', {
@@ -91,9 +91,9 @@ export const useStudentStore = defineStore('student', {
                     })
             })
         },
-        GetExam(params) {
+        GetExamInfo(params) {
             return new Promise((resolve, reject) => {
-                getExam(params)
+                getExamInfo(params)
                     .then(res => {
                         if (res) resolve(res);
                     })

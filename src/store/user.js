@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
 import {
+    getCourseList,
     getSchoolList,
     getUserInfo,
     login,
@@ -152,6 +153,17 @@ export const useUserStore = defineStore('user', {
         UpdatePassword(params) {
             return new Promise((resolve, reject) => {
                 updatePassword(params)
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        GetCourseList(params) {
+            return new Promise((resolve, reject) => {
+                getCourseList(params)
                     .then(res => {
                         resolve(res);
                     })

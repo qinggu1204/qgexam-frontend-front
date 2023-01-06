@@ -541,7 +541,7 @@
   })
   onBeforeMount(async () => {
     status.value = 'loading';
-    let res = await studentStore.GetExam({examinationId: props.examinationId});
+    let res = await studentStore.GetExamInfo({examinationId: props.examinationId});
     if (res.code !== 200) {
       resultStore.setResult(
           '404',

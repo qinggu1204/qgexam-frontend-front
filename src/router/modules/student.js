@@ -18,7 +18,7 @@ export default [
             {
                 path: '',
                 name: 'examList',
-                component: () => import('@/views/student/examList/ExamList.vue'),
+                component: () => import('@/views/student/exam/examList/ExamList.vue'),
                 meta: {
                     title: '个人主页',
                 }
@@ -31,19 +31,39 @@ export default [
                 meta: {
                     title: '个人信息',
                 }
-            }
+            },
+            // 课程列表
+            {
+                path: 'course',
+                name: 'courseList',
+                component: () => import('@/views/student/course/courseList/CourseList.vue'),
+                meta: {
+                    title: '课程'
+                }
+            },
         ]
     },
     // 试卷详情
     {
         path: '/exam/:examinationId',
         name: 'exam',
-        component: () => import('@/views/student/examDetail/ExamDetail.vue'),
+        component: () => import('@/views/student/exam/examDetail/ExamDetail.vue'),
         props: true,
         meta: {
             title: '考试详情',
             requireAuth: true,
         },
     },
+    // 课程详情
+    {
+        path: '/course/:courseId',
+        name: 'course',
+        component: () => import('@/views/student/course/courseDetail/CourseDetail.vue'),
+        props: true,
+        meta: {
+            title: '课程详情',
+            requireAuth: true,
+        }
+    }
     
 ]

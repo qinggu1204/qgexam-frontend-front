@@ -3,7 +3,7 @@
     <a-row justify="end">
       <a-input-search
           v-model:value="examinationName"
-          placeholder="课程名"
+          placeholder="考试名"
           enter-button
           @search="getExamList(null,1,pagination.pageSize,examinationName)"
           style="width: 350px"

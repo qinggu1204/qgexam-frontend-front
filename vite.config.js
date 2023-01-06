@@ -53,5 +53,44 @@ export default defineConfig({
             }
         }*/
     },
-
+    optimizeDeps: {
+        include: [
+            'vue',
+            'pinia',
+            'axios',
+            'vue-router',
+            'ant-design-vue/es',
+            'ant-design-vue/es/layout/style',
+            'ant-design-vue/es/dropdown/style',
+            'ant-design-vue/es/space/style',
+            'ant-design-vue/es/table/style',
+            'ant-design-vue/es/avatar/style',
+            'ant-design-vue/es/descriptions/style',
+            'ant-design-vue/es/image/style',
+            'ant-design-vue/es/statistic/style',
+            'ant-design-vue/es/affix/style',
+            'ant-design-vue/es/radio/style',
+            'ant-design-vue/es/select/style',
+            'ant-design-vue/es/back-top/style',
+            'ant-design-vue/es/popconfirm/style',
+            'ant-design-vue/es/divider/style',
+            'ant-design-vue/es/list/style',
+            'ant-design-vue/es/card/style',
+            'ant-design-vue/es/tag/style',
+            'ant-design-vue/es/row/style',
+            'ant-design-vue/es/input/style',
+            'ant-design-vue/es/badge/style',
+            'ant-design-vue/es/tooltip/style',
+            'ant-design-vue/es/typography/style',
+            'ant-design-vue/es/button/style',
+            'ant-design-vue/es/menu/style',
+            'ant-design-vue/es/spin/style',
+            'ant-design-vue/es/checkbox/style',
+            'ant-design-vue/es/anchor/style',
+            'ant-design-vue/es/col/style',
+            'ant-design-vue/es/form/style',
+            'ant-design-vue/es/upload/style',
+            'ant-design-vue/es/tabs/style',
+        ]
+    }
 })

@@ -5,13 +5,27 @@
 // 全局前置路由守卫
 import {useLoadingStore} from "@/store/loading.js";
 import router from "@/router/index.js";
+import teacher from '@/router/modules/teacher.js'
 import {useUserStore} from "@/store/user.js";
-import {storeToRefs} from "pinia";
 import {message} from "ant-design-vue";
 import 'ant-design-vue/es/message/style'
-import {nextTick} from "vue";
+import student from "@/router/modules/student.js";
+import {useRoleStore} from "@/store/role.js";
 
-router.beforeEach((to, from, next) => {
+function generateRoutes(role) {
+    if (role.includes('teacher')) {
+        teacher.forEach(item => {
+            router.addRoute(item);
+        })
+    }
+    else if (role.includes('student')) {
+        student.forEach(item => {
+            router.addRoute(item);
+        })
+    }
+ }
+
+router.beforeEach(async (to, from) => {
     // 切换页面标题
     if (!to.meta.title) {
         document.title = import.meta.env.VITE_GLOB_APP_TITLE;
@@ -23,21 +37,21 @@ router.beforeEach((to, from, next) => {
     // 控制页面加载动画
     const loadingStore = useLoadingStore();
     loadingStore.setLoading(true);
-
-    // 检查页面是否需要登录才能访问
-    if (to.meta && to.meta.requireAuth) {
-        const userStore = useUserStore();
-        const {token} = storeToRefs(userStore);
-        if (!token.value) {
-            message.warn('您还未登录，请先登录！');
-            setTimeout(()=>{
-                next('/login')
-            },500)
-            return;
-        }
-    }
     
-    next();
+    // 需要鉴权的页面
+    const userStore = useUserStore();
+    const roleStore = useRoleStore();
+    if (!userStore.token && to.meta && to.meta.requireAuth) {
+        message.warn('您还未登录，请先登录！');
+        return await router.push({name: 'login'});
+    }
+
+    // 动态生成路由
+    if (roleStore.isEmpty()) {
+        await userStore.GetUserInfo();
+        generateRoutes(roleStore.role);
+        return await router.push({...to, replace: true});
+    }
 })
 
 // 全局后置路由守卫

@@ -12,6 +12,7 @@ import {
     studentRegister, teacherRegister, updatePassword, upload,
     validateCode
 } from "@/api/user";
+import {useRoleStore} from "@/store/role.js";
 
 /**
  * 用户store
@@ -35,6 +36,8 @@ export const useUserStore = defineStore('user', {
                             const data = res.data;
                             this.id = data.userId, this.username = data.userName;
                             this.avatar = data.headImg, this.role = data.roleList;
+                            const roleStore = useRoleStore();
+                            roleStore.setRole(this.role);
                         }
                         resolve(res);
                     })

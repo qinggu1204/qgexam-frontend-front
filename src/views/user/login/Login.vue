@@ -120,7 +120,7 @@
     password: '',
   });
   const userStore = useUserStore();
-  const handleFinish1 = () => {
+  const handleFinish1 = async () => {
     // 校验
     if (!formType1.loginName) {
       message.warn('手机号不能为空！');
@@ -137,15 +137,11 @@
 
     loginLoading1.value = true;
 
-    userStore.Login(formType1)
-        .then(res => {
-          if (res.code === 200) {
-            router.push({name: 'dashboard'});
-          }
-        })
-        .finally(() => {
-          loginLoading1.value = false;
-        })
+    const res = await userStore.Login(formType1);
+    if (res.code === 200) {
+      await router.replace('/');
+    }
+    loginLoading1.value = false;
   };
 
   // 验证码

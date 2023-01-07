@@ -27,7 +27,7 @@ export default [
             {
                 path: 'userinfo',
                 name: 'userinfo',
-                component:  () =>import('@/views/student/userinfo/StudentInfo.vue'),
+                component:  () => import('@/views/student/userinfo/StudentInfo.vue'),
                 meta: {
                     title: '个人信息',
                 }

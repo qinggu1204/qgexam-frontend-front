@@ -187,7 +187,7 @@
             message.success('添加课程成功，即将刷新页面！');
             setTimeout(() => {
               window.location.reload();
-            }, 25000)
+            }, 2500)
           }
         })
         .finally(() => {

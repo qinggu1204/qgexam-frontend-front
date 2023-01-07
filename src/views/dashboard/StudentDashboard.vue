@@ -181,13 +181,13 @@
       return;
     }
     joinCourseLoading.value = true;
-    joinCourse(courseId.value)
+    joinCourse({courseId: courseId.value})
         .then(res => {
           if (res.code === 200) {
             message.success('添加课程成功，即将刷新页面！');
             setTimeout(() => {
               window.location.reload();
-            }, 2500)
+            }, 25000)
           }
         })
         .finally(() => {

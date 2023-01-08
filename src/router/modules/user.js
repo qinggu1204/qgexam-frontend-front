@@ -40,5 +40,11 @@ export default [
             title: '个人主页',
             requireAuth: true,
         },
+    },
+    // 人脸识别
+    {
+        path: '/face',
+        name: 'face',
+        component: () => import('@/views/face/FaceRegistration.vue'),
     }
 ]

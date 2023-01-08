@@ -40,7 +40,6 @@
           <a-card hoverable @click="router.push(`/course/${item.courseId}`)">
             <template #cover>
               <img
-                  alt="课程图片"
                   :src="item.courseUrl"
               />
             </template>

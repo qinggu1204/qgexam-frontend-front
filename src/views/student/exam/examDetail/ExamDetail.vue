@@ -167,8 +167,22 @@
               <a-typography-paragraph>
                 {{ item.description }}
               </a-typography-paragraph>
-              <a-typography-paragraph 
-                  v-if="item.hasSubQuestion"
+              <a-typography-paragraph
+                  v-if="!item.hasSubQuestion"
+              >
+                <blockquote>
+                  <a-space :size="5" align="baseline" direction="vertical">
+                    <a-typography-paragraph>
+                      <span><b>我的答案：</b>{{ item.answer }}</span>
+                    </a-typography-paragraph>
+                    <a-typography-paragraph>
+                      <span style="color: #56b870"><b>正确答案：</b>{{ item.questionAns }}</span>
+                    </a-typography-paragraph>
+                  </a-space>
+                </blockquote>
+              </a-typography-paragraph>
+              <a-typography-paragraph
+                  v-else
                   v-for="(sub, subIndex) in item.subQuestionInfo" :key="sub.subQuestionId"
               >
                 <a-typography-paragraph>
@@ -404,10 +418,21 @@
             <a-typography-paragraph>
               <b>{{ index + 1 }}.综合题（{{ item.questionScore }}分）</b>
             </a-typography-paragraph>
-            <a-typography-paragraph v-if="item.description">
+            <a-typography-paragraph>
               {{ item.description }}
             </a-typography-paragraph>
-            <a-typography-paragraph>
+            <a-typography-paragraph 
+                v-if="!item.subQuestionInfo || item.subQuestionInfo.length === 0"
+            >
+              <QuillEditor theme="snow"
+                           :toolbar="quillToolBar"
+                           v-model:content="complexAns[index].questionAnswer"
+                           content-type="html"
+                           @paste.native.capture.prevent="handlePaste"
+                           :modules="modules"
+              />
+            </a-typography-paragraph>
+            <a-typography-paragraph v-else>
               <a-space direction="vertical" style="margin-bottom: 5px;"
                        v-for="(sub, subIndex) in item.subQuestionInfo" :key="sub.subQuestionId"
               >

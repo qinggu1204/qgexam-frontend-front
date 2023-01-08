@@ -12,6 +12,8 @@ import 'ant-design-vue/es/message/style'
 import student from "@/router/modules/student.js";
 import {useRoleStore} from "@/store/role.js";
 
+const whiteList = ['/login', '/register', '/updatePassword'];
+
 function generateRoutes(role) {
     if (role.includes('teacher')) {
         teacher.forEach(item => {
@@ -47,7 +49,7 @@ router.beforeEach(async (to, from) => {
     }
 
     // 动态生成路由
-    if (roleStore.isEmpty() && to.meta && to.meta.requireAuth) {
+    if (roleStore.isEmpty() && !whiteList.includes(to.path)) {
         await userStore.GetUserInfo();
         generateRoutes(roleStore.role);
         return await router.push({...to, replace: true});

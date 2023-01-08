@@ -21,6 +21,7 @@ export default [
                 component: () => import('@/views/student/exam/examList/ExamList.vue'),
                 meta: {
                     title: '个人主页',
+                    requireAuth: true,
                 }
             },
             // 学生个人信息，需要和教师的个人信息区分开
@@ -30,6 +31,7 @@ export default [
                 component:  () => import('@/views/student/userinfo/StudentInfo.vue'),
                 meta: {
                     title: '个人信息',
+                    requireAuth: true,
                 }
             },
             // 课程列表
@@ -38,7 +40,8 @@ export default [
                 name: 'courseList',
                 component: () => import('@/views/student/course/courseList/CourseList.vue'),
                 meta: {
-                    title: '课程'
+                    title: '课程',
+                    requireAuth: true,
                 }
             },
         ]

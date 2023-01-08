@@ -47,7 +47,7 @@ router.beforeEach(async (to, from) => {
     }
 
     // 动态生成路由
-    if (roleStore.isEmpty()) {
+    if (roleStore.isEmpty() && to.meta && to.meta.requireAuth) {
         await userStore.GetUserInfo();
         generateRoutes(roleStore.role);
         return await router.push({...to, replace: true});

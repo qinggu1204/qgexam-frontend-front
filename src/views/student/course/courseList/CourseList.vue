@@ -129,8 +129,8 @@
     courseListLoading.value = false;
   }
 
-  onBeforeMount(() => {
-    getCourseList();
+  onBeforeMount(async () => {
+     await getCourseList();
   })
 
   const getTeacherListText = (teacherList) => {

@@ -610,14 +610,13 @@
   let singleList = reactive({idx: 0, num: 0, list: []}), multiList = reactive({idx: 0, num: 0, list: []}),
       judgeList = reactive({idx: 0, num: 0, list: []}),
       completionList = reactive({idx: 0, num: 0, list: []}), complexList = reactive({idx: 0, num: 0, list: []});
-  let answer = ref([]), sum = ref(0), answerPaperId = ref('');
+  let answer = ref([]), sum = ref(0);
   let singleAns = ref([]), multiAns = ref([]), judgeAns = ref([]), completionAns = ref([]);
   let complexAns = ref([]);
   const joinExam = async () => {
     const res = await studentStore.JoinExam({examinationId: props.examinationId});
     if (res.code !== 200) return;
     const {data} = res;
-    answerPaperId.value = data.answerPaperId;
     let idx = 1;
     if (data.single && data.single.singleList.length) {
       singleList.idx = idx++, singleList.num = data.single.singleList[0].questionScore * data.single.singleList.length;
@@ -678,6 +677,7 @@
           questionAnswer: null,
           subQuestion: []
         })
+        if (!complexList.list[i].subQuestionInfo) continue;
         for (let j = 0; j < complexList.list[i].subQuestionInfo.length; j++) {
           complexAns.value[i].subQuestion.push({
             subQuestionId: complexList.list[i].subQuestionInfo[j].subQuestionId,
@@ -694,10 +694,7 @@
     if (type === 'save') saveLoading.value = true;
     else submitLoading.value = true;
     answer.value = [...singleAns.value, ...multiAns.value, ...judgeAns.value, ...completionAns.value, ...complexAns.value];
-    const res = await studentStore.SaveOrSubmit({
-      answerPaperId: answerPaperId.value,
-      question: answer.value
-    })
+    const res = await studentStore.SaveOrSubmit({question: answer.value});
     if (res.code === 200) {
       message.success(type === 'save' ? '保存成功！' : '交卷成功！');
     }
@@ -810,7 +807,7 @@
 
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .center-col {
     display: flex;
     align-items: center;

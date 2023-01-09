@@ -14,15 +14,12 @@
           </div>
         </a>
         <a-menu
-            v-model:selectedKeys="selectedKeys"
+            v-model:selectedKeys="current"
             mode="horizontal" theme="light"
             :style="{ lineHeight: '64px', minWidth: '700px' }"
         >
-          <a-menu-item key="1">考试</a-menu-item>
-          <a-menu-item key="2">试卷</a-menu-item>
-          <a-menu-item key="3">监考</a-menu-item>
-          <a-menu-item key="4">阅卷</a-menu-item>
-          <a-menu-item key="5">成绩</a-menu-item>
+          <a-menu-item key="courseList" @click="router.push({name: 'courseList'})">课程</a-menu-item>
+          <a-menu-item key="taskList" @click="router.push({name: 'taskList'})">阅卷</a-menu-item>
         </a-menu>
         <div class="avatar-wrapper">
           <a-space :size="12">
@@ -109,8 +106,8 @@
 </template>
 
 <script setup>
-  import {createVNode, nextTick, onBeforeMount, reactive, ref} from "vue";
-  import {useRouter} from "vue-router";
+  import {computed, createVNode, nextTick, onBeforeMount, reactive, ref} from "vue";
+  import {useRoute, useRouter} from "vue-router";
   import {message, Modal, notification} from "ant-design-vue";
   import {useUserStore} from "@/store/user.js";
   import {BellOutlined, ExclamationCircleOutlined, LogoutOutlined, UserOutlined} from '@ant-design/icons-vue';
@@ -118,11 +115,14 @@
   
   
   const router = useRouter();
+  const route = useRoute();
   const loading = ref(false);
   const userStore = useUserStore();
-  
+
   // 导航
-  const selectedKeys = ref(['2']);
+  const current = computed(() => {
+    return [route.name];
+  })
   
   // 消息
   const messageVisible = ref(false);

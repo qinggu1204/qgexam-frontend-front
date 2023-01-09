@@ -51,11 +51,10 @@ export function getAnswerPaperList(path, parameter) {
     })
 }
 
-export function getAnswerPaper(path, parameter) {
+export function getAnswerPaper(path) {
     return request({
         url: `/tea/getAnswerPaper/${path}`,
         method: 'get',
-        params: parameter
     })
 }
 
@@ -67,5 +66,27 @@ export function marking(path, parameter) {
     })
 }
 
+export function getSubjectList() {
+    return request({
+        url: '/tea/getSubjectList',
+        method: 'get',
+    })
+}
+
+export function getExamList(parameter) {
+    return request({
+        url: '/alltea/getExamList',
+        method: 'get',
+        params: parameter
+    })
+}
+
+export function getScoreList(parameter) {
+    return request({
+        url: '/alltea/getScoreList',
+        method: 'get',
+        params: parameter
+    })
+}
 
 

@@ -11,6 +11,7 @@ import {message} from "ant-design-vue";
 import 'ant-design-vue/es/message/style'
 import student from "@/router/modules/student.js";
 import {useRoleStore} from "@/store/role.js";
+import {useResultStore} from "@/store/result.js";
 
 const whiteList = ['/login', '/register', '/updatePassword'];
 
@@ -53,6 +54,18 @@ router.beforeEach(async (to, from) => {
         await userStore.GetUserInfo();
         generateRoutes(roleStore.role);
         return await router.push({...to, replace: true});
+    }
+    
+    if (!to.matched || !to.matched.length) {
+        const resultStore = useResultStore();
+        resultStore.setResult(
+            '404',
+            '404',
+            '很抱歉，您访问的页面不存在或暂无权限访问...',
+            '返回主页',
+            'dashboard'
+        )
+        return await router.push({name: 'result'});
     }
 })
 

@@ -107,12 +107,6 @@
     pagination.total = data.total;
     listLoading.value = false;
   }
-
-  // 阅卷按钮
-  /*const gotoMark = (answerPaperId) => {
-    let link = router.resolve(`/task/${answerPaperId}`);
-    window.open(link.href, '_blank');
-  }*/
   
 </script>
 

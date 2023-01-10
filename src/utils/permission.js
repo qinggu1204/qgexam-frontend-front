@@ -12,11 +12,21 @@ import 'ant-design-vue/es/message/style'
 import student from "@/router/modules/student.js";
 import {useRoleStore} from "@/store/role.js";
 import {useResultStore} from "@/store/result.js";
+import neteacher from "@/router/modules/neteacher.js";
 
 const whiteList = ['/login', '/register', '/updatePassword'];
 
+/**
+ * 生成动态路由
+ * @param role 角色权限数组
+ */
 function generateRoutes(role) {
-    if (role.includes('teacher')) {
+    if (role.includes('neteacher')) {
+        neteacher.forEach(item => {
+            router.addRoute(item);
+        })
+    }
+    else if (role.includes('teacher')) {
         teacher.forEach(item => {
             router.addRoute(item);
         })

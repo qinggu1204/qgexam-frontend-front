@@ -714,7 +714,10 @@
     if (type === 'save') saveLoading.value = true;
     else submitLoading.value = true;
     answer.value = [...singleAns.value, ...multiAns.value, ...judgeAns.value, ...completionAns.value, ...complexAns.value];
-    const res = await studentStore.SaveOrSubmit({question: answer.value});
+    const res = await studentStore.SaveOrSubmit({
+      examinationId: props.examinationId,
+      question: answer.value
+    });
     if (res.code === 200) {
       message.success(type === 'save' ? '保存成功！' : '交卷成功！');
     }

@@ -91,6 +91,7 @@ export default defineConfig({
             'ant-design-vue/es/form/style',
             'ant-design-vue/es/upload/style',
             'ant-design-vue/es/tabs/style',
+            'ant-design-vue/es/steps/style',
         ]
     }
 })

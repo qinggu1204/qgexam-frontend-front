@@ -7,7 +7,7 @@ import {useLoadingStore} from "@/store/loading.js";
 import router from "@/router/index.js";
 import teacher from '@/router/modules/teacher.js'
 import {useUserStore} from "@/store/user.js";
-import {message} from "ant-design-vue";
+import {message, Modal} from "ant-design-vue";
 import 'ant-design-vue/es/message/style'
 import student from "@/router/modules/student.js";
 import {useRoleStore} from "@/store/role.js";
@@ -40,6 +40,9 @@ router.beforeEach(async (to, from) => {
     // 控制页面加载动画
     const loadingStore = useLoadingStore();
     loadingStore.setLoading(true);
+    
+    // 清除Modal
+    Modal.destroyAll();
     
     // 需要鉴权的页面
     const userStore = useUserStore();

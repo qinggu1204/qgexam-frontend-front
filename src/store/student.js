@@ -8,7 +8,7 @@ import {
     getExamScoreDetail,
     getStudentInfo,
     joinExam, saveOrSubmit,
-    updateStudentInfo, getExamInfo, getCourseScore
+    updateStudentInfo, getExamInfo, getCourseScore, screenCutting
 } from "@/api/student.js";
 
 export const useStudentStore = defineStore('student', {
@@ -101,6 +101,17 @@ export const useStudentStore = defineStore('student', {
                     })
             })
         },
+        ScreenCutting() {
+            return new Promise((resolve, reject) => {
+                screenCutting()
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        }
     },
     persist: true,
 })

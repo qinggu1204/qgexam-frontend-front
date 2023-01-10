@@ -4,163 +4,418 @@
   <div class="loading-wrapper" v-show="status === 'loading'">
     <Loading></Loading>
   </div>
-  <!--已结束的考试，展示成绩-->
-  <div style="margin-left: 8%;margin-top: 1%;" v-if="status === 'done'">
-    <a-row>
-      <a-col :span="12">
-        <router-link style="color: black;" to="/">
-          <a-space>
-            <rollback-outlined :style="{fontSize: '32px'}"/>
-            <b>返回</b>
-          </a-space>
-        </router-link>
-      </a-col>
-    </a-row>
-    <a-row type="flex" style="min-height: 90vh;margin-top: 2%;">
-      <a-col flex="1 1 200px">
-        <a-row type="flex">
-          <a-col :flex="1">
-            <a-space direction="vertical">
-              <span style="font-size:xx-large">{{examInfo.examinationName}}</span>
-              <span style="color: gray;font-size: large">
+  <div class="exam-detail" v-show="status !== 'loading'">
+    <!--已结束的考试，展示成绩-->
+    <div style="padding-left: 8%;padding-top: 1%;min-height: 100vh" v-if="status === 'done'">
+      <a-row>
+        <a-col :span="12">
+          <router-link style="color: black;" to="/">
+            <a-space>
+              <rollback-outlined :style="{fontSize: '32px'}"/>
+              <b>返回</b>
+            </a-space>
+          </router-link>
+        </a-col>
+      </a-row>
+      <a-row type="flex" style="padding-top: 2%;min-height: 100vh">
+        <a-col flex="1 1 200px">
+          <a-row type="flex">
+            <a-col :flex="1">
+              <a-space direction="vertical">
+                <span style="font-size:xx-large">{{examInfo.examinationName}}</span>
+                <span style="color: gray;font-size: large">
                 考试时间：
                 {{dayjs(examInfo.startTime).format('YYYY-MM-DD HH:mm:ss')}} 
                 至 
                 {{dayjs(examInfo.endTime).format('YYYY-MM-DD HH:mm:ss')}}
               </span>
-            </a-space>
-          </a-col>
-          <a-col :flex="2">
+              </a-space>
+            </a-col>
+            <a-col :flex="2">
             <span style="font-size: x-large;color: palevioletred">
               {{ examScoreDetail.stuTotalScore }} / {{ examScoreDetail.totalScore }} 分
             </span>
-          </a-col>
-        </a-row>
-        <a-row style="min-height: 100%;margin-top: 1%;">
-          <div v-if="examScoreDetail.single.singleList.length" style="max-width: 700px">
+            </a-col>
+          </a-row>
+          <a-row style="min-height: 100vh;padding-top: 1%">
+            <div v-if="examScoreDetail.single.singleList.length" style="max-width: 700px">
+              <a-typography-title :level="2">
+                单选题（共{{ examScoreDetail.single.singleList.length }}题
+                ，{{ examScoreDetail.single.singleList.length * examScoreDetail.single.singleList[0].questionScore }}分）
+              </a-typography-title>
+              <div v-for="(item, index) in examScoreDetail.single.singleList" :key="item.questionId"
+                   :id="item.questionId">
+                <a-typography-paragraph>
+                  <b>{{ index + 1 }}.单选题（{{ item.questionScore }}分）</b>
+                </a-typography-paragraph>
+                <a-typography-paragraph>
+                  {{ item.description }}
+                </a-typography-paragraph>
+                <a-typography-paragraph v-for="(option, optionIndex) in item.optionInfo" :key="option.value">
+                  {{ alphaMap[optionIndex + 1] }}{{ option.label }}
+                </a-typography-paragraph>
+                <a-typography-paragraph>
+                  <blockquote>
+                    <a-space :size="30" align="baseline">
+                      <span><b>我的答案：{{ item.answer }}</b></span>
+                      <span style="color: #56b870"><b>正确答案：{{ item.questionAns }}</b></span>
+                      <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
+                      <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
+                      <span style="font-size: large"><b>{{ item.score }}分</b></span>
+                    </a-space>
+                  </blockquote>
+                </a-typography-paragraph>
+              </div>
+            </div>
+            <div v-if="examScoreDetail.multi.multiList.length" style="max-width: 700px">
+              <a-typography-title :level="2">
+                多选题（共{{ examScoreDetail.multi.multiList.length }}题
+                ，{{ examScoreDetail.multi.multiList.length * examScoreDetail.multi.multiList[0].questionScore }}分）
+              </a-typography-title>
+              <div v-for="(item, index) in examScoreDetail.multi.multiList" :key="item.questionId" :id="item.questionId">
+                <a-typography-paragraph>
+                  <b>{{ index + 1 }}.多选题（{{ item.questionScore }}分）</b>
+                </a-typography-paragraph>
+                <a-typography-paragraph>
+                  {{ item.description }}
+                </a-typography-paragraph>
+                <a-typography-paragraph v-for="(option, optionIndex) in item.optionInfo" :key="option.value">
+                  {{ alphaMap[optionIndex + 1] }}{{ option.label }}
+                </a-typography-paragraph>
+                <a-typography-paragraph>
+                  <blockquote>
+                    <a-space :size="30" align="baseline">
+                      <span><b>我的答案：{{ item.answer }}</b></span>
+                      <span style="color: #56b870"><b>正确答案：{{ item.questionAns }}</b></span>
+                      <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
+                      <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
+                      <span style="font-size: large"><b>{{ item.score }}分</b></span>
+                    </a-space>
+                  </blockquote>
+                </a-typography-paragraph>
+              </div>
+            </div>
+            <div v-if="examScoreDetail.judge.judgeList.length" style="max-width: 700px">
+              <a-typography-title :level="2">
+                判断题（共{{ examScoreDetail.judge.judgeList.length }}题
+                ，{{ examScoreDetail.judge.judgeList.length * examScoreDetail.judge.judgeList[0].questionScore }}分）
+              </a-typography-title>
+              <div v-for="(item, index) in examScoreDetail.judge.judgeList" :key="item.questionId" :id="item.questionId">
+                <a-typography-paragraph>
+                  <b>{{ index + 1 }}.判断题（{{ item.questionScore }}分）</b>
+                </a-typography-paragraph>
+                <a-typography-paragraph>
+                  {{ item.description }}
+                </a-typography-paragraph>
+                <a-typography-paragraph v-for="(option, optionIndex) in item.optionInfo" :key="option.value">
+                  {{ alphaMap[optionIndex + 1] }}{{ option.label }}
+                </a-typography-paragraph>
+                <a-typography-paragraph>
+                  <blockquote>
+                    <a-space :size="30" align="baseline">
+                      <span><b>我的答案：{{ item.answer }}</b></span>
+                      <span style="color: #56b870"><b>正确答案：{{ item.questionAns }}</b></span>
+                      <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
+                      <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
+                      <span style="font-size: large"><b>{{ item.score }}分</b></span>
+                    </a-space>
+                  </blockquote>
+                </a-typography-paragraph>
+              </div>
+            </div>
+            <div v-if="examScoreDetail.completion.completionList.length" style="max-width: 700px">
+              <a-typography-title :level="2">
+                填空题（共{{ examScoreDetail.completion.completionList.length }}题
+                ，{{ examScoreDetail.completion.completionList.length * examScoreDetail.completion.completionList[0].questionScore }}分）
+              </a-typography-title>
+              <div v-for="(item, index) in examScoreDetail.completion.completionList" :key="item.questionId" :id="item.questionId">
+                <a-typography-paragraph>
+                  <b>{{ index + 1 }}.填空题（{{ item.questionScore }}分）</b>
+                </a-typography-paragraph>
+                <a-typography-paragraph>
+                  {{ item.description }}
+                </a-typography-paragraph>
+                <a-typography-paragraph>
+                  <blockquote>
+                    <a-space :size="5" align="baseline" direction="vertical">
+                      <a-typography-paragraph>
+                        <span><b>我的答案：</b>{{ item.answer }}</span>
+                      </a-typography-paragraph>
+                      <a-typography-paragraph>
+                        <span style="color: #56b870"><b>正确答案：</b>{{ item.questionAns }}</span>
+                      </a-typography-paragraph>
+                      <a-typography-paragraph>
+                        <a-space :size="30">
+                          <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
+                          <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
+                          <span style="font-size: large"><b>{{ item.score }}分</b></span>
+                        </a-space>
+                      </a-typography-paragraph>
+                    </a-space>
+                  </blockquote>
+                </a-typography-paragraph>
+              </div>
+            </div>
+            <div v-if="examScoreDetail.complex.complexList.length" style="max-width: 700px">
+              <a-typography-title :level="2">
+                综合题（共{{ examScoreDetail.complex.complexList.length }}题
+                ，{{ leftScore }}分）
+              </a-typography-title>
+              <div v-for="(item, index) in examScoreDetail.complex.complexList" :key="item.questionId" :id="item.questionId">
+                <a-typography-paragraph>
+                  <b>{{ index + 1 }}.综合题（{{ item.questionScore }}分）</b>
+                </a-typography-paragraph>
+                <a-typography-paragraph>
+                  {{ item.description }}
+                </a-typography-paragraph>
+                <a-typography-paragraph
+                    v-if="!item.hasSubQuestion"
+                >
+                  <blockquote>
+                    <a-space :size="5" align="baseline" direction="vertical">
+                      <a-typography-paragraph>
+                        <span><b>我的答案：</b>{{ item.answer }}</span>
+                      </a-typography-paragraph>
+                      <a-typography-paragraph>
+                        <span style="color: #56b870"><b>正确答案：</b>{{ item.questionAns }}</span>
+                      </a-typography-paragraph>
+                    </a-space>
+                  </blockquote>
+                </a-typography-paragraph>
+                <a-typography-paragraph
+                    v-else
+                    v-for="(sub, subIndex) in item.subQuestionInfo" :key="sub.subQuestionId"
+                >
+                  <a-typography-paragraph>
+                    （{{subIndex + 1}}）{{sub.subQuestionDesc}}
+                  </a-typography-paragraph>
+                  <blockquote>
+                    <a-space :size="5" align="baseline" direction="vertical">
+                      <a-typography-paragraph>
+                        <span><b>我的答案：</b>{{ sub.subQuestionAnswer }}</span>
+                      </a-typography-paragraph>
+                      <a-typography-paragraph>
+                        <span style="color: #56b870"><b>正确答案：</b>{{ sub.subQuestionAns }}</span>
+                      </a-typography-paragraph>
+                    </a-space>
+                  </blockquote>
+                </a-typography-paragraph>
+                <a-typography-paragraph>
+                  <a-space :size="30">
+                    <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
+                    <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
+                    <span style="font-size: large"><b>{{ item.score }}分</b></span>
+                  </a-space>
+                </a-typography-paragraph>
+              </div>
+            </div>
+          </a-row>
+        </a-col>
+        <a-col flex="0 1 350px">
+          <a-anchor :target-offset="targetOffset" :affix="true">
+            <div v-if="examScoreDetail.single.singleList.length">
+              <span style="font-size:xx-large;margin-left: 15px;">单选题</span>
+              <div v-if="examScoreDetail.single.singleList.length">
+                <a-anchor-link v-for="(item, index) in examScoreDetail.single.singleList"
+                               :href="'#' + item.questionId"
+                >
+                  <template #title>
+                    <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
+                  </template>
+                </a-anchor-link>
+              </div>
+            </div>
+            <div v-if="examScoreDetail.multi.multiList.length">
+              <span style="font-size:xx-large;margin-left: 15px;">多选题</span>
+              <div v-if="examScoreDetail.multi.multiList.length">
+                <a-anchor-link v-for="(item, index) in examScoreDetail.multi.multiList"
+                               :href="'#' + item.questionId"
+                >
+                  <template #title>
+                    <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
+                  </template>
+                </a-anchor-link>
+              </div>
+            </div>
+            <div v-if="examScoreDetail.judge.judgeList.length">
+              <span style="font-size:xx-large;margin-left: 15px;">判断题</span>
+              <div v-if="examScoreDetail.judge.judgeList.length">
+                <a-anchor-link v-for="(item, index) in examScoreDetail.judge.judgeList"
+                               :href="'#' + item.questionId"
+                >
+                  <template #title>
+                    <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
+                  </template>
+                </a-anchor-link>
+              </div>
+            </div>
+            <div v-if="examScoreDetail.completion.completionList.length">
+              <span style="font-size:xx-large;margin-left: 15px;">填空题</span>
+              <div v-if="examScoreDetail.completion.completionList.length">
+                <a-anchor-link v-for="(item, index) in examScoreDetail.completion.completionList"
+                               :href="'#' + item.questionId"
+                >
+                  <template #title>
+                    <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
+                  </template>
+                </a-anchor-link>
+              </div>
+            </div>
+            <div v-if="examScoreDetail.complex.complexList.length">
+              <span style="font-size:xx-large;margin-left: 15px;">综合题</span>
+              <div v-if="examScoreDetail.complex.complexList.length">
+                <a-anchor-link v-for="(item, index) in examScoreDetail.complex.complexList"
+                               :href="'#' + item.questionId"
+                >
+                  <template #title>
+                    <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
+                  </template>
+                </a-anchor-link>
+              </div>
+            </div>
+          </a-anchor>
+        </a-col>
+      </a-row>
+    </div>
+    <!--进行中的考试，展示答题页面-->
+    <div style="padding-top: 1%;" v-if="status === 'doing'">
+      <a-row justify="space-between">
+        <a-col :span="8" class="center-col">
+          <router-link style="color: black;" to="/">
+            <a-space>
+              <rollback-outlined :style="{fontSize: '32px'}"/>
+              <b>返回</b>
+            </a-space>
+          </router-link>
+        </a-col>
+        <a-col :span="8" class="center-col">
+          <span style="font-size:x-large">{{examInfo.examinationName}}</span>
+        </a-col>
+        <a-col :span="8" class="center-col">
+          <a-space>
+            <a-button @click="saveOrSubmit('save')" :loading="saveLoading">保存</a-button>
+            <a-button type="primary" @click="saveOrSubmit('submit')" :loading="submitLoading">交卷</a-button>
+          </a-space>
+        </a-col>
+      </a-row>
+      <a-row type="flex" style="margin-top: 3%;">
+        <a-col flex="350px" style="margin-top: 1%">
+          <a-affix :offset-top="10">
+            <div>
+              <a-space :size="15" class="center-col">
+                <clock-circle-outlined :style="{fontSize: '32px'}"/>
+                <a-statistic-countdown
+                    :value="deadline"
+                    style="margin-right: 50px"
+                    @finish="onFinish"
+                />
+              </a-space>
+              <div class="center-col">
+                <span style="font-size: large">姓名：{{ userStore.username }}</span>
+              </div>
+              <div class="center-col">
+                <span style="font-size: large">学号：{{ studentInfo.studentNumber }}</span>
+              </div>
+              <div class="center-col">
+                <span style="font-size: large">总分：{{ sum }}分</span>
+              </div>
+              <div class="center-col">
+                <span style="font-size: large">考试开始时间：</span>
+              </div>
+              <div class="center-col">
+              <span style="font-size: large">
+                {{dayjs(examInfo.startTime).format('YYYY-MM-DD HH:mm:ss')}}
+              </span>
+              </div>
+              <div class="center-col">
+                <span style="font-size: large">考试结束时间：</span>
+              </div>
+              <div class="center-col">
+              <span style="font-size: large">
+                {{dayjs(examInfo.endTime).format('YYYY-MM-DD HH:mm:ss')}}
+              </span>
+              </div>
+            </div>
+          </a-affix>
+        </a-col>
+        <a-col flex="auto" style="margin-bottom: 10%">
+          <div class="choice" v-if="singleList.list.length">
             <a-typography-title :level="2">
-              单选题（共{{ examScoreDetail.single.singleList.length }}题
-              ，{{ examScoreDetail.single.singleList.length * examScoreDetail.single.singleList[0].questionScore }}分）
+              {{ map[singleList.idx] }}、单选题（共{{ singleList.list.length }}题，{{ singleList.num }}分）
             </a-typography-title>
-            <div v-for="(item, index) in examScoreDetail.single.singleList" :key="item.questionId"
-                 :id="item.questionId">
+            <div v-for="(item, index) in singleList.list" :key="item.questionId" :id="item.questionId"
+                 style="max-width: 600px">
               <a-typography-paragraph>
                 <b>{{ index + 1 }}.单选题（{{ item.questionScore }}分）</b>
               </a-typography-paragraph>
               <a-typography-paragraph>
                 {{ item.description }}
               </a-typography-paragraph>
-              <a-typography-paragraph v-for="(option, optionIndex) in item.optionInfo" :key="option.value">
-                {{ alphaMap[optionIndex + 1] }}{{ option.label }}
-              </a-typography-paragraph>
               <a-typography-paragraph>
-                <blockquote>
-                  <a-space :size="30" align="baseline">
-                    <span><b>我的答案：{{ item.answer }}</b></span>
-                    <span style="color: #56b870"><b>正确答案：{{ item.questionAns }}</b></span>
-                    <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
-                    <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
-                    <span style="font-size: large"><b>{{ item.score }}分</b></span>
-                  </a-space>
-                </blockquote>
+                <a-radio-group v-model:value="singleAns[index].questionAnswer" :options="item.optionInfo"/>
               </a-typography-paragraph>
             </div>
           </div>
-          <div v-if="examScoreDetail.multi.multiList.length" style="max-width: 700px">
+          <div class="choice" v-if="multiList.list.length">
             <a-typography-title :level="2">
-              多选题（共{{ examScoreDetail.multi.multiList.length }}题
-              ，{{ examScoreDetail.multi.multiList.length * examScoreDetail.multi.multiList[0].questionScore }}分）
+              {{ map[multiList.idx] }}、多选题（共{{ multiList.list.length }}题，{{ multiList.num }}分）
             </a-typography-title>
-            <div v-for="(item, index) in examScoreDetail.multi.multiList" :key="item.questionId" :id="item.questionId">
+            <div v-for="(item, index) in multiList.list" :key="item.questionId" :id="item.questionId"
+                 style="max-width: 600px">
               <a-typography-paragraph>
                 <b>{{ index + 1 }}.多选题（{{ item.questionScore }}分）</b>
               </a-typography-paragraph>
               <a-typography-paragraph>
                 {{ item.description }}
               </a-typography-paragraph>
-              <a-typography-paragraph v-for="(option, optionIndex) in item.optionInfo" :key="option.value">
-                {{ alphaMap[optionIndex + 1] }}{{ option.label }}
-              </a-typography-paragraph>
               <a-typography-paragraph>
-                <blockquote>
-                  <a-space :size="30" align="baseline">
-                    <span><b>我的答案：{{ item.answer }}</b></span>
-                    <span style="color: #56b870"><b>正确答案：{{ item.questionAns }}</b></span>
-                    <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
-                    <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
-                    <span style="font-size: large"><b>{{ item.score }}分</b></span>
-                  </a-space>
-                </blockquote>
+                <a-checkbox-group v-model:value="multiAns[index].questionAnswer" :options="item.optionInfo"/>
               </a-typography-paragraph>
             </div>
           </div>
-          <div v-if="examScoreDetail.judge.judgeList.length" style="max-width: 700px">
+          <div class="choice" v-if="judgeList.list.length">
             <a-typography-title :level="2">
-              判断题（共{{ examScoreDetail.judge.judgeList.length }}题
-              ，{{ examScoreDetail.judge.judgeList.length * examScoreDetail.judge.judgeList[0].questionScore }}分）
+              {{ map[judgeList.idx] }}、判断题（共{{ judgeList.list.length }}题，{{ judgeList.num }}分）
             </a-typography-title>
-            <div v-for="(item, index) in examScoreDetail.judge.judgeList" :key="item.questionId" :id="item.questionId">
+            <div v-for="(item, index) in judgeList.list" :key="item.questionId" :id="item.questionId"
+                 style="max-width: 600px">
               <a-typography-paragraph>
                 <b>{{ index + 1 }}.判断题（{{ item.questionScore }}分）</b>
               </a-typography-paragraph>
               <a-typography-paragraph>
                 {{ item.description }}
               </a-typography-paragraph>
-              <a-typography-paragraph v-for="(option, optionIndex) in item.optionInfo" :key="option.value">
-                {{ alphaMap[optionIndex + 1] }}{{ option.label }}
-              </a-typography-paragraph>
               <a-typography-paragraph>
-                <blockquote>
-                  <a-space :size="30" align="baseline">
-                    <span><b>我的答案：{{ item.answer }}</b></span>
-                    <span style="color: #56b870"><b>正确答案：{{ item.questionAns }}</b></span>
-                    <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
-                    <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
-                    <span style="font-size: large"><b>{{ item.score }}分</b></span>
-                  </a-space>
-                </blockquote>
+                <a-radio-group v-model:value="judgeAns[index].questionAnswer" :options="item.optionInfo"/>
               </a-typography-paragraph>
             </div>
           </div>
-          <div v-if="examScoreDetail.completion.completionList.length" style="max-width: 700px">
+          <div class="choice" v-if="completionList.list.length">
             <a-typography-title :level="2">
-              填空题（共{{ examScoreDetail.completion.completionList.length }}题
-              ，{{ examScoreDetail.completion.completionList.length * examScoreDetail.completion.completionList[0].questionScore }}分）
+              {{ map[completionList.idx] }}、填空题（共{{ completionList.list.length }}题，{{ completionList.num }}分）
             </a-typography-title>
-            <div v-for="(item, index) in examScoreDetail.completion.completionList" :key="item.questionId" :id="item.questionId">
+            <div v-for="(item, index) in completionList.list" :key="item.questionId" :id="item.questionId"
+                 style="max-width: 600px">
               <a-typography-paragraph>
                 <b>{{ index + 1 }}.填空题（{{ item.questionScore }}分）</b>
               </a-typography-paragraph>
               <a-typography-paragraph>
-                {{ item.description }}
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                <blockquote>
-                  <a-space :size="5" align="baseline" direction="vertical">
-                    <a-typography-paragraph>
-                      <span><b>我的答案：</b>{{ item.answer }}</span>
-                    </a-typography-paragraph>
-                    <a-typography-paragraph>
-                      <span style="color: #56b870"><b>正确答案：</b>{{ item.questionAns }}</span>
-                    </a-typography-paragraph>
-                    <a-typography-paragraph>
-                      <a-space :size="30">
-                        <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
-                        <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
-                        <span style="font-size: large"><b>{{ item.score }}分</b></span>
-                      </a-space>
-                    </a-typography-paragraph>
-                  </a-space>
-                </blockquote>
+                <a-space direction="vertical">
+                  {{ item.description }}
+                  <a-textarea
+                      v-model:value="completionAns[index].questionAnswer"
+                      auto-size
+                  />
+                </a-space>
               </a-typography-paragraph>
             </div>
           </div>
-          <div v-if="examScoreDetail.complex.complexList.length" style="max-width: 700px">
+          <div class="choice" v-if="complexList.list.length">
             <a-typography-title :level="2">
-              综合题（共{{ examScoreDetail.complex.complexList.length }}题
-              ，{{ leftScore }}分）
+              {{ map[complexList.idx] }}、综合题（共{{ complexList.list.length }}题，{{ complexList.num }}分）
             </a-typography-title>
-            <div v-for="(item, index) in examScoreDetail.complex.complexList" :key="item.questionId" :id="item.questionId">
+            <div v-for="(item, index) in complexList.list" :key="item.questionId" :id="item.questionId"
+                 style="max-width: 600px">
               <a-typography-paragraph>
                 <b>{{ index + 1 }}.综合题（{{ item.questionScore }}分）</b>
               </a-typography-paragraph>
@@ -168,369 +423,116 @@
                 {{ item.description }}
               </a-typography-paragraph>
               <a-typography-paragraph
-                  v-if="!item.hasSubQuestion"
+                  v-if="!item.subQuestionInfo || item.subQuestionInfo.length === 0"
               >
-                <blockquote>
-                  <a-space :size="5" align="baseline" direction="vertical">
-                    <a-typography-paragraph>
-                      <span><b>我的答案：</b>{{ item.answer }}</span>
-                    </a-typography-paragraph>
-                    <a-typography-paragraph>
-                      <span style="color: #56b870"><b>正确答案：</b>{{ item.questionAns }}</span>
-                    </a-typography-paragraph>
-                  </a-space>
-                </blockquote>
-              </a-typography-paragraph>
-              <a-typography-paragraph
-                  v-else
-                  v-for="(sub, subIndex) in item.subQuestionInfo" :key="sub.subQuestionId"
-              >
-                <a-typography-paragraph>
-                  （{{subIndex + 1}}）{{sub.subQuestionDesc}}
-                </a-typography-paragraph>
-                <blockquote>
-                  <a-space :size="5" align="baseline" direction="vertical">
-                    <a-typography-paragraph>
-                      <span><b>我的答案：</b>{{ sub.subQuestionAnswer }}</span>
-                    </a-typography-paragraph>
-                    <a-typography-paragraph>
-                      <span style="color: #56b870"><b>正确答案：</b>{{ sub.subQuestionAns }}</span>
-                    </a-typography-paragraph>
-                  </a-space>
-                </blockquote>
-              </a-typography-paragraph>
-              <a-typography-paragraph>
-                <a-space :size="30">
-                  <close-outlined v-if="item.questionScore!==item.score" :style="{color: '#dd3927'}"/>
-                  <check-outlined v-if="item.questionScore===item.score" :style="{color: '#56b870'}"/>
-                  <span style="font-size: large"><b>{{ item.score }}分</b></span>
-                </a-space>
-              </a-typography-paragraph>
-            </div>
-          </div>
-        </a-row>
-      </a-col>
-      <a-col flex="0 1 350px">
-        <a-anchor :target-offset="targetOffset" :affix="true">
-          <div v-if="examScoreDetail.single.singleList.length">
-            <span style="font-size:xx-large;margin-left: 15px;">单选题</span>
-            <div v-if="examScoreDetail.single.singleList.length">
-              <a-anchor-link v-for="(item, index) in examScoreDetail.single.singleList"
-                             :href="'#' + item.questionId"
-              >
-                <template #title>
-                  <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
-                </template>
-              </a-anchor-link>
-            </div>
-          </div>
-          <div v-if="examScoreDetail.multi.multiList.length">
-            <span style="font-size:xx-large;margin-left: 15px;">多选题</span>
-            <div v-if="examScoreDetail.multi.multiList.length">
-              <a-anchor-link v-for="(item, index) in examScoreDetail.multi.multiList"
-                             :href="'#' + item.questionId"
-              >
-                <template #title>
-                  <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
-                </template>
-              </a-anchor-link>
-            </div>
-          </div>
-          <div v-if="examScoreDetail.judge.judgeList.length">
-            <span style="font-size:xx-large;margin-left: 15px;">判断题</span>
-            <div v-if="examScoreDetail.judge.judgeList.length">
-              <a-anchor-link v-for="(item, index) in examScoreDetail.judge.judgeList"
-                             :href="'#' + item.questionId"
-              >
-                <template #title>
-                  <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
-                </template>
-              </a-anchor-link>
-            </div>
-          </div>
-          <div v-if="examScoreDetail.completion.completionList.length">
-            <span style="font-size:xx-large;margin-left: 15px;">填空题</span>
-            <div v-if="examScoreDetail.completion.completionList.length">
-              <a-anchor-link v-for="(item, index) in examScoreDetail.completion.completionList"
-                             :href="'#' + item.questionId"
-              >
-                <template #title>
-                  <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
-                </template>
-              </a-anchor-link>
-            </div>
-          </div>
-          <div v-if="examScoreDetail.complex.complexList.length">
-            <span style="font-size:xx-large;margin-left: 15px;">综合题</span>
-            <div v-if="examScoreDetail.complex.complexList.length">
-              <a-anchor-link v-for="(item, index) in examScoreDetail.complex.complexList"
-                             :href="'#' + item.questionId"
-              >
-                <template #title>
-                  <a-button type="primary" ghost @click.prevent>{{index + 1}}</a-button>
-                </template>
-              </a-anchor-link>
-            </div>
-          </div>
-        </a-anchor>
-      </a-col>
-    </a-row>
-  </div>
-  <!--进行中的考试，展示答题页面-->
-  <div style="margin-top: 1%;" v-if="status === 'doing'">
-    <a-row justify="space-between">
-      <a-col :span="8" class="center-col">
-        <router-link style="color: black;" to="/">
-          <a-space>
-            <rollback-outlined :style="{fontSize: '32px'}"/>
-            <b>返回</b>
-          </a-space>
-        </router-link>
-      </a-col>
-      <a-col :span="8" class="center-col">
-        <span style="font-size:x-large">{{examInfo.examinationName}}</span>
-      </a-col>
-      <a-col :span="8" class="center-col">
-        <a-space>
-          <a-button @click="saveOrSubmit('save')" :loading="saveLoading">保存</a-button>
-          <a-button type="primary" @click="saveOrSubmit('submit')" :loading="submitLoading">交卷</a-button>
-        </a-space>
-      </a-col>
-    </a-row>
-    <a-row type="flex" style="margin-top: 3%;">
-      <a-col flex="350px" style="margin-top: 1%">
-        <a-affix :offset-top="10">
-          <div>
-            <a-space :size="15" class="center-col">
-              <clock-circle-outlined :style="{fontSize: '32px'}"/>
-              <a-statistic-countdown
-                  :value="deadline"
-                  style="margin-right: 50px"
-                  @finish="onFinish"
-              />
-            </a-space>
-            <div class="center-col">
-              <span style="font-size: large">姓名：{{ userStore.username }}</span>
-            </div>
-            <div class="center-col">
-              <span style="font-size: large">学号：{{ studentInfo.studentNumber }}</span>
-            </div>
-            <div class="center-col">
-              <span style="font-size: large">总分：{{ sum }}分</span>
-            </div>
-            <div class="center-col">
-              <span style="font-size: large">考试开始时间：</span>
-            </div>
-            <div class="center-col">
-              <span style="font-size: large">
-                {{dayjs(examInfo.startTime).format('YYYY-MM-DD HH:mm:ss')}}
-              </span>
-            </div>
-            <div class="center-col">
-              <span style="font-size: large">考试结束时间：</span>
-            </div>
-            <div class="center-col">
-              <span style="font-size: large">
-                {{dayjs(examInfo.endTime).format('YYYY-MM-DD HH:mm:ss')}}
-              </span>
-            </div>
-          </div>
-        </a-affix>
-      </a-col>
-      <a-col flex="auto" style="margin-bottom: 10%;">
-        <div class="choice" v-if="singleList.list.length">
-          <a-typography-title :level="2">
-            {{ map[singleList.idx] }}、单选题（共{{ singleList.list.length }}题，{{ singleList.num }}分）
-          </a-typography-title>
-          <div v-for="(item, index) in singleList.list" :key="item.questionId" :id="item.questionId"
-               style="max-width: 600px">
-            <a-typography-paragraph>
-              <b>{{ index + 1 }}.单选题（{{ item.questionScore }}分）</b>
-            </a-typography-paragraph>
-            <a-typography-paragraph>
-              {{ item.description }}
-            </a-typography-paragraph>
-            <a-typography-paragraph>
-              <a-radio-group v-model:value="singleAns[index].questionAnswer" :options="item.optionInfo"/>
-            </a-typography-paragraph>
-          </div>
-        </div>
-        <div class="choice" v-if="multiList.list.length">
-          <a-typography-title :level="2">
-            {{ map[multiList.idx] }}、多选题（共{{ multiList.list.length }}题，{{ multiList.num }}分）
-          </a-typography-title>
-          <div v-for="(item, index) in multiList.list" :key="item.questionId" :id="item.questionId"
-               style="max-width: 600px">
-            <a-typography-paragraph>
-              <b>{{ index + 1 }}.多选题（{{ item.questionScore }}分）</b>
-            </a-typography-paragraph>
-            <a-typography-paragraph>
-              {{ item.description }}
-            </a-typography-paragraph>
-            <a-typography-paragraph>
-              <a-checkbox-group v-model:value="multiAns[index].questionAnswer" :options="item.optionInfo"/>
-            </a-typography-paragraph>
-          </div>
-        </div>
-        <div class="choice" v-if="judgeList.list.length">
-          <a-typography-title :level="2">
-            {{ map[judgeList.idx] }}、判断题（共{{ judgeList.list.length }}题，{{ judgeList.num }}分）
-          </a-typography-title>
-          <div v-for="(item, index) in judgeList.list" :key="item.questionId" :id="item.questionId"
-               style="max-width: 600px">
-            <a-typography-paragraph>
-              <b>{{ index + 1 }}.判断题（{{ item.questionScore }}分）</b>
-            </a-typography-paragraph>
-            <a-typography-paragraph>
-              {{ item.description }}
-            </a-typography-paragraph>
-            <a-typography-paragraph>
-              <a-radio-group v-model:value="judgeAns[index].questionAnswer" :options="item.optionInfo"/>
-            </a-typography-paragraph>
-          </div>
-        </div>
-        <div class="choice" v-if="completionList.list.length">
-          <a-typography-title :level="2">
-            {{ map[completionList.idx] }}、填空题（共{{ completionList.list.length }}题，{{ completionList.num }}分）
-          </a-typography-title>
-          <div v-for="(item, index) in completionList.list" :key="item.questionId" :id="item.questionId"
-               style="max-width: 600px">
-            <a-typography-paragraph>
-              <b>{{ index + 1 }}.填空题（{{ item.questionScore }}分）</b>
-            </a-typography-paragraph>
-            <a-typography-paragraph>
-              <a-space direction="vertical">
-                {{ item.description }}
-                <a-textarea
-                    v-model:value="completionAns[index].questionAnswer"
-                    auto-size
-                />
-              </a-space>
-            </a-typography-paragraph>
-          </div>
-        </div>
-        <div class="choice" v-if="complexList.list.length">
-          <a-typography-title :level="2">
-            {{ map[complexList.idx] }}、综合题（共{{ complexList.list.length }}题，{{ complexList.num }}分）
-          </a-typography-title>
-          <div v-for="(item, index) in complexList.list" :key="item.questionId" :id="item.questionId"
-               style="max-width: 600px">
-            <a-typography-paragraph>
-              <b>{{ index + 1 }}.综合题（{{ item.questionScore }}分）</b>
-            </a-typography-paragraph>
-            <a-typography-paragraph>
-              {{ item.description }}
-            </a-typography-paragraph>
-            <a-typography-paragraph 
-                v-if="!item.subQuestionInfo || item.subQuestionInfo.length === 0"
-            >
-              <QuillEditor theme="snow"
-                           :toolbar="quillToolBar"
-                           v-model:content="complexAns[index].questionAnswer"
-                           content-type="html"
-                           @paste.native.capture.prevent="handlePaste"
-                           :modules="modules"
-              />
-            </a-typography-paragraph>
-            <a-typography-paragraph v-else>
-              <a-space direction="vertical" style="margin-bottom: 5px;"
-                       v-for="(sub, subIndex) in item.subQuestionInfo" :key="sub.subQuestionId"
-              >
-                （{{ subIndex + 1 }}）{{ sub.subQuestionDesc }}
                 <QuillEditor theme="snow"
                              :toolbar="quillToolBar"
-                             v-model:content="complexAns[index].subQuestion[subIndex].subQuestionAnswer"
+                             v-model:content="complexAns[index].questionAnswer"
                              content-type="html"
                              @paste.native.capture.prevent="handlePaste"
                              :modules="modules"
                 />
-              </a-space>
-            </a-typography-paragraph>
+              </a-typography-paragraph>
+              <a-typography-paragraph v-else>
+                <a-space direction="vertical" style="margin-bottom: 5px;"
+                         v-for="(sub, subIndex) in item.subQuestionInfo" :key="sub.subQuestionId"
+                >
+                  （{{ subIndex + 1 }}）{{ sub.subQuestionDesc }}
+                  <QuillEditor theme="snow"
+                               :toolbar="quillToolBar"
+                               v-model:content="complexAns[index].subQuestion[subIndex].subQuestionAnswer"
+                               content-type="html"
+                               @paste.native.capture.prevent="handlePaste"
+                               :modules="modules"
+                  />
+                </a-space>
+              </a-typography-paragraph>
+            </div>
           </div>
-        </div>
-      </a-col>
-      <a-col flex="350px">
-        <div>
-          <a-affix :offset-top="10">
-            <a-anchor :target-offset="targetOffset" :affix="false">
-              <div v-if="singleList.list.length">
-                <div>
-                  <span style="font-size:xx-large">{{ map[singleList.idx] }}、单选题</span>
+        </a-col>
+        <a-col flex="350px">
+          <div>
+            <a-affix :offset-top="10">
+              <a-anchor :target-offset="targetOffset" :affix="false">
+                <div v-if="singleList.list.length">
+                  <div>
+                    <span style="font-size:xx-large">{{ map[singleList.idx] }}、单选题</span>
+                  </div>
+                  <div>
+                    <a-anchor-link v-for="(item, index) in singleList.list" :href="'#'+item.questionId"
+                                   :key="item.questionId">
+                      <template #title>
+                        <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
+                      </template>
+                    </a-anchor-link>
+                  </div>
                 </div>
-                <div>
-                  <a-anchor-link v-for="(item, index) in singleList.list" :href="'#'+item.questionId"
-                                 :key="item.questionId">
-                    <template #title>
-                      <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
-                    </template>
-                  </a-anchor-link>
+                <div v-if="multiList.list.length">
+                  <div>
+                    <span style="font-size:xx-large">{{ map[multiList.idx] }}、多选题</span>
+                  </div>
+                  <div>
+                    <a-anchor-link v-for="(item, index) in multiList.list" :href="'#'+item.questionId"
+                                   :key="item.questionId">
+                      <template #title>
+                        <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
+                      </template>
+                    </a-anchor-link>
+                  </div>
                 </div>
-              </div>
-              <div v-if="multiList.list.length">
-                <div>
-                  <span style="font-size:xx-large">{{ map[multiList.idx] }}、多选题</span>
+                <div v-if="judgeList.list.length">
+                  <div>
+                    <span style="font-size:xx-large">{{ map[judgeList.idx] }}、判断题</span>
+                  </div>
+                  <div>
+                    <a-anchor-link v-for="(item, index) in judgeList.list" :href="'#'+item.questionId"
+                                   :key="item.questionId">
+                      <template #title>
+                        <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
+                      </template>
+                    </a-anchor-link>
+                  </div>
                 </div>
-                <div>
-                  <a-anchor-link v-for="(item, index) in multiList.list" :href="'#'+item.questionId"
-                                 :key="item.questionId">
-                    <template #title>
-                      <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
-                    </template>
-                  </a-anchor-link>
+                <div v-if="completionList.list.length">
+                  <div>
+                    <span style="font-size:xx-large">{{ map[completionList.idx] }}、填空题</span>
+                  </div>
+                  <div>
+                    <a-anchor-link v-for="(item, index) in completionList.list" :href="'#'+item.questionId"
+                                   :key="item.questionId">
+                      <template #title>
+                        <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
+                      </template>
+                    </a-anchor-link>
+                  </div>
                 </div>
-              </div>
-              <div v-if="judgeList.list.length">
-                <div>
-                  <span style="font-size:xx-large">{{ map[judgeList.idx] }}、判断题</span>
+                <div v-if="complexList.list.length">
+                  <div>
+                    <span style="font-size:xx-large">{{ map[complexList.idx] }}、综合题</span>
+                  </div>
+                  <div>
+                    <a-anchor-link v-for="(item, index) in complexList.list" :href="'#'+item.questionId"
+                                   :key="item.questionId">
+                      <template #title>
+                        <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
+                      </template>
+                    </a-anchor-link>
+                  </div>
                 </div>
-                <div>
-                  <a-anchor-link v-for="(item, index) in judgeList.list" :href="'#'+item.questionId"
-                                 :key="item.questionId">
-                    <template #title>
-                      <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
-                    </template>
-                  </a-anchor-link>
-                </div>
-              </div>
-              <div v-if="completionList.list.length">
-                <div>
-                  <span style="font-size:xx-large">{{ map[completionList.idx] }}、填空题</span>
-                </div>
-                <div>
-                  <a-anchor-link v-for="(item, index) in completionList.list" :href="'#'+item.questionId"
-                                 :key="item.questionId">
-                    <template #title>
-                      <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
-                    </template>
-                  </a-anchor-link>
-                </div>
-              </div>
-              <div v-if="complexList.list.length">
-                <div>
-                  <span style="font-size:xx-large">{{ map[complexList.idx] }}、综合题</span>
-                </div>
-                <div>
-                  <a-anchor-link v-for="(item, index) in complexList.list" :href="'#'+item.questionId"
-                                 :key="item.questionId">
-                    <template #title>
-                      <a-button type="primary" ghost @click.prevent>{{ index + 1 }}</a-button>
-                    </template>
-                  </a-anchor-link>
-                </div>
-              </div>
-            </a-anchor>
-          </a-affix>
-        </div>
-      </a-col>
-    </a-row>
+              </a-anchor>
+            </a-affix>
+          </div>
+        </a-col>
+      </a-row>
+    </div>
+    <a-back-top/>
   </div>
-  <a-back-top/>
 </template>
 
 <script setup>
   import {CheckOutlined, ClockCircleOutlined, CloseOutlined, RollbackOutlined} from "@ant-design/icons-vue";
   import {useRouter} from "vue-router";
-  import {computed, h, nextTick, onBeforeMount, onMounted, reactive, ref} from "vue";
+  import {computed, h, nextTick, onBeforeMount, onBeforeUnmount, onDeactivated, onMounted, reactive, ref} from "vue";
   import {message, Modal} from "ant-design-vue";
   import 'ant-design-vue/es/message/style';
   import 'ant-design-vue/es/modal/style';
@@ -555,7 +557,25 @@
   const targetOffset = ref(undefined);
   onMounted(() => {
     targetOffset.value = window.innerHeight / 2 - 150;
+    // 监听用户是否离开当前页面
+    window.onblur = function () {
+      // 只要切屏，记录flag isCutting = true
+      isCutting.value = true;
+    }
+    window.onfocus = function() {
+      if (isCutting.value && router.currentRoute.value.name === 'exam') {
+        // 切屏后返回，发送切屏请求
+        studentStore.ScreenCutting();
+        Modal.warning({
+          title: '切屏警告',
+          content: '检测到您已切屏，该行为已被记录到后台，请诚信考试！',
+        })
+      }
+    }
   })
+  
+  // 记录是否切屏
+  const isCutting = ref(false);
   
   // 判断状态
   const examInfo = ref({
@@ -852,5 +872,11 @@
 
   :deep(.ql-container) {
     width: @rich-text-container;
+  }
+  
+  .exam-detail {
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    box-sizing: border-box;
   }
 </style>

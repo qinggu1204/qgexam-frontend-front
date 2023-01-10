@@ -46,9 +46,6 @@
                 <div style="display: inline;float: right">
                   <router-link to="/updatePassword">忘记密码</router-link>
                 </div>
-                <div style="display: inline;float: right">
-                  <a href="src/views/face/face_registration.html" target="_blank">人脸识别</a>
-                </div>
               </div>
             </a-tab-pane>
             <a-tab-pane key="2" tab="验证码登录">

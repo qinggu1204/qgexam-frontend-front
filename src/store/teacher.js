@@ -8,7 +8,7 @@ import {
     getScoreList,
     getSubjectList,
     getTaskList,
-    getTeacherInfo,
+    getTeacherInfo, marking,
     updateTeacherInfo
 } from "@/api/teacher.js";
 
@@ -105,6 +105,17 @@ export const useTeacherStore = defineStore('teacher', {
         GetAnswerPaper(path) {
             return new Promise((resolve, reject) => {
                 getAnswerPaper(path)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        Marking(path, params) {
+            return new Promise((resolve, reject) => {
+                marking(path, params)
                     .then(res => {
                         if (res) resolve(res);
                     })

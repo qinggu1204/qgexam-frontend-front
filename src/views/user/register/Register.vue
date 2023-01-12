@@ -140,7 +140,6 @@
                       :multiple="false"
                       showUploadList
                   >
-                    <!--<img v-if="imageUrl" :src="imageUrl" alt="avatar"/>-->
                     <div>
                       <div v-show="loading">
                         <loading-outlined v-if="loading"></loading-outlined>

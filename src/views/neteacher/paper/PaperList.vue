@@ -1,5 +1,15 @@
 <!--试卷列表页面-->
 <template>
+  <div class="search-course-input">
+    <a-row justify="end">
+      <a-button type="primary" @click="gotoCreatePaper">
+        <template #icon>
+          <plus-outlined />
+        </template>
+        创建试卷
+      </a-button>
+    </a-row>
+  </div>
   <div class="task-content">
     <a-table
         :columns="columns"
@@ -23,6 +33,7 @@
   import {onBeforeMount, reactive, ref} from "vue";
   import {useRouter} from "vue-router";
   import {useNeteacherStore} from "@/store/neteacher.js";
+  import {PlusOutlined} from "@ant-design/icons-vue";
 
   const router = useRouter();
   const neteacherStore = useNeteacherStore();
@@ -50,7 +61,7 @@
     },
     total: 0,
     current: 1,
-    pageSize: 8,
+    pageSize: 7,
   })
   const paperList = ref([
     {
@@ -58,7 +69,7 @@
       title: '',
     }
   ])
-  const getPaperList = async (currentPage = 1, pageSize = 8) => {
+  const getPaperList = async (currentPage = 1, pageSize = 7) => {
     paperListLoading.value = true;
     const res = await neteacherStore.GetPaperList({currentPage, pageSize});
     if (res.code !== 200) return;
@@ -73,10 +84,19 @@
     let link = router.resolve(`/paper/${examinationPaperId}`);
     window.open(link.href, '_blank');
   }
+  const gotoCreatePaper = () => {
+    let link = router.resolve('/createPaper');
+    window.open(link.href, '_blank');
+  }
 </script>
 
 <style scoped>
   .task-content :deep(.ant-btn){
     font-weight: 500;
+  }
+
+  .content .search-course-input {
+    margin-bottom: 15px;
+    margin-right: 15px;
   }
 </style>

@@ -92,6 +92,7 @@ export default defineConfig({
             'ant-design-vue/es/upload/style',
             'ant-design-vue/es/tabs/style',
             'ant-design-vue/es/steps/style',
+            'ant-design-vue/es/date-picker/style',
         ]
     }
 })

@@ -33,6 +33,26 @@ export default [
                     requireAuth: true,
                 }
             },
+            // 考试列表
+            {
+                path: 'exam',
+                name: 'examList',
+                component: () => import('@/views/neteacher/exam/ExamList.vue'),
+                meta: {
+                    title: '考试列表',
+                    requireAuth: true,
+                }
+            },
+            // 课程列表
+            {
+                path: '/course',
+                name: 'courseList',
+                component: () => import('@/views/teacher/course/CourseList.vue'),
+                meta: {
+                    title: '课程列表',
+                    requireAuth: true,
+                }
+            }
         ]
     },
     // 预览试卷
@@ -56,5 +76,37 @@ export default [
             title: '创建考试',
             requireAuth: true,
         }
-    }
+    },
+    // 课程详情
+    {
+        path: '/course/:courseId',
+        name: 'course',
+        component: () => import('@/views/teacher/course/CourseDetail.vue'),
+        props: true,
+        meta: {
+            title: '课程详情',
+            requireAuth: true,
+        }
+    },
+    // 创建试卷
+    {
+        path: '/createPaper',
+        name: 'createPaper',
+        component: () => import('@/views/neteacher/paper/CreatePaper.vue'),
+        meta: {
+            title: '创建试卷',
+            requireAuth: true,
+        }
+    },
+    // 排考详情
+    {
+        path: '/arrange/:examinationId',
+        name: 'arrange',
+        component: () => import('@/views/neteacher/exam/InvigilationInfo.vue'),
+        props: true,
+        meta: {
+            title: '排考详情',
+            requireAuth: true,
+        }
+    },
 ]

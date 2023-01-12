@@ -19,7 +19,8 @@
             :style="{ lineHeight: '64px', minWidth: '700px' }"
         >
           <a-menu-item key="paperList" @click="router.push({name: 'paperList'})">试卷</a-menu-item>
-          <a-menu-item key="taskList" @click="router.push({name: 'taskList'})">阅卷</a-menu-item>
+          <a-menu-item key="examList" @click="router.push({name: 'examList'})">考试</a-menu-item>
+          <a-menu-item key="courseList" @click="router.push({name: 'courseList'})">课程</a-menu-item>
         </a-menu>
         <div class="avatar-wrapper">
           <a-space :size="12">

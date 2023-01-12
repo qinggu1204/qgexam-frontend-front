@@ -33,17 +33,19 @@ export function getPaperList(parameter) {
     })
 }
 
-export function createExam() {
+export function createExam(parameter) {
     return request({
         url: '/netea/createExam',
-        method: 'get',
+        method: 'post',
+        data: parameter
     })
 }
 
-export function arrangeInvigilation() {
+export function arrangeInvigilation(parameter) {
     return request({
         url: '/netea/arrangeInvigilation',
-        method: 'get',
+        method: 'post',
+        data: parameter,
     })
 }
 
@@ -69,4 +71,3 @@ export function distributeJudgeTask(parameter) {
         data: parameter
     })
 }
-

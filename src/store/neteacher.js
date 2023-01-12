@@ -2,7 +2,15 @@
  * 教务教师store
  */
 import {defineStore} from "pinia";
-import {getPaperList, previewPaper} from "@/api/neteacher.js";
+import {
+    arrangeInvigilation,
+    createExam,
+    createPaper, distributeJudgeTask,
+    getChapterBySubject, getInvigilationInfo,
+    getPaperList,
+    getSubjectList,
+    previewPaper
+} from "@/api/neteacher.js";
 
 export const useNeteacherStore = defineStore('neteacher', {
     actions: {
@@ -20,6 +28,83 @@ export const useNeteacherStore = defineStore('neteacher', {
         PreviewPaper(path) {
             return new Promise((resolve, reject) => {
                 previewPaper(path)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        CreateExam(params) {
+            return new Promise((resolve, reject) => {
+                createExam(params)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        GetSubjectList() {
+            return new Promise((resolve, reject) => {
+                getSubjectList()
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        CreatePaper(params) {
+            return new Promise((resolve, reject) => {
+                createPaper(params)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        GetChapterBySubject(path) {
+            return new Promise((resolve, reject) => {
+                getChapterBySubject(path)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        ArrangeInvigilation(params) {
+            return new Promise((resolve, reject) => {
+                arrangeInvigilation(params)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        GetInvigilationInfo(path, params) {
+            return new Promise((resolve, reject) => {
+                getInvigilationInfo(path, params)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        DistributeJudgeTask(params) {
+            return new Promise((resolve, reject) => {
+                distributeJudgeTask(params)
                     .then(res => {
                         if (res) resolve(res);
                     })

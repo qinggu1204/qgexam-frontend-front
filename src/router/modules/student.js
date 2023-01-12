@@ -14,7 +14,7 @@ export default [
             requireAuth: true,
         },
         children: [
-            // 试卷列表
+            // 考试列表
             {
                 path: '',
                 name: 'examList',

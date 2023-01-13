@@ -101,9 +101,9 @@ export const useStudentStore = defineStore('student', {
                     })
             })
         },
-        ScreenCutting() {
+        ScreenCutting(params) {
             return new Promise((resolve, reject) => {
-                screenCutting()
+                screenCutting(params)
                     .then(res => {
                         if (res) resolve(res);
                     })

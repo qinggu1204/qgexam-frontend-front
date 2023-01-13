@@ -88,9 +88,10 @@ export function getExamInfo(parameter) {
     })
 }
 
-export function screenCutting() {
+export function screenCutting(parameter) {
     return request({
         url: studentApi.ScreenCutting,
         method: 'post',
+        data: parameter
     })
 }

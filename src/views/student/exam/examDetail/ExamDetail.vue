@@ -565,7 +565,7 @@
     window.onfocus = function() {
       if (isCutting.value && router.currentRoute.value.name === 'exam') {
         // 切屏后返回，发送切屏请求
-        studentStore.ScreenCutting();
+        studentStore.ScreenCutting({examinationId: props.examinationId});
         Modal.warning({
           title: '切屏警告',
           content: '检测到您已切屏，该行为已被记录到后台，请诚信考试！',

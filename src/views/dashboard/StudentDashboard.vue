@@ -93,6 +93,12 @@
                       <span> 个人信息</span></a>
                   </a-menu-item>
                   <a-menu-item>
+                    <a href="http://localhost:8080" target="_blank">
+                      <pie-chart-outlined />
+                      <span> 成绩分析</span>
+                    </a>
+                  </a-menu-item>
+                  <a-menu-item>
                     <a href="javascript:;" @click.prevent="showLogoutConfirm">
                       <LogoutOutlined/>
                       <span> 退出登录</span>
@@ -115,7 +121,7 @@
 
 <script setup>
   import {computed, createVNode, nextTick, onBeforeMount, reactive, ref} from "vue";
-  import {BellOutlined, ExclamationCircleOutlined, LogoutOutlined, UserOutlined} from '@ant-design/icons-vue';
+  import {BellOutlined, ExclamationCircleOutlined, LogoutOutlined, UserOutlined, PieChartOutlined} from '@ant-design/icons-vue';
   import {message, Modal, notification} from "ant-design-vue";
   import 'ant-design-vue/es/message/style/css'
   import {useUserStore} from "@/store/user.js";

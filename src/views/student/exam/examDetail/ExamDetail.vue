@@ -615,7 +615,7 @@
     examinationName: '',
     startTime: '',
     endTime: '',
-    status: '',
+    status: undefined,
   })
   onBeforeMount(async () => {
     status.value = 'loading';
@@ -632,22 +632,18 @@
       return;
     } 
     examInfo.value = res.data;
-    if (dayjs(examInfo.value.endTime, 'YYYY-MM-DD HH:mm:ss') < dayjs()) 
-      examInfo.value.status = '已结束';
-    if (dayjs(examInfo.value.startTime, 'YYYY-MM-DD HH:mm:ss') > dayjs()) 
-      examInfo.value.status = '未开始';
-    if (examInfo.value.status === '未开始') {
-      message.warn('考试未开始！');
+    if (examInfo.value.status === 2) { // 未开始
       await router.push('/');
+      message.warn('考试未开始！');
       return;
     }
     await getStudentInfo();
-    if (examInfo.value.status === '进行中') {
+    if (examInfo.value.status === 1) { // 进行中
       await joinExam();
       deadline.value = dayjs(examInfo.value.endTime, 'YYYY-MM-DD HH:mm:ss').toDate();
       status.value = 'doing'
     }
-    else {
+    else { // 已结束
       await getExamScoreDetail();
       status.value = 'done';
     }

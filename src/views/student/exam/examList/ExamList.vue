@@ -23,7 +23,7 @@
                 {{ item.startTime }} <br>
                 <clock-circle-outlined/>
                 {{ getExamTime(item.startTime, item.endTime) }} 分钟
-                <a-tag :color="getStatusColor(item.status)">{{ item.status }}</a-tag>
+                <a-tag :color="getStatusColor(item.status)">{{ statusMap[item.status] }}</a-tag>
               </template>
             </a-card-meta>
           </a-card>
@@ -37,6 +37,13 @@
 <script setup>
   import {onBeforeMount, reactive, ref} from "vue";
   import 'dayjs/locale/zh-cn';
+  
+  // 课程状态map
+  const statusMap = {
+    1: '进行中',
+    2: '未开始',
+    3: '已结束',
+  }
 
   // 获取学生考试列表
   import {useStudentStore} from "@/store/student.js";
@@ -87,8 +94,8 @@
   }
   // 获取考试状态的颜色
   const getStatusColor = (status) => {
-    if (status === '未开始') return 'default';
-    else if (status === '进行中') return 'blue';
+    if (status === 2) return 'default';
+    else if (status === 1) return 'blue';
     else return 'success';
   }
 

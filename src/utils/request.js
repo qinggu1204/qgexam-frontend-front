@@ -42,11 +42,10 @@ request.interceptors.request.use(config => {
 // response interceptor
 request.interceptors.response.use((response) => {
     if (response.data.code != 200) {
-        console.log(response);
-       /* notification.error({
+        notification.error({
             message: response.data.msg,
             description: showMessage(response.data.code),
-        })*/
+        })
     }
     return response.data
 }, errorHandler)

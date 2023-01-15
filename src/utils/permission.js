@@ -21,7 +21,7 @@ const whiteList = ['/login', '/register', '/updatePassword', '/result'];
  * @param role 角色权限数组
  */
 function generateRoutes(role) {
-    if (role.includes('neteacher')) {
+    if (role.includes('neteacher') || role.includes('admin')) {
         neteacher.forEach(item => {
             router.addRoute(item);
         })

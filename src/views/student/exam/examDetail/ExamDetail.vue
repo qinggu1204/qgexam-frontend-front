@@ -830,6 +830,11 @@
   })
   const getExamScoreDetail = async () => {
     const res = await studentStore.GetExamScoreDetail({examinationId: props.examinationId});
+    if (res.code === 600) {
+      await router.push('/');
+      message.warn('考试阅卷还未完成！');
+      return ;
+    }
     if (res.code !== 200) return;
     examScoreDetail.value = res.data;
   }

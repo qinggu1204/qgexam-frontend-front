@@ -154,7 +154,6 @@
     userStore.UpdatePassword(formUpdatePassword)
         .then(res => {
           if (res.code === 200) {
-            userStore.$reset();
             resultStore.setResult(
                 'success',
                 '修改成功',
@@ -163,9 +162,6 @@
                 'login'
             )
             router.push({name: 'result'});
-            setTimeout(() => {
-              window.location.reload();
-            }, 500)
           }
         })
         .finally(() => {

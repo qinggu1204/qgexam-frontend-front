@@ -14,7 +14,7 @@ import {useRoleStore} from "@/store/role.js";
 import {useResultStore} from "@/store/result.js";
 import neteacher from "@/router/modules/neteacher.js";
 
-const whiteList = ['/login', '/register', '/updatePassword'];
+const whiteList = ['/login', '/register', '/updatePassword', '/result'];
 
 /**
  * 生成动态路由

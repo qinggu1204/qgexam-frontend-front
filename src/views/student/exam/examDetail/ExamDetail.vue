@@ -47,6 +47,12 @@
                    :id="item.questionId">
                 <a-typography-paragraph>
                   <b>{{ index + 1 }}.单选题（{{ item.questionScore }}分）</b>
+                  <a-button 
+                      type="primary" style="float: right;font-weight: 500;"
+                      @click="addErrorQuestion(item.questionId)"
+                  >
+                    加入错题集
+                  </a-button>
                 </a-typography-paragraph>
                 <a-typography-paragraph>
                   {{ item.description }}
@@ -75,6 +81,12 @@
               <div v-for="(item, index) in examScoreDetail.multi.multiList" :key="item.questionId" :id="item.questionId">
                 <a-typography-paragraph>
                   <b>{{ index + 1 }}.多选题（{{ item.questionScore }}分）</b>
+                  <a-button
+                      type="primary" style="float: right;font-weight: 500;"
+                      @click="addErrorQuestion(item.questionId)"
+                  >
+                    加入错题集
+                  </a-button>
                 </a-typography-paragraph>
                 <a-typography-paragraph>
                   {{ item.description }}
@@ -103,6 +115,12 @@
               <div v-for="(item, index) in examScoreDetail.judge.judgeList" :key="item.questionId" :id="item.questionId">
                 <a-typography-paragraph>
                   <b>{{ index + 1 }}.判断题（{{ item.questionScore }}分）</b>
+                  <a-button
+                      type="primary" style="float: right;font-weight: 500;"
+                      @click="addErrorQuestion(item.questionId)"
+                  >
+                    加入错题集
+                  </a-button>
                 </a-typography-paragraph>
                 <a-typography-paragraph>
                   {{ item.description }}
@@ -131,6 +149,12 @@
               <div v-for="(item, index) in examScoreDetail.completion.completionList" :key="item.questionId" :id="item.questionId">
                 <a-typography-paragraph>
                   <b>{{ index + 1 }}.填空题（{{ item.questionScore }}分）</b>
+                  <a-button
+                      type="primary" style="float: right;font-weight: 500;"
+                      @click="addErrorQuestion(item.questionId)"
+                  >
+                    加入错题集
+                  </a-button>
                 </a-typography-paragraph>
                 <a-typography-paragraph>
                   {{ item.description }}
@@ -164,6 +188,12 @@
               <div v-for="(item, index) in examScoreDetail.complex.complexList" :key="item.questionId" :id="item.questionId">
                 <a-typography-paragraph>
                   <b>{{ index + 1 }}.综合题（{{ item.questionScore }}分）</b>
+                  <a-button
+                      type="primary" style="float: right;font-weight: 500;"
+                      @click="addErrorQuestion(item.questionId)"
+                  >
+                    加入错题集
+                  </a-button>
                 </a-typography-paragraph>
                 <a-typography-paragraph>
                   {{ item.description }}
@@ -563,7 +593,10 @@
       isCutting.value = true;
     }
     window.onfocus = function() {
-      if (isCutting.value && router.currentRoute.value.name === 'exam') {
+      if (
+          isCutting.value && router.currentRoute.value.name === 'exam'
+          && status.value === 'doing'
+      ) {
         // 切屏后返回，发送切屏请求
         studentStore.ScreenCutting({examinationId: props.examinationId});
         Modal.warning({
@@ -826,6 +859,17 @@
     const res = await studentStore.GetStudentInfo();
     if (res.code !== 200) return;
     studentInfo.value = res.data;
+  }
+  
+  // 添加错题
+  const addErrorQuestion = async (questionId) => {
+    const res = await studentStore.AddErrorQuestion({
+      examinationId: parseInt(props.examinationId),
+      questionId
+    })
+    if (res.code === 200) {
+      message.success('添加成功！');
+    }
   }
 
 </script>

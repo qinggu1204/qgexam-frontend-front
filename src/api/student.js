@@ -95,3 +95,19 @@ export function screenCutting(parameter) {
         data: parameter
     })
 }
+
+export function getErrorQuestionList(parameter) {
+    return request({
+        url: '/stu/viewExamResults/getErrorQuestionList',
+        method: 'get',
+        params: parameter
+    })
+}
+
+export function addErrorQuestion(parameter) {
+    return request({
+        url: '/stu/viewExamResults/addErrorQuestion',
+        method: 'post',
+        data: parameter
+    })
+}

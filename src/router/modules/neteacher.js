@@ -45,11 +45,21 @@ export default [
             },
             // 课程列表
             {
-                path: '/course',
+                path: 'course',
                 name: 'courseList',
                 component: () => import('@/views/teacher/course/CourseList.vue'),
                 meta: {
                     title: '课程列表',
+                    requireAuth: true,
+                }
+            },
+            // 监考列表（假）
+            {
+                path: 'monitor',
+                name: 'monitorList',
+                component: () => import('@/views/neteacher/monitor/Monitor.vue'),
+                meta: {
+                    title: '监考列表',
                     requireAuth: true,
                 }
             }

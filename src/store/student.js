@@ -8,7 +8,7 @@ import {
     getExamScoreDetail,
     getStudentInfo,
     joinExam, saveOrSubmit,
-    updateStudentInfo, getExamInfo, getCourseScore, screenCutting
+    updateStudentInfo, getExamInfo, getCourseScore, screenCutting, getErrorQuestionList, addErrorQuestion
 } from "@/api/student.js";
 
 export const useStudentStore = defineStore('student', {
@@ -111,7 +111,29 @@ export const useStudentStore = defineStore('student', {
                         reject(error)
                     })
             })
-        }
+        },
+        GetErrorQuestionList(params) {
+            return new Promise((resolve, reject) => {
+                getErrorQuestionList(params)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        AddErrorQuestion(params) {
+            return new Promise((resolve, reject) => {
+                addErrorQuestion(params)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
     },
     persist: true,
 })

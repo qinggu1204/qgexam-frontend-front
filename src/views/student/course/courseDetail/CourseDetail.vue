@@ -47,8 +47,11 @@
                       <a-badge v-if="courseInfo.isDeleted === 0" status="processing" text="进行中"/>
                       <a-badge v-else status="default" text="已结课"/>
                     </a-descriptions-item>
-                    <a-descriptions-item label="成绩">
+                    <a-descriptions-item label="成绩" :span="2">
                       <span style="color: darkred">{{ courseInfo.score }}</span>
+                    </a-descriptions-item>
+                    <a-descriptions-item label="错题集">
+                      <a :href="`/errorSet/${courseId}`" target="_blank">查看</a>
                     </a-descriptions-item>
                   </a-descriptions>
                 </div>

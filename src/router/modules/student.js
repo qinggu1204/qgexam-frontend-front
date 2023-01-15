@@ -67,6 +67,17 @@ export default [
             title: '课程详情',
             requireAuth: true,
         }
+    },
+    // 错题集
+    {
+        path: '/errorSet/:courseId',
+        name: 'errorSet',
+        component: () => import('@/views/student/course/errorSet/ErrorSet.vue'),
+        props: true,
+        meta: {
+            title: '错题集',
+            requireAuth: true,
+        }
     }
     
 ]

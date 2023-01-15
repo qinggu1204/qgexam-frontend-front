@@ -5,7 +5,7 @@
           v-model:value="examinationName"
           placeholder="考试名"
           enter-button
-          @search="getExamList(null,1,pagination.pageSize,examinationName)"
+          @search="getExamList(null,pagination.current,pagination.pageSize,examinationName)"
           style="width: 350px"
       />
     </a-row>
@@ -23,7 +23,7 @@
                 {{ item.startTime }} <br>
                 <clock-circle-outlined/>
                 {{ getExamTime(item.startTime, item.endTime) }} 分钟
-                <a-tag :color="getStatusColor(item.status)">{{ item.status }}</a-tag>
+                <a-tag :color="getStatusColor(item.status)">{{ statusMap[item.status] }}</a-tag>
               </template>
             </a-card-meta>
           </a-card>
@@ -37,6 +37,13 @@
 <script setup>
   import {onBeforeMount, reactive, ref} from "vue";
   import 'dayjs/locale/zh-cn';
+  
+  // 课程状态map
+  const statusMap = {
+    1: '进行中',
+    2: '未开始',
+    3: '已结束',
+  }
 
   // 获取学生考试列表
   import {useStudentStore} from "@/store/student.js";
@@ -47,7 +54,7 @@
   const studentStore = useStudentStore();
   const examList = ref([]);
   // 搜索课程
-  const examinationName = ref(undefined);
+  const examinationName = ref(null);
   const examListLoading = ref(true);
   // 分页
   const pagination = reactive({
@@ -55,7 +62,8 @@
       // 切换页面时的分页查询
       pagination.pageSize = pageSize, pagination.current = currentPage;
       examListLoading.value = true;
-      getExamList(null, currentPage, pageSize, examinationName);
+      if (examinationName.value) examinationName.value = null;
+      getExamList(null, currentPage, pageSize, examinationName.value);
     },
     pageSize: 24,
     current: 1,
@@ -86,8 +94,8 @@
   }
   // 获取考试状态的颜色
   const getStatusColor = (status) => {
-    if (status === '未开始') return 'default';
-    else if (status === '进行中') return 'blue';
+    if (status === 2) return 'default';
+    else if (status === 1) return 'blue';
     else return 'success';
   }
 

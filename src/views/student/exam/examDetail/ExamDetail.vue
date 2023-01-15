@@ -620,7 +620,7 @@
   onBeforeMount(async () => {
     status.value = 'loading';
     let res = await studentStore.GetExamInfo({examinationId: props.examinationId});
-    if (res.code !== 200) {
+    if (res.code !== 200 && res.code !== 500) {
       resultStore.setResult(
           '404',
           '404',

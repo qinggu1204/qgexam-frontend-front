@@ -43,15 +43,15 @@ export default defineConfig({
         },
     },
     server: {
-        port: 5173, // 端口 
+        port: 5173, // 端口
         // 后端测试时取消此段proxy注释
-        /*proxy: {
+        proxy: {
             '/api': {
-                target: 'http://localhost:7777',
+                target: 'http://localhost:88',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, '')
             }
-        }*/
+        }
     },
     optimizeDeps: {
         include: [

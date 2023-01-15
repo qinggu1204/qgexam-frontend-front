@@ -47,7 +47,7 @@
   const studentStore = useStudentStore();
   const examList = ref([]);
   // 搜索课程
-  const examinationName = ref(undefined);
+  const examinationName = ref(null);
   const examListLoading = ref(true);
   // 分页
   const pagination = reactive({
@@ -66,6 +66,7 @@
 
   const getExamList = (courseId = null, currentPage = 1, pageSize = 24, examinationName = null,examinationId = null) => {
     examListLoading.value = true;
+    if (!examinationName) examinationName = null;
     studentStore.GetExamList({courseId, currentPage, pageSize, examinationName, examinationId})
         .then(res => {
           if (res.code === 200) {

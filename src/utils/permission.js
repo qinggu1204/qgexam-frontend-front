@@ -48,8 +48,8 @@ router.beforeEach(async (to, from) => {
     }
 
     // 控制页面加载动画
-    /*const loadingStore = useLoadingStore();
-    loadingStore.setLoading(true);*/
+    const loadingStore = useLoadingStore();
+    loadingStore.setLoading(true);
     
     
     // 需要鉴权的页面
@@ -87,6 +87,6 @@ router.afterEach((to, from) => {
         loadingStore.setLoading(false);
     }, 1200)*/
 
-    /*const loadingStore = useLoadingStore();
-    loadingStore.setLoading(false);*/
+    const loadingStore = useLoadingStore();
+    loadingStore.setLoading(false);
 })

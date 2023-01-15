@@ -7,7 +7,7 @@ import {useLoadingStore} from "@/store/loading.js";
 import router from "@/router/index.js";
 import teacher from '@/router/modules/teacher.js'
 import {useUserStore} from "@/store/user.js";
-import {message, Modal} from "ant-design-vue";
+import {message} from "ant-design-vue";
 import 'ant-design-vue/es/message/style'
 import student from "@/router/modules/student.js";
 import {useRoleStore} from "@/store/role.js";
@@ -21,7 +21,7 @@ const whiteList = ['/login', '/register', '/updatePassword', '/result'];
  * @param role 角色权限数组
  */
 function generateRoutes(role) {
-    if (role.includes('neteacher')) {
+    if (role.includes('neteacher') || role.includes('admin')) {
         neteacher.forEach(item => {
             router.addRoute(item);
         })
@@ -51,8 +51,6 @@ router.beforeEach(async (to, from) => {
     const loadingStore = useLoadingStore();
     loadingStore.setLoading(true);
     
-    // 清除Modal
-    Modal.destroyAll();
     
     // 需要鉴权的页面
     const userStore = useUserStore();

@@ -1,8 +1,5 @@
 <template>
-  <div v-if="loading" class="loading-wrapper">
-    <Loading></Loading>
-  </div>
-  <div v-else>
+  <div>
     <div class="logo-img">
       <img src="./login-img.png" alt="logo">
     </div>
@@ -111,7 +108,6 @@
   import {message} from "ant-design-vue/es";
 
   const router = useRouter();
-  const loading = storeToRefs(useLoadingStore()).isLoading;
 
   const activeKey = ref('1');
   const loginLoading1 = ref(false);

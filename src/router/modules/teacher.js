@@ -42,6 +42,16 @@ export default [
                     title: '阅卷任务',
                     requireAuth: true,
                 }
+            },
+            // 监考列表（假）
+            {
+                path: 'monitor',
+                name: 'monitorList',
+                component: () => import('@/views/teacher/monitor/Monitor.vue'),
+                meta: {
+                    title: '监考列表',
+                    requireAuth: true,
+                }
             }
         ]
     },

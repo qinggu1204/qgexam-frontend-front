@@ -71,3 +71,18 @@ export function distributeJudgeTask(parameter) {
         data: parameter
     })
 }
+
+export function getTeacherInfo() {
+    return request({
+        url: '/netea/getTeacherInfo',
+        method: 'get',
+    })
+}
+
+export function updateTeacherInfo(parameter) {
+    return request({
+        url: '/netea/updateTeacherInfo',
+        method: 'put',
+        data: parameter
+    })
+}

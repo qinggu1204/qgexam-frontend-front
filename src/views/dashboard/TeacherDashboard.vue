@@ -20,6 +20,7 @@
         >
           <a-menu-item key="courseList" @click="router.push({name: 'courseList'})">课程</a-menu-item>
           <a-menu-item key="taskList" @click="router.push({name: 'taskList'})">阅卷</a-menu-item>
+          <a-menu-item key="monitorList" @click="router.push({name: 'monitorList'})">监考</a-menu-item>
         </a-menu>
         <div class="avatar-wrapper">
           <a-space :size="12">
@@ -192,7 +193,8 @@
   onBeforeMount(async () => {
     loading.value = true;
     await userStore.GetUserInfo();
-    await getMessageList();
+    getMessageList();
+    // await Promise.all([userStore.GetUserInfo(), getMessageList()]);
     loading.value = false;
   })
   const {username, avatar, id} = storeToRefs(userStore);

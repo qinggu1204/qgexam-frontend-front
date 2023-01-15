@@ -108,22 +108,30 @@
   import Loading from "@/components/Loading.vue";
   import router from "@/router/index.js";
   import {useTeacherStore} from "@/store/teacher.js";
+  import {useNeteacherStore} from "@/store/neteacher.js";
 
   const userStore = useUserStore();
   const teacherStore = useTeacherStore();
+  const neteacherStore = useNeteacherStore();
   
   const infoLoading = ref(false);
-  onBeforeMount(() => {
+  onBeforeMount(async () => {
     infoLoading.value = true;
-    Promise.all([userStore.GetUserInfo(), teacherStore.GetTeacherInfo()])
-        .then(res => {
-          if (res[0].code === 200 && res[1].code === 200) {
-            formTeacherInfo.value = res[1].data;
-          }
-        })
-        .finally(() => {
-          infoLoading.value = false;
-        })
+    let res = undefined;
+    if (userStore.role.includes('neteacher')) {
+      res = await Promise.all(
+          [userStore.GetUserInfo(), neteacherStore.GetTeacherInfo()]
+      )
+    }
+    else {
+      res = await Promise.all(
+          [userStore.GetUserInfo(), teacherStore.GetTeacherInfo()]
+      )
+    }
+    if (res[0].code === 200 && res[1].code === 200) {
+      formTeacherInfo.value = res[1].data;
+    }
+    infoLoading.value = false;
   })
 
   // 验证码
@@ -201,20 +209,23 @@
     loginName: '',
   });
   const updateTeacherInfoLoading = ref(false);
-  const updateTeacherInfo = () => {
+  const updateTeacherInfo = async () => {
     updateTeacherInfoLoading.value = true;
-    teacherStore.UpdateTeacherInfo(formTeacherInfo.value)
-        .then(res => {
-          if (res.code === 200) {
-            message.success('修改用户信息成功！即将刷新页面！');
-            setTimeout(() => {
-              window.location.reload();
-            }, 2500)
-          }
-        })
-        .finally(() => {
-          updateTeacherInfoLoading.value = false;
-        })
+    
+    let res = undefined;
+    if (userStore.role.includes('neteacher')) {
+      res = await neteacherStore.UpdateTeacherInfo(formTeacherInfo.value);
+    }
+    else {
+      res = await teacherStore.UpdateTeacherInfo(formTeacherInfo.value);
+    }
+    if (res.code === 200) {
+      message.success('修改用户信息成功！即将刷新页面！');
+      setTimeout(() => {
+        window.location.reload();
+      }, 2500)
+    }
+    updateTeacherInfoLoading.value = false;
   };
 
   // 头像上传

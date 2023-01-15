@@ -21,7 +21,6 @@
           <a-menu-item key="paperList" @click="router.push({name: 'paperList'})">试卷</a-menu-item>
           <a-menu-item key="examList" @click="router.push({name: 'examList'})">考试</a-menu-item>
           <a-menu-item key="courseList" @click="router.push({name: 'courseList'})">课程</a-menu-item>
-          <a-menu-item key="monitorList" @click="router.push({name: 'monitorList'})">监考</a-menu-item>
         </a-menu>
         <div class="avatar-wrapper">
           <a-space :size="12">
@@ -193,7 +192,9 @@
 
   onBeforeMount(async () => {
     loading.value = true;
-    await Promise.all([userStore.GetUserInfo(), getMessageList()]);
+    await userStore.GetUserInfo();
+    getMessageList();
+    // await Promise.all([userStore.GetUserInfo(), getMessageList()]);
     loading.value = false;
   })
   const {username, avatar, id} = storeToRefs(userStore);

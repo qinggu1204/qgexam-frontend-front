@@ -620,9 +620,6 @@
   onBeforeMount(async () => {
     status.value = 'loading';
     let res = await studentStore.GetExamInfo({examinationId: props.examinationId});
-    if (res.code === 500) {
-      return await router.push('/');
-    }
     if (res.code !== 200) {
       resultStore.setResult(
           '404',
@@ -643,7 +640,7 @@
     if (examInfo.value.status === 1) { // 进行中
       await joinExam();
       deadline.value = dayjs(examInfo.value.endTime, 'YYYY-MM-DD HH:mm:ss').toDate();
-      status.value = 'doing'
+      status.value = 'doing';
     }
     else { // 已结束
       await getExamScoreDetail();

@@ -31,14 +31,4 @@ export default [
             title: '修改密码',
         }
     },
-    // 虚假主页面
-    {
-        path: '/',
-        name: 'dashboard',
-        component: () => import('@/views/dashboard/StudentDashboard.vue'),
-        meta: {
-            title: '个人主页',
-            requireAuth: true,
-        },
-    },
 ]

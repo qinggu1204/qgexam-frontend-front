@@ -135,7 +135,7 @@
 
     const res = await userStore.Login(formType1);
     if (res.code === 200) {
-      await router.replace('/');
+      await router.push('/');
     }
     loginLoading1.value = false;
   };

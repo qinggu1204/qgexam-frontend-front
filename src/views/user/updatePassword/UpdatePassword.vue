@@ -1,7 +1,4 @@
 <template>
-  <div v-if="loading" class="loading-wrapper">
-    <Loading></Loading>
-  </div>
   <div v-else class="bg">
     <div class="register-bg">
       <div class="register-wrapper">
@@ -69,7 +66,6 @@
   import {message} from "ant-design-vue/es";
 
   const userStore = useUserStore();
-  const loading = storeToRefs(useLoadingStore()).isLoading;
   const layout = {
     labelCol: {
       span: 8,

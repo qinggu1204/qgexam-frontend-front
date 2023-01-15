@@ -192,7 +192,8 @@
   onBeforeMount(async () => {
     loading.value = true;
     await userStore.GetUserInfo();
-    await getMessageList();
+    getMessageList();
+    // await Promise.all([userStore.GetUserInfo(), getMessageList()]);
     loading.value = false;
   })
   const {username, avatar, id} = storeToRefs(userStore);

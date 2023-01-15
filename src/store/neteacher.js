@@ -9,7 +9,9 @@ import {
     getChapterBySubject, getInvigilationInfo,
     getPaperList,
     getSubjectList,
-    previewPaper
+    previewPaper,
+    getTeacherInfo,
+    updateTeacherInfo
 } from "@/api/neteacher.js";
 
 export const useNeteacherStore = defineStore('neteacher', {
@@ -112,6 +114,28 @@ export const useNeteacherStore = defineStore('neteacher', {
                         reject(error)
                     })
             })
-        }
+        },
+        GetTeacherInfo() {
+            return new Promise((resolve, reject) => {
+                getTeacherInfo()
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        UpdateTeacherInfo(params) {
+            return new Promise((resolve, reject) => {
+                updateTeacherInfo(params)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
     }
 })

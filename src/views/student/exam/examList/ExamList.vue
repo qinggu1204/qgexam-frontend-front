@@ -5,7 +5,7 @@
           v-model:value="examinationName"
           placeholder="考试名"
           enter-button
-          @search="getExamList(null,1,pagination.pageSize,examinationName)"
+          @search="getExamList(null,pagination.current,pagination.pageSize,examinationName)"
           style="width: 350px"
       />
     </a-row>
@@ -55,7 +55,8 @@
       // 切换页面时的分页查询
       pagination.pageSize = pageSize, pagination.current = currentPage;
       examListLoading.value = true;
-      getExamList(null, currentPage, pageSize, examinationName);
+      if (examinationName.value) examinationName.value = null;
+      getExamList(null, currentPage, pageSize, examinationName.value);
     },
     pageSize: 24,
     current: 1,
@@ -66,7 +67,6 @@
 
   const getExamList = (courseId = null, currentPage = 1, pageSize = 24, examinationName = null,examinationId = null) => {
     examListLoading.value = true;
-    if (!examinationName) examinationName = null;
     studentStore.GetExamList({courseId, currentPage, pageSize, examinationName, examinationId})
         .then(res => {
           if (res.code === 200) {

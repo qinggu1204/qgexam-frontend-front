@@ -620,7 +620,10 @@
   onBeforeMount(async () => {
     status.value = 'loading';
     let res = await studentStore.GetExamInfo({examinationId: props.examinationId});
-    if (res.code !== 200 && res.code !== 500) {
+    if (res.code === 500) {
+      return await router.push('/');
+    }
+    if (res.code !== 200) {
       resultStore.setResult(
           '404',
           '404',
@@ -628,8 +631,7 @@
           '返回主页',
           'dashboard'
       )
-      await router.push({name: 'result'});
-      return;
+      return await router.push({name: 'result'});
     } 
     examInfo.value = res.data;
     if (examInfo.value.status === 2) { // 未开始

@@ -91,7 +91,7 @@ export function getExamInfo(parameter) {
 export function screenCutting(parameter) {
     return request({
         url: studentApi.ScreenCutting,
-        method: 'post',
+        method: 'put',
         data: parameter
     })
 }

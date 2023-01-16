@@ -88,9 +88,9 @@
   }
   // 获取考试时间，转化为分钟
   const getExamTime = (startTime, endTime) => {
-    const S = dayjs(startTime, 'YYYY-MM-dd HH:mm:ss');
-    const E = dayjs(endTime, 'YYYY-MM-dd HH:mm:ss');
-    return dayjs(E).diff(dayjs(S), 'seconds');
+    const S = dayjs(startTime, 'YYYY-MM-DD HH:mm:ss');
+    const E = dayjs(endTime, 'YYYY-MM-DD HH:mm:ss');
+    return dayjs(E).diff(dayjs(S), 'minutes');
   }
   // 获取考试状态的颜色
   const getStatusColor = (status) => {

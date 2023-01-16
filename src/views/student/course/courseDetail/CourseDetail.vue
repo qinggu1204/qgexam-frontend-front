@@ -72,8 +72,8 @@
           >
             <template #bodyCell="{ column, record }">
               <template v-if="column.key==='status'">
-                <a-tag v-if="record.status==='未开始'">未开始</a-tag>
-                <a-tag v-else-if="record.status==='进行中'" color="blue">进行中</a-tag>
+                <a-tag v-if="record.status===2">未开始</a-tag>
+                <a-tag v-else-if="record.status===1" color="blue">进行中</a-tag>
                 <a-tag v-else color="success">已结束</a-tag>
               </template>
               <template v-else-if="column.key==='action'">

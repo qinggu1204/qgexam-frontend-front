@@ -592,23 +592,35 @@
       // 只要切屏，记录flag isCutting = true
       isCutting.value = true;
     }
-    window.onfocus = function() {
+    window.onfocus = async function() {
       if (
           isCutting.value && router.currentRoute.value.name === 'exam'
           && status.value === 'doing'
       ) {
+        // 若切屏超过5次，直接结束考试
+        const num = await getScreenCuttingNumber();
+        if (num >= 5) {
+          await router.push('/');
+          message.error('切屏超过5次，已强制收卷，按作弊处理！');
+          saveOrSubmit('submit');
+          return;
+        } 
         // 切屏后返回，发送切屏请求
         studentStore.ScreenCutting({examinationId: props.examinationId});
         Modal.warning({
           title: '切屏警告',
-          content: '检测到您已切屏，该行为已被记录到后台，请诚信考试！',
+          content: '检测到您已切屏，该行为已被记录到后台，请诚信考试！切屏5次以上将会取消考试资格！',
         })
       }
     }
   })
   
-  // 记录是否切屏
+  // 记录是否切屏以及切屏次数
   const isCutting = ref(false);
+  const getScreenCuttingNumber = async () => {
+    const res = await studentStore.GetScreenCuttingNumber({examinationId: props.examinationId});
+    return res.data;
+  }
   
   // 判断状态
   const examInfo = ref({

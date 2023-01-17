@@ -7,8 +7,15 @@ import {
     getExamList,
     getExamScoreDetail,
     getStudentInfo,
-    joinExam, saveOrSubmit,
-    updateStudentInfo, getExamInfo, getCourseScore, screenCutting, getErrorQuestionList, addErrorQuestion
+    joinExam,
+    saveOrSubmit,
+    updateStudentInfo,
+    getExamInfo,
+    getCourseScore,
+    screenCutting,
+    getErrorQuestionList,
+    addErrorQuestion,
+    getScreenCuttingNumber
 } from "@/api/student.js";
 
 export const useStudentStore = defineStore('student', {
@@ -134,6 +141,17 @@ export const useStudentStore = defineStore('student', {
                     })
             })
         },
+        GetScreenCuttingNumber(params) {
+            return new Promise((resolve, reject) => {
+                getScreenCuttingNumber(params)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        }
     },
     persist: true,
 })

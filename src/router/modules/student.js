@@ -95,7 +95,7 @@ export default [
         name: 'faceSearch',
         component: () => import('@/views/face/FaceSearch.vue'),
         meta: {
-            title: '人脸比对',
+            title: '人脸验证',
             requireAuth: true,
         }
     }

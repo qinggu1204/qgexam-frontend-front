@@ -1,9 +1,9 @@
 <template>
   <div class="layui-row" >
     <div class="layui-col-xs7 layui-col-md-offset3" align="center">
-      <div style="margin: 0,auto; width: 800px;height: 80px;background-color: #383939">
-        <div style="margin: 0,auto;height: 80px;text-align:center;line-height:80px;font-size: 40px;color: #E51C23">
-          人脸识别系统
+      <div style="margin: 0,auto; width: 800px;height: 80px;">
+        <div style="margin: 0,auto;height: 80px;text-align:center;line-height:80px;font-size: 40px;">
+          人脸录入
         </div>
       </div>
       <div id="mainDiv" v-show="fileShow">
@@ -22,11 +22,32 @@
       <div>
         <table frame="void" >
           <tr>
-            <td><button title="摄像头注册" value="摄像头注册" @click="getMedia" style="color:#FFFFFF;height: 30px;display:block;margin:0 auto;margin-top:10px;width:120px;background-color: #3F51B5;border-radius:5px;text-align: center;line-height: 30px;font-size: 20px" >摄像头注册</button></td>
-            <td><button style="color:#FFFFFF;height: 30px;display:block;margin:0 auto;margin-top:10px;width:120px;background-color: #3F51B5;border-radius:5px;text-align: center;line-height: 30px;font-size: 20px" @click="imageRecog">照片注册</button></td>
+            <a-space>
+              <td>
+                <a-button
+                    title="摄像头注册" value="摄像头注册" @click="getMedia"
+                    type="primary" size="large"
+                    style="display:block;margin:0 auto;margin-top:10px;text-align: center;" >
+                  摄像头录入
+                </a-button>
+              </td>
+              <td>
+                <a-button
+                    size="large" @click="imageRecog"
+                    style="display:block;margin:0 auto;margin-top:10px;text-align: center;">
+                  照片录入
+                </a-button>
+              </td>
+            </a-space>
           </tr>
           <!--<td><button id="snap" onclick="commitPhoto()" style="color:#FFFFFF;height: 30px;display:block;margin:0 auto;margin-top:10px;width:100px;background-color: #3F51B5;border-radius:5px;text-align: center;line-height: 30px;font-size: 20px">照片提交</button></td>-->
-          <tr><td colspan="2"><button id="snap" @click="takePhoto()"  style="color:#FFFFFF;height: 30px;display:block;margin:0 auto;margin-top:10px;width:100px;background-color: #3F51B5;border-radius:5px;text-align: center;line-height: 30px;font-size: 20px">提交</button></td></tr>
+          <tr><td colspan="2">
+            <a-button 
+                id="snap" @click="takePhoto()" size="large" type="primary"
+                style="display:block;margin:0 auto;margin-top:10px;text-align: center;width: 100px">
+              提交
+            </a-button>
+          </td></tr>
         </table>
       </div>
       <div style="float: right">

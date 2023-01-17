@@ -111,3 +111,11 @@ export function addErrorQuestion(parameter) {
         data: parameter
     })
 }
+
+export function getScreenCuttingNumber(parameter) {
+    return request({
+        url: '/stu/enterExam/getScreenCuttingNumber',
+        method: 'get',
+        params: parameter
+    })
+}

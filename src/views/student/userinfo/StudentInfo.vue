@@ -89,29 +89,9 @@
       </a-space>
     </a-form-item>
     <a-form-item label="人脸信息">
-      <a-space align="start">
-        <a-image
-            v-if="formStudentInfo.faceImg"
-            :width="104"
-            :src="formStudentInfo.faceImg"
-        />
-        <a-upload
-            name="image"
-            list-type="picture-card"
-            class="avatar-uploader"
-            accept="image/png, image/jpeg"
-            :action="actionURL"
-            @change="handleFaceChange"
-            :max-count="1"
-            :multiple="false"
-            :show-upload-list="false"
-        >
-          <div>
-            <plus-outlined></plus-outlined>
-            <div class="ant-upload-text">上传人脸</div>
-          </div>
-        </a-upload>
-      </a-space>
+      <a-button @click="gotoFace">
+        录入人脸
+      </a-button>
     </a-form-item>
     <a-form-item label="密码">
       <a-space :size="15">
@@ -132,8 +112,9 @@
   import {LoadingOutlined, PlusOutlined} from "@ant-design/icons-vue";
   import {useStudentStore} from "@/store/student.js";
   import Loading from "@/components/Loading.vue";
-  import router from "@/router/index.js";
+  import {useRouter} from "vue-router";
 
+  const router = useRouter();
   const userStore = useUserStore();
   const studentStore = useStudentStore();
 
@@ -292,17 +273,9 @@
   }
   
   // 人脸
-  const actionURL = ref(import.meta.env.VITE_API_DOMAIN + '/common/upload');
-  const handleFaceChange = (info) => {
-    console.log(info)
-    const {response} = info.file;
-    if (info.file.status === 'done' && response && response.code === 200) {
-      message.success('上传成功！需要点“修改”应用修改！');
-      formStudentInfo.faceImg = response.data.url;
-    }
-    else if (info.file.status !== 'uploading') {
-      message.error('上传失败！');
-    }
+  const gotoFace = () => {
+    let link = router.resolve('/faceRegistration');
+    window.open(link.href, '_blank');
   }
 </script>
 

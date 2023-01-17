@@ -93,12 +93,6 @@
                       <span> 个人信息</span></a>
                   </a-menu-item>
                   <a-menu-item>
-                    <a href="http://localhost:8080" target="_blank">
-                      <pie-chart-outlined />
-                      <span> 成绩分析</span>
-                    </a>
-                  </a-menu-item>
-                  <a-menu-item>
                     <a href="javascript:;" @click.prevent="showLogoutConfirm">
                       <LogoutOutlined/>
                       <span> 退出登录</span>

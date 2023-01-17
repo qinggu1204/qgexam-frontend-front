@@ -78,6 +78,25 @@ export default [
             title: '错题集',
             requireAuth: true,
         }
+    },
+    // 人脸录入
+    {
+        path: '/faceRegistration',
+        name: 'faceRegistration',
+        component: () => import('@/views/face/FaceRegistration.vue'),
+        meta: {
+            title: '人脸录入',
+            requireAuth: true,
+        }
+    },
+    // 人脸比对
+    {
+        path: '/faceSearch',
+        name: 'faceSearch',
+        component: () => import('@/views/face/FaceSearch.vue'),
+        meta: {
+            title: '人脸比对',
+            requireAuth: true,
+        }
     }
-    
 ]

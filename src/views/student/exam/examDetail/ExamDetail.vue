@@ -701,6 +701,9 @@
   let complexAns = ref([]);
   const joinExam = async () => {
     const res = await studentStore.JoinExam({examinationId: props.examinationId});
+    if (res.code === 500) {
+      return await router.push('/');
+    }
     if (res.code !== 200) return;
     const {data} = res;
     let idx = 1;

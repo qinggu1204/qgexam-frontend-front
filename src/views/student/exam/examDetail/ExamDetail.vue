@@ -375,6 +375,9 @@
                 {{dayjs(examInfo.endTime).format('YYYY-MM-DD HH:mm:ss')}}
               </span>
               </div>
+              <div class="center-col" style="height: 200px;width:300px;margin-left: 20px;background: #56b870">
+                摄像头视频区
+              </div>
             </div>
           </a-affix>
         </a-col>

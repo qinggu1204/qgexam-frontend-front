@@ -119,3 +119,15 @@ export function getScreenCuttingNumber(parameter) {
         params: parameter
     })
 }
+
+export const reqAddFace = (params) => request({
+    url: '/stu/addFace',
+    method: 'put',
+    data: params
+})
+
+export const reqFaceSearch = (params) => request({
+    url: '/stu/searchFace',
+    method: 'post',
+    data: params
+})

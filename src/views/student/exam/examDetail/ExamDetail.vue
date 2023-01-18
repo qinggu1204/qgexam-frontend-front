@@ -15,6 +15,16 @@
               <b>返回</b>
             </a-space>
           </router-link>
+          <!--成绩分析按钮-->
+          <a-button 
+              style="float: right"
+              @click="gotoAnalysis"
+          >
+            <template #icon>
+              <pie-chart-outlined />
+            </template>
+            智能分析
+          </a-button>
         </a-col>
       </a-row>
       <a-row type="flex" style="padding-top: 2%;min-height: 100vh">
@@ -365,6 +375,9 @@
                 {{dayjs(examInfo.endTime).format('YYYY-MM-DD HH:mm:ss')}}
               </span>
               </div>
+              <div class="center-col" style="height: 200px;width:300px;margin-left: 20px;background: #56b870">
+                摄像头视频区
+              </div>
             </div>
           </a-affix>
         </a-col>
@@ -560,7 +573,7 @@
 </template>
 
 <script setup>
-  import {CheckOutlined, ClockCircleOutlined, CloseOutlined, RollbackOutlined} from "@ant-design/icons-vue";
+  import {CheckOutlined, ClockCircleOutlined, CloseOutlined, RollbackOutlined, PieChartOutlined} from "@ant-design/icons-vue";
   import {useRouter} from "vue-router";
   import {computed, h, nextTick, onBeforeMount, onBeforeUnmount, onDeactivated, onMounted, reactive, ref} from "vue";
   import {message, Modal} from "ant-design-vue";
@@ -575,12 +588,14 @@
   import 'dayjs/plugin/advancedFormat';
   import dayjs from "dayjs";
   import {useResultStore} from "@/store/result.js";
+  import {useFaceStore} from "@/store/face.js";
 
   const props = defineProps(['examinationId']);
   const router = useRouter();
   const userStore = useUserStore();
   const studentStore = useStudentStore();
   const resultStore = useResultStore();
+  const faceStore = useFaceStore();
   const status = ref('loading');
 
   // 动态锚点
@@ -622,6 +637,16 @@
     return res.data;
   }
   
+  // 人脸验证
+  const faceValidate = () => {
+    if (!faceStore.isAuth()) {
+      // 没有进行过人脸验证，进入人脸验证界面
+      faceStore.examinationId = props.examinationId;
+      router.push({name: 'faceSearch'});
+      message.warn('你还没有进行人脸验证！');
+    }
+  }
+  
   // 判断状态
   const examInfo = ref({
     examinationName: '',
@@ -650,6 +675,7 @@
     }
     await getStudentInfo();
     if (examInfo.value.status === 1) { // 进行中
+      faceValidate();
       await joinExam();
       deadline.value = dayjs(examInfo.value.endTime, 'YYYY-MM-DD HH:mm:ss').toDate();
       status.value = 'doing';
@@ -675,6 +701,9 @@
   let complexAns = ref([]);
   const joinExam = async () => {
     const res = await studentStore.JoinExam({examinationId: props.examinationId});
+    if (res.code === 500) {
+      return await router.push('/');
+    }
     if (res.code !== 200) return;
     const {data} = res;
     let idx = 1;
@@ -882,6 +911,12 @@
     if (res.code === 200) {
       message.success('添加成功！');
     }
+  }
+  
+  // 跳转成绩分析页面
+  const gotoAnalysis = () => {
+    let link = 'http://localhost:8080';
+    window.open(link, '_blank');
   }
 
 </script>

@@ -19,27 +19,28 @@
             安排监考
           </a-button>
           <a-divider type="vertical" />
-          <a-button type="primary" @click="visible = true">
+          <a-button type="primary" @click="openModal(record)">
             分配阅卷
           </a-button>
-          <a-modal
-                  :visible="visible" :confirm-loading="modalLoading"
-                  title="分配阅卷任务" ok-text="分配" cancel-text="取消"
-                  @ok="distributeJudgeTask(record.examinationId)" @cancel="visible = false"
-          >
-            <div>
-              考试名：{{record.examinationName}}
-            </div>
-            <div style="margin-top: 15px;">
-              阅卷截止时间：
-              <a-date-picker v-model:value="endTime" 
-                             value-format="YYYY-MM-DD HH:mm:ss" showTime
-              />
-            </div>
-          </a-modal>
         </template>
       </template>
     </a-table>
+    <a-modal
+        :visible="visible" :confirm-loading="modalLoading"
+        title="分配阅卷任务" ok-text="分配" cancel-text="取消"
+        @ok="distributeJudgeTask(recordDetail.examinationId)" @cancel="visible = false"
+        destroy-on-close
+    >
+      <div>
+        考试名：{{recordDetail.examinationName}}
+      </div>
+      <div style="margin-top: 15px;">
+        阅卷截止时间：
+        <a-date-picker v-model:value="endTime"
+                       value-format="YYYY-MM-DD HH:mm:ss" showTime
+        />
+      </div>
+    </a-modal>
   </div>
 </template>
 
@@ -128,6 +129,11 @@
   const visible = ref(false);
   const modalLoading = ref(false);
   const endTime = ref(undefined);
+  const recordDetail = ref(undefined);
+  const openModal = (record) => {
+    recordDetail.value = record;
+    visible.value = true;
+  }
   const distributeJudgeTask = async (examinationId) => {
     modalLoading.value = true;
     const res = await neteacherStore.DistributeJudgeTask({examinationId, endTime: endTime.value});

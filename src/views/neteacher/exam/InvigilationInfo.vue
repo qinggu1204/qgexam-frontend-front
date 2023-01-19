@@ -28,7 +28,7 @@
   const neteacherStore = useNeteacherStore();
   
   onBeforeMount(async () => {
-    await getExamList(props.examinationId);
+    await getInvigilationInfo();
   })
       
   // 考试表格
@@ -45,7 +45,7 @@
   const pagination = reactive({
     onChange: (currentPage, pageSize) => {
       pagination.pageSize = pageSize, pagination.current = currentPage;
-      getExamList(currentPage, pageSize)
+      getInvigilationInfo(currentPage, pageSize)
     },
     total: 0,
     current: 1,
@@ -58,7 +58,7 @@
       teacherName: '',
     }
   ])
-  const getExamList = async (currentPage = 1, pageSize = 10) => {
+  const getInvigilationInfo = async (currentPage = pagination.current, pageSize = pagination.pageSize) => {
     examListLoading.value = true;
     const res = await neteacherStore.GetInvigilationInfo(
         props.examinationId,{currentPage, pageSize}

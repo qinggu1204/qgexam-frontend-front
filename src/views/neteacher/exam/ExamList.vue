@@ -113,7 +113,7 @@
   const arrangeInvigilationLoading = ref(false);
   const arrangeInvigilation = async (examinationId) => {
     arrangeInvigilationLoading.value = true;
-    const res = await neteacherStore.ArrangeInvigilation(examinationId);
+    const res = await neteacherStore.ArrangeInvigilation({examinationId});
     if (res.code === 200) {
       message.success('安排监考成功，即将为您跳转到排考界面');
       setTimeout(() => {

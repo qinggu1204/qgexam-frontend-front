@@ -35,12 +35,17 @@
                 />
                 <div>
                   <a-descriptions title="课程信息" style="max-width: 100%">
-                    <a-descriptions-item label="教师" :span="3">
+                    <a-descriptions-item label="教师" :span="1">
                       {{
-                        getTeacherListText(courseInfo.teacherList).length > 30 ?
-                            getTeacherListText(courseInfo.teacherList).slice(0, 30) + '...' :
+                        getTeacherListText(courseInfo.teacherList).length > 15 ?
+                            getTeacherListText(courseInfo.teacherList).slice(0, 15) + '...' :
                             getTeacherListText(courseInfo.teacherList)
                       }}
+                    </a-descriptions-item>
+                    <a-descriptions-item label="课程编号" :span="2">
+                      <a-typography-paragraph copyable>
+                        {{courseId}}
+                      </a-typography-paragraph>
                     </a-descriptions-item>
                     <a-descriptions-item label="学年学期" :span="2">{{ courseInfo.year + ' ' + courseInfo.semester }}
                     </a-descriptions-item>

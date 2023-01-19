@@ -45,7 +45,7 @@ export function getTaskList(parameter) {
 
 export function getAnswerPaperList(path, parameter) {
     return request({
-        url: `/tea/getAnswerPaperList/${path}`,
+        url: `/tea/marking/getAnswerPaperList/${path}`,
         method: 'get',
         params: parameter
     })

@@ -37,7 +37,7 @@ export function createCourse(parameter) {
 
 export function getTaskList(parameter) {
     return request({
-        url: '/tea/getTaskList',
+        url: '/tea/marking/getTaskList',
         method: 'get',
         params: parameter
     })

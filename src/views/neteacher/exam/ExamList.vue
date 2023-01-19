@@ -10,8 +10,8 @@
     >
       <template #bodyCell="{ column, record }">
         <template v-if="column.key==='status'">
-          <a-badge status="success" v-if="record.status==='已结束'" text="已结束" />
-          <a-badge status="processing" v-else-if="record.status==='进行中'" text="进行中" />
+          <a-badge status="success" v-if="record.status===3" text="已结束" />
+          <a-badge status="processing" v-else-if="record.status===1" text="进行中" />
           <a-badge status="default" v-else text="未开始" />
         </template>
         <template v-else-if="column.key==='action'">
@@ -130,7 +130,7 @@
   const endTime = ref(undefined);
   const distributeJudgeTask = async (examinationId) => {
     modalLoading.value = true;
-    const res = await neteacherStore.DistributeJudgeTask({examinationId, endTime});
+    const res = await neteacherStore.DistributeJudgeTask({examinationId, endTime: endTime.value});
     if (res.code === 200) {
       message.success('分配阅卷任务成功！');
     }

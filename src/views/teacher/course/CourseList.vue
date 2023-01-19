@@ -262,7 +262,7 @@
   const formCreateCourse = reactive({
     subjectId: '',
     subjectName: '',
-    courseUrl: '',
+    courseUrl: 'http://roq1oxwf8.bkt.clouddn.com/course.jpg',
     courseName: '',
     yearName: '',
     semesterName: '',
@@ -279,8 +279,7 @@
       return;
     }
     if (!formCreateCourse.courseUrl) {
-      message.warn('课程图片不能为空！');
-      return;
+      formCreateCourse.courseUrl = 'http://roq1oxwf8.bkt.clouddn.com/course.jpg';
     }
     if (!formCreateCourse.semesterName || !formCreateCourse.yearName) {
       message.warn('学年或学期不能为空！');

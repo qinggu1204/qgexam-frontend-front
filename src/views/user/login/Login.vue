@@ -181,7 +181,7 @@
     code: '',
   });
   const loginLoading2 = ref(false);
-  const handleFinish2 = () => {
+  const handleFinish2 = async () => {
     // 校验
     if (!formType2.phoneNumber) {
       message.warn('手机号不能为空！');
@@ -202,16 +202,11 @@
 
     loginLoading2.value = true;
 
-    userStore.LoginByCode(formType2)
-        .then(res => {
-          if (res.code === 200) {
-            router.push({name: 'dashboard'});
-          }
-        })
-        .finally(() => {
-          loginLoading2.value = false;
-        })
-    
+    const res = await userStore.LoginByCode(formType2);
+    if (res.code === 200) {
+      return await router.replace('/');
+    }
+    loginLoading2.value = false;
   }
 </script>
 

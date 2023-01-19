@@ -15,7 +15,7 @@ import {
     screenCutting,
     getErrorQuestionList,
     addErrorQuestion,
-    getScreenCuttingNumber
+    getScreenCuttingNumber, save
 } from "@/api/student.js";
 
 export const useStudentStore = defineStore('student', {
@@ -78,6 +78,17 @@ export const useStudentStore = defineStore('student', {
         JoinExam(params) {
             return new Promise((resolve, reject) => {
                 joinExam(params)
+                    .then(res => {
+                        if (res) resolve(res);
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        Save(params) {
+            return new Promise((resolve, reject) => {
+                save(params)
                     .then(res => {
                         if (res) resolve(res);
                     })

@@ -56,6 +56,14 @@ export function joinExam(parameter) {
     })
 }
 
+export function save(parameter) {
+    return request({
+        url: '/stu/finishExam/save',
+        method: 'post',
+        data: parameter
+    })
+}
+
 export function saveOrSubmit(parameter) {
     return request({
         url: studentApi.SaveOrSubmit,

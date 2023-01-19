@@ -783,14 +783,23 @@
     if (type === 'save') saveLoading.value = true;
     else submitLoading.value = true;
     answer.value = [...singleAns.value, ...multiAns.value, ...judgeAns.value, ...completionAns.value, ...complexAns.value];
-    const res = await studentStore.SaveOrSubmit({
+    const res = await studentStore.Save({
       examinationId: props.examinationId,
       question: answer.value
     });
     if (res.code === 200) {
       message.success(type === 'save' ? '保存成功！' : '交卷成功！');
     }
-    if (type === 'submit') await router.push('/');
+    if (type === 'submit') {
+      const result =  await studentStore.SaveOrSubmit({
+        examinationId: props.examinationId,
+        question: answer.value
+      })
+      if (result.code === 200) 
+        message.success('交卷成功！');
+      await router.push('/');
+    }
+      
     saveLoading.value = false, submitLoading.value = false;
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <div v-else class="bg">
+  <div class="bg">
     <div class="register-bg">
       <div class="register-wrapper">
         <a-row justify="center">

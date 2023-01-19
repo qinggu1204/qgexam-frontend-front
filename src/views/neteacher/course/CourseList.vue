@@ -84,8 +84,6 @@
 
   const router = useRouter();
   const userStore = useUserStore();
-  const teacherStore = useTeacherStore();
-  const neteacherStore = useNeteacherStore();
 
   const courseList = ref([{
     isDeleted: 0,
@@ -139,7 +137,7 @@
   }
 
   onBeforeMount(async () => {
-    await Promise.all([getCourseList(), getSubjectList()]);
+    await getCourseList();
   })
 
   const getTeacherListText = (teacherList) => {
@@ -148,75 +146,6 @@
       str += item.userName + ' ';
     }
     return str;
-  }
-  
-  // 获取学科列表
-  const subjectList = ref([]);
-  const filterOption = (input, option) => {
-    return option.title.indexOf(input) >= 0;
-  }
-  const handleSelectChange = (value, option) => {
-    formCreateCourse.subjectId = value;
-    formCreateCourse.subjectName = option.title;
-  }
-  const getSubjectList = async () => {
-    const res = await teacherStore.GetSubjectList();
-    if (res.code !== 200) return;
-    subjectList.value = res.data;
-  }
-  
-  // 上传课程图片
-  const actionURL = ref(import.meta.env.VITE_API_DOMAIN + '/common/upload');
-  const handleImgChange = (info) => {
-    const {response} = info.file;
-    if (info.file.status === 'done' && response && response.code === 200) {
-      message.success('上传成功！');
-      formCreateCourse.courseUrl = response.data.url;
-    }
-    else if (response && response.code !== 200) {
-      message.error('上传失败！');
-    }
-  }
-  
-  // 创建课程
-  const formCreateCourse = reactive({
-    subjectId: '',
-    subjectName: '',
-    courseUrl: '',
-    courseName: '',
-    yearName: '',
-    semesterName: '',
-  })
-  const createCourseLoading = ref(false);
-  const createCourseVisible = ref(false);
-  const createCourse = async () => {
-    if (!formCreateCourse.subjectId || !formCreateCourse.subjectName) {
-      message.warn('学科不能为空！');
-      return;
-    }
-    if (!formCreateCourse.courseName) {
-      message.warn('课程名不能为空！');
-      return;
-    }
-    if (!formCreateCourse.courseUrl) {
-      message.warn('课程图片不能为空！');
-      return;
-    }
-    if (!formCreateCourse.semesterName || !formCreateCourse.yearName) {
-      message.warn('学年或学期不能为空！');
-      return;
-    }
-    
-    createCourseLoading.value = true;
-    const res = await teacherStore.CreateCourse(formCreateCourse);
-    if (res.code === 200) {
-      message.success('创建课程成功，即将刷新页面');
-      setTimeout(() => {
-        window.location.reload();
-      }, 2500)
-    }
-    createCourseVisible.value = false;
-    createCourseLoading.value = false;
   }
   
 </script>

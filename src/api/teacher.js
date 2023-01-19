@@ -53,14 +53,14 @@ export function getAnswerPaperList(path, parameter) {
 
 export function getAnswerPaper(path) {
     return request({
-        url: `/tea/getAnswerPaper/${path}`,
+        url: `/tea/marking/getAnswerPaper/${path}`,
         method: 'get',
     })
 }
 
 export function marking(path, parameter) {
     return request({
-        url: `/tea/marking/${path}`,
+        url: `/tea/marking/marking/${path}`,
         method: 'put',
         data: parameter
     })

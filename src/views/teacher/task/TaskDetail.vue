@@ -33,12 +33,9 @@
                   />
                 </template>
                 <templat v-if="column.key==='action'">
-                  <a
-                      :href="`/mark/${record.answerPaperId}`"
-                      target="_blank"
-                  >
+                  <router-link :to="`/mark/${record.answerPaperId}`">
                     {{record.isMarked === 0 ? '批阅' : '查看'}}
-                  </a>
+                  </router-link>
                 </templat>
               </template>
             </a-table>

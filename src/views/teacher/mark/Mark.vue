@@ -24,7 +24,7 @@
             <blockquote>
               <a-space :size="5" align="baseline" direction="vertical">
                 <a-typography-paragraph>
-                  <span><b>学生答案：</b>{{ item.studentAnswer }}</span>
+                  <span><b>学生答案：</b><span v-html="item.studentAnswer"></span></span>
                 </a-typography-paragraph>
                 <a-typography-paragraph>
                   <span style="color: #56b870"><b>参考答案：</b>{{ item.questionAns }}</span>
@@ -51,7 +51,7 @@
             <blockquote>
               <a-space :size="5" align="baseline" direction="vertical">
                 <a-typography-paragraph>
-                  <span><b>学生答案：</b>{{ sub.subQuestionAnswer }}</span>
+                  <span><b>学生答案：</b><span v-html="sub.subQuestionAnswer"></span></span>
                 </a-typography-paragraph>
                 <a-typography-paragraph>
                   <span style="color: #56b870"><b>参考答案：</b>{{ sub.subQuestionAns }}</span>
@@ -105,9 +105,11 @@
   import {onBeforeMount, onMounted, ref} from "vue";
   import {useTeacherStore} from "@/store/teacher.js";
   import {message} from "ant-design-vue";
+  import {useRouter} from "vue-router";
 
   const props = defineProps(['answerPaperId']);
   const loading = ref(false);
+  const router = useRouter();
   const teacherStore = useTeacherStore();
 
   onBeforeMount(async () => {
@@ -157,6 +159,9 @@
     const res = await teacherStore.Marking(props.answerPaperId, answerPaper.value);
     if (res.code === 200) {
       message.success('批阅成功！');
+      setTimeout(() => {
+        router.back();
+      }, 1000)
     }
     markingLoading.value = false;
   }

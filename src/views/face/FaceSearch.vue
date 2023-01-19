@@ -203,7 +203,15 @@
           file: base64
         }
         let result = await reqFaceSearch(params)
-        console.log("###", result)
+        if (result.code !== 200) return;
+        if (result.data >= 75) {
+          faceStore.setAuth(true);
+          message.success('人脸比对通过！');
+          if (faceStore.examinationId)
+            await router.push(`/exam/${faceStore.examinationId}`);
+        }
+        else
+          message.error('人脸比对失败！');
         // $.ajax({
         //   type: "post",
         //   url: "/faceSearch",

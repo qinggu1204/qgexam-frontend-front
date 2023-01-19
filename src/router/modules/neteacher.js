@@ -82,7 +82,7 @@ export default [
     {
         path: '/course/:courseId',
         name: 'course',
-        component: () => import('@/views/teacher/course/CourseDetail.vue'),
+        component: () => import('@/views/neteacher/course/CourseDetail.vue'),
         props: true,
         meta: {
             title: '课程详情',

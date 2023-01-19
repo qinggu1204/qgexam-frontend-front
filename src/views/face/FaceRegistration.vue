@@ -150,7 +150,8 @@
         }
         console.log("params====", params)
         let result = await reqAddFace(params)
-        console.log("2222222222=", result)
+        if (result.code === 200)
+          message.success('人脸录入成功！');
         // $.ajax({
         //   type: "post",
         //   url: "/faceAdd",

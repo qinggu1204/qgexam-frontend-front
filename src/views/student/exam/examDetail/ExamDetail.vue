@@ -16,7 +16,7 @@
             </a-space>
           </router-link>
           <!--成绩分析按钮-->
-          <a-button 
+          <a-button
               style="float: right"
               @click="gotoAnalysis"
           >
@@ -35,8 +35,8 @@
                 <span style="font-size:xx-large">{{examInfo.examinationName}}</span>
                 <span style="color: gray;font-size: large">
                 考试时间：
-                {{dayjs(examInfo.startTime).format('YYYY-MM-DD HH:mm:ss')}} 
-                至 
+                {{dayjs(examInfo.startTime).format('YYYY-MM-DD HH:mm:ss')}}
+                至
                 {{dayjs(examInfo.endTime).format('YYYY-MM-DD HH:mm:ss')}}
               </span>
               </a-space>
@@ -57,7 +57,7 @@
                    :id="item.questionId">
                 <a-typography-paragraph>
                   <b>{{ index + 1 }}.单选题（{{ item.questionScore }}分）</b>
-                  <a-button 
+                  <a-button
                       type="primary" style="float: right;font-weight: 500;"
                       @click="addErrorQuestion(item.questionId)"
                   >
@@ -619,7 +619,7 @@
           message.error('切屏超过5次，已强制收卷，按作弊处理！');
           saveOrSubmit('submit');
           return;
-        } 
+        }
         // 切屏后返回，发送切屏请求
         studentStore.ScreenCutting({examinationId: props.examinationId});
         Modal.warning({
@@ -629,14 +629,14 @@
       }
     }
   })
-  
+
   // 记录是否切屏以及切屏次数
   const isCutting = ref(false);
   const getScreenCuttingNumber = async () => {
     const res = await studentStore.GetScreenCuttingNumber({examinationId: props.examinationId});
     return res.data;
   }
-  
+
   // 人脸验证
   const faceValidate = () => {
     if (!faceStore.isAuth()) {
@@ -646,7 +646,7 @@
       message.warn('你还没有进行人脸验证！');
     }
   }
-  
+
   // 判断状态
   const examInfo = ref({
     examinationName: '',
@@ -666,7 +666,7 @@
           'dashboard'
       )
       return await router.push({name: 'result'});
-    } 
+    }
     examInfo.value = res.data;
     if (examInfo.value.status === 2) { // 未开始
       await router.push('/');
@@ -873,7 +873,7 @@
     const res = await studentStore.GetExamScoreDetail({examinationId: props.examinationId});
     if (res.code === 600) {
       await router.push('/');
-      message.warn('考试阅卷还未完成！');
+      message.warn('成绩查询还未开放！');
       return ;
     }
     if (res.code !== 200) return;
@@ -901,7 +901,7 @@
     if (res.code !== 200) return;
     studentInfo.value = res.data;
   }
-  
+
   // 添加错题
   const addErrorQuestion = async (questionId) => {
     const res = await studentStore.AddErrorQuestion({
@@ -912,7 +912,7 @@
       message.success('添加成功！');
     }
   }
-  
+
   // 跳转成绩分析页面
   const gotoAnalysis = () => {
     let link = 'http://localhost:8080';
@@ -967,7 +967,7 @@
   :deep(.ql-container) {
     width: @rich-text-container;
   }
-  
+
   .exam-detail {
     min-height: 100vh;
     background-color: #f0f2f5;

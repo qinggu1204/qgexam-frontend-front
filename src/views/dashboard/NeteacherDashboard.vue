@@ -172,10 +172,10 @@
   const getMessage = async (messageId, title) => {
     const res = await userStore.GetMessage({messageId});
     if (res.code !== 200) return;
-    const {examination_name, start_time, end_time} = res.data;
-    let desc = '考试名称：' + examination_name + '\n';
-    if (start_time) desc += '开始时间：' + start_time + '\n';
-    if (end_time) desc += '结束时间：' + end_time + '\n';
+    const {examinationName, startTime, endTime} = res.data;
+    let desc = '考试名称：' + examinationName + '\n';
+    if (startTime) desc += '开始时间：' + startTime + '\n';
+    if (endTime) desc += '结束时间：' + endTime + '\n';
     notification.info({
       message: title,
       description: desc,

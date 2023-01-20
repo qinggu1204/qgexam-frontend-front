@@ -137,7 +137,7 @@
   const getCourseInfo = async () => {
     loading.value = true;
     let res = await userStore.GetCourseList({
-      currentPage: 1, pageSize: 12, subjectId: props.courseId
+      currentPage: 1, pageSize: 12, courseId: props.courseId
     }); // 一定查询出唯一结果
     if (res.code !== 200) {
       resultStore.setResult(

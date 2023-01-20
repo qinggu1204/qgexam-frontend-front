@@ -106,7 +106,7 @@
 </template>
 
 <script setup>
-  import {onActivated, onMounted, reactive, ref} from "vue";
+  import {onActivated, onBeforeMount, onMounted, reactive, ref} from "vue";
   import {message} from "ant-design-vue/es"
   import {useUserStore} from "@/store/user.js";
   import {LoadingOutlined, PlusOutlined} from "@ant-design/icons-vue";
@@ -119,17 +119,13 @@
   const studentStore = useStudentStore();
 
   const infoLoading = ref(false);
-  onActivated(() => {
+  onBeforeMount(async () => {
     infoLoading.value = true;
-    Promise.all([userStore.GetUserInfo(), studentStore.GetStudentInfo()])
-        .then(res => {
-          if (res[0].code === 200 && res[1].code === 200) {
-            formStudentInfo = reactive(res[1].data);
-          }
-        })
-        .finally(() => {
-          infoLoading.value = false;
-        })
+    const res =  await Promise.all([userStore.GetUserInfo(), studentStore.GetStudentInfo()]);
+    if (res[0].code === 200 && res[1].code === 200) {
+      formStudentInfo.value = res[1].data;
+    } 
+    infoLoading.value = false;
   })
 
   // 验证码
@@ -207,18 +203,17 @@
   }
 
 
-  let formStudentInfo = reactive({
+  let formStudentInfo = ref({
     studentNumber: '',
     schoolName: '',
     userName: '',
     headImg: '',
     loginName: '',
-    faceImg: '',
   });
   const updateStudentInfoLoading = ref(false);
   const updateStudentInfo = () => {
     updateStudentInfoLoading.value = true;
-    studentStore.UpdateStudentInfo(formStudentInfo)
+    studentStore.UpdateStudentInfo(formStudentInfo.value)
         .then(res => {
           if (res.code === 200) {
             message.success('修改用户信息成功！即将刷新页面！');
@@ -261,7 +256,7 @@
           if (res.code === 200) {
             message.success('上传成功！需要点“修改”应用修改！');
             info.onSuccess(res.data, info);
-            formStudentInfo.headImg = res.data.url;
+            formStudentInfo.value.headImg = res.data.url;
           }
         })
         .catch(err => {

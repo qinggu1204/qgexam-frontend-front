@@ -357,7 +357,7 @@
                 <span style="font-size: large">学号：{{ studentInfo.studentNumber }}</span>
               </div>
               <div class="center-col">
-                <span style="font-size: large">总分：{{ sum }}分</span>
+                <span style="font-size: large">总分：{{ examInfo.totalScore }}分</span>
               </div>
               <div class="center-col">
                 <span style="font-size: large">考试开始时间：</span>
@@ -653,6 +653,7 @@
     startTime: '',
     endTime: '',
     status: undefined,
+    totalScore: undefined
   })
   onBeforeMount(async () => {
     status.value = 'loading';
@@ -696,7 +697,7 @@
   let singleList = reactive({idx: 0, num: 0, list: []}), multiList = reactive({idx: 0, num: 0, list: []}),
       judgeList = reactive({idx: 0, num: 0, list: []}),
       completionList = reactive({idx: 0, num: 0, list: []}), complexList = reactive({idx: 0, num: 0, list: []});
-  let answer = ref([]), sum = ref(0);
+  let answer = ref([]);
   let singleAns = ref([]), multiAns = ref([]), judgeAns = ref([]), completionAns = ref([]);
   let complexAns = ref([]);
   const joinExam = async () => {
@@ -710,7 +711,6 @@
     if (data.single && data.single.singleList.length) {
       singleList.idx = idx++, singleList.num = data.single.singleList[0].questionScore * data.single.singleList.length;
       singleList.list = data.single.singleList;
-      sum.value += singleList.num;
       for (let i = 0; i < singleList.list.length; i++) {
         singleAns.value.push({
           questionId: singleList.list[i].questionId,
@@ -722,7 +722,6 @@
     if (data.multi && data.multi.multiList.length) {
       multiList.idx = idx++, multiList.num = data.multi.multiList[0].questionScore * data.multi.multiList.length;
       multiList.list = data.multi.multiList;
-      sum.value += multiList.num;
       for (let i = 0; i < multiList.list.length; i++) {
         multiAns.value.push({
           questionId: multiList.list[i].questionId,
@@ -734,7 +733,6 @@
     if (data.judge && data.judge.judgeList.length) {
       judgeList.idx = idx++, judgeList.num = data.judge.judgeList[0].questionScore * data.judge.judgeList.length;
       judgeList.list = data.judge.judgeList;
-      sum.value += judgeList.num;
       for (let i = 0; i < judgeList.list.length; i++) {
         judgeAns.value.push({
           questionId: judgeList.list[i].questionId,
@@ -746,7 +744,6 @@
     if (data.completion && data.completion.completionList.length) {
       completionList.idx = idx++, completionList.num = data.completion.completionList[0].questionScore * data.completion.completionList.length;
       completionList.list = data.completion.completionList;
-      sum.value += completionList.num;
       for (let i = 0; i < completionList.list.length; i++) {
         completionAns.value.push({
           questionId: completionList.list[i].questionId,
@@ -775,7 +772,6 @@
         }
       }
       complexList.num = sum_score;
-      sum.value += complexList.num;
     }
   }
   const saveLoading = ref(false), submitLoading = ref(false);

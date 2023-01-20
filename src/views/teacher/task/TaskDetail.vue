@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-  import {onBeforeMount, reactive, ref} from "vue";
+  import {onActivated, onBeforeMount, reactive, ref} from "vue";
   import {useTeacherStore} from "@/store/teacher.js";
   
   const loading = ref(false);

@@ -1,17 +1,21 @@
 <!--教师监考假页面-->
 <template>
   <a-list
-      :grid="{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3, xxxl: 2 }"
+      :grid="{ gutter: 16 }"
       :data-source="data"
+      style="margin-left: 7%;"
   >
     <template #renderItem="{ item }">
       <a-list-item>
-        <a-card hoverable style="width: 240px">
+        <a-card hoverable style="width: 300px;">
           <template #cover>
-            <img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />
+            <video :src="item.src" style="height: 200px">
+              123
+            </video>
+            <!--<img alt="example" style="height: 200px" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />-->
           </template>
-          <a-card-meta title="操作系统">
-            <template #description>www.instagram.com</template>
+          <a-card-meta :title="item.title">
+            <template #description>学生 {{item.student}}</template>
           </a-card-meta>
         </a-card>
       </a-list-item>
@@ -21,11 +25,52 @@
 
 <script setup>
 
-  const data = [{
-    
-  }]
+  const data = [
+    {
+      title: '操作系统',
+      src: './videos/1.mp4',
+      student: '202003151106',
+    },
+    {
+      title: '操作系统',
+      src: './videos/2.mp4',
+      student: '202003150811',
+    },
+    {
+      title: '操作系统',
+      src: './videos/2.mp4',
+      student: '202003150811',
+    },
+    {
+      title: '操作系统',
+      src: './videos/2.mp4',
+      student: '202003150811',
+    },
+    {
+      title: '操作系统',
+      src: './videos/2.mp4',
+      student: '202003150811',
+    },
+    {
+      title: '操作系统',
+      src: './videos/2.mp4',
+      student: '202003150811',
+    },
+    {
+      title: '操作系统',
+      src: './videos/2.mp4',
+      student: '202003150811',
+    },
+    {
+      title: '操作系统',
+      src: './videos/2.mp4',
+      student: '202003150811',
+    },
+  ]
 </script>
 
 <style scoped>
-
+  :deep(.ant-list-item) {
+    display: inline-flex;
+  }
 </style>

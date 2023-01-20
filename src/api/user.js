@@ -2,6 +2,7 @@
  * 用户公共接口
  */
 import {request} from "@/utils/request.js";
+import {useUserStore} from "@/store/user.js";
 
 const userApi = {
     Login: '/user/login', // 登录名密码登录
@@ -100,10 +101,11 @@ export function validateCode(parameter) {
 }
 
 export function upload(parameter) {
+    const userStore = useUserStore();
     return request({
         url: userApi.Upload,
         method: 'post',
-        headers: { 'Content-Type': 'multipart/form-data'},
+        headers: { 'Content-Type': 'multipart/form-data', 'token': userStore.token},
         data: parameter
     })
 }

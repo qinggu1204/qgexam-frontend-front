@@ -65,6 +65,7 @@
             <a-form-item label="课程图片">
               <a-upload
                   name="image"
+                  :headers="{token: userStore.token}"
                   list-type="picture-card"
                   class="avatar-uploader"
                   accept="image/png, image/jpeg"

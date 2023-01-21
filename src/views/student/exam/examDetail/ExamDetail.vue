@@ -375,8 +375,12 @@
                 {{dayjs(examInfo.endTime).format('YYYY-MM-DD HH:mm:ss')}}
               </span>
               </div>
-              <div class="center-col" style="height: 200px;width:300px;margin-left: 20px;background: #56b870">
-                摄像头视频区
+              <div class="center-col" style="height: 200px;width:300px;margin-left: 20px;">
+                <div class="video" @click="showFaceWarn">
+                  <video loop muted autoplay src="./3.mp4" style="height: 200px">
+                    您的浏览器不支持视频播放
+                  </video>
+                </div>
               </div>
             </div>
           </a-affix>
@@ -923,6 +927,14 @@
     let link = 'http://localhost:8080';
     window.open(link, '_blank');
   }
+  
+  // 显示实时人脸不匹配
+  const showFaceWarn = () => {
+    Modal.warning({
+      title: '作弊警告',
+      content: '实时人脸匹配失败，该行为已被记录到后台！',
+    });
+  }
 
 </script>
 
@@ -977,5 +989,11 @@
     min-height: 100vh;
     background-color: #f0f2f5;
     box-sizing: border-box;
+  }
+
+  .video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 </style>

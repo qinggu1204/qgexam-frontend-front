@@ -1,76 +1,132 @@
 <!--教师监考假页面-->
 <template>
-  <a-list
-      :grid="{ gutter: 16 }"
-      :data-source="data"
-      style="margin-left: 7%;"
-  >
-    <template #renderItem="{ item }">
-      <a-list-item>
-        <a-card hoverable style="width: 300px;">
-          <template #cover>
-            <video :src="item.src" style="height: 200px">
-              123
-            </video>
-            <!--<img alt="example" style="height: 200px" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />-->
+  <a-row :gutter="[16, 16]">
+    <a-col :span="6">
+      <a-card style="width: 350px;" hoverable>
+        <div class="video">
+          <video loop muted autoplay src="./videos/1.mp4" style="height: 200px">
+            您的浏览器不支持视频播放
+          </video>
+        </div>
+        <a-card-meta title="操作系统">
+          <template #description>
+            学生 202003151106
           </template>
-          <a-card-meta :title="item.title">
-            <template #description>学生 {{item.student}}</template>
-          </a-card-meta>
-        </a-card>
-      </a-list-item>
-    </template>
-  </a-list>
+        </a-card-meta>
+      </a-card>
+    </a-col>
+    <a-col :span="6">
+      <a-card style="width: 350px;" hoverable>
+        <div class="video">
+          <video loop muted autoplay src="./videos/2.mp4" style="height: 200px">
+            您的浏览器不支持视频播放
+          </video>
+        </div>
+        <a-card-meta title="操作系统">
+          <template #description>
+            学生 202003150817
+          </template>
+        </a-card-meta>
+      </a-card>
+    </a-col>
+    <a-col :span="6">
+      <a-card style="width: 350px;" hoverable>
+        <div class="video">
+          <video loop muted autoplay src="./videos/3.mp4" style="height: 200px">
+            您的浏览器不支持视频播放
+          </video>
+        </div>
+        <a-card-meta title="操作系统">
+          <template #description>
+            学生 202003150912
+          </template>
+        </a-card-meta>
+      </a-card>
+    </a-col>
+    <a-col :span="6">
+      <a-card style="width: 350px;" hoverable>
+        <div class="video">
+          <video loop muted autoplay src="./videos/1.mp4" style="height: 200px">
+            您的浏览器不支持视频播放
+          </video>
+        </div>
+        <a-card-meta title="操作系统">
+          <template #description>
+            学生 202003151106
+          </template>
+        </a-card-meta>
+      </a-card>
+    </a-col>
+    <a-col :span="6">
+      <a-card style="width: 350px;" hoverable>
+        <div class="video">
+          <video loop muted autoplay src="./videos/1.mp4" style="height: 200px">
+            您的浏览器不支持视频播放
+          </video>
+        </div>
+        <a-card-meta title="操作系统">
+          <template #description>
+            学生 202003151106
+          </template>
+        </a-card-meta>
+      </a-card>
+    </a-col>
+    <a-col :span="6">
+      <a-card style="width: 350px;" hoverable>
+        <div class="video">
+          <video loop muted autoplay src="./videos/1.mp4" style="height: 200px">
+            您的浏览器不支持视频播放
+          </video>
+        </div>
+        <a-card-meta title="操作系统">
+          <template #description>
+            学生 202003151106
+          </template>
+        </a-card-meta>
+      </a-card>
+    </a-col>
+    <a-col :span="6">
+      <a-card style="width: 350px;" hoverable>
+        <div class="video">
+          <video loop muted autoplay src="./videos/1.mp4" style="height: 200px">
+            您的浏览器不支持视频播放
+          </video>
+        </div>
+        <a-card-meta title="操作系统">
+          <template #description>
+            学生 202003151106
+          </template>
+        </a-card-meta>
+      </a-card>
+    </a-col>
+    <a-col :span="6">
+      <a-card style="width: 350px;" hoverable>
+        <div class="video">
+          <video loop muted autoplay src="./videos/1.mp4" style="height: 200px">
+            您的浏览器不支持视频播放
+          </video>
+        </div>
+        <a-card-meta title="操作系统">
+          <template #description>
+            学生 202003151106
+          </template>
+        </a-card-meta>
+      </a-card>
+    </a-col>
+  </a-row>
 </template>
 
 <script setup>
-
-  const data = [
-    {
-      title: '操作系统',
-      src: './videos/1.mp4',
-      student: '202003151106',
-    },
-    {
-      title: '操作系统',
-      src: './videos/2.mp4',
-      student: '202003150811',
-    },
-    {
-      title: '操作系统',
-      src: './videos/2.mp4',
-      student: '202003150811',
-    },
-    {
-      title: '操作系统',
-      src: './videos/2.mp4',
-      student: '202003150811',
-    },
-    {
-      title: '操作系统',
-      src: './videos/2.mp4',
-      student: '202003150811',
-    },
-    {
-      title: '操作系统',
-      src: './videos/2.mp4',
-      student: '202003150811',
-    },
-    {
-      title: '操作系统',
-      src: './videos/2.mp4',
-      student: '202003150811',
-    },
-    {
-      title: '操作系统',
-      src: './videos/2.mp4',
-      student: '202003150811',
-    },
-  ]
 </script>
 
 <style scoped>
   :deep(.ant-list-item) {
     display: inline-flex;
+  }
+
+  .video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 </style>

@@ -377,7 +377,7 @@
               </div>
               <div class="center-col" style="height: 200px;width:300px;margin-left: 20px;">
                 <div class="video" @click="showFaceWarn">
-                  <video loop muted autoplay src="./3.mp4" style="height: 200px">
+                  <video loop muted autoplay src="./face.mp4  " style="height: 200px">
                     您的浏览器不支持视频播放
                   </video>
                 </div>

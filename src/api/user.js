@@ -105,7 +105,7 @@ export function upload(parameter) {
     return request({
         url: userApi.Upload,
         method: 'post',
-        headers: { 'Content-Type': 'multipart/form-data', 'token': userStore.token},
+        headers: { 'Content-Type': 'multipart/form-data'},
         data: parameter
     })
 }

@@ -11,7 +11,7 @@
         <div v-if="fileShow === 'file'">
           <h2>点击图片区域上传文件</h2><input style='display: none' type='file' name='file1' id='file1' multiple='multiple' />
           <br>
-          <img src='images/shibie.jpg' @click='chooseFile()' id='img0' style='width: 30rem;height: 25rem;'>
+          <img src='./images/shibie.jpg' @click='chooseFile()' id='img0' style='width: 30rem;height: 25rem;'>
         </div>
         <div v-if="fileShow === 'media'">
           <video id='video2' width='500' height='500' autoplay='autoplay' style='margin-top: 20px'></video>

@@ -15,7 +15,7 @@
           <h2>点击图片区域上传文件</h2>
           <input style='display: none' type='file'  name='file0' id='file0' multiple='multiple' />
           <br>
-          <img src='images/shibie.jpg' id='img0' @click='toChooseFile()' style='width: 30rem;height: 25rem;'>
+          <img src='./images/shibie.jpg' id='img0' @click='toChooseFile()' style='width: 30rem;height: 25rem;'>
         </div>
 
       </div>

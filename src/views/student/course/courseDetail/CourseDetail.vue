@@ -176,8 +176,9 @@
   const examListLoading = ref(false);
   const pagination = reactive({
     onChange: (currentPage, pageSize) => {
-      pagination.pageSize = pageSize, pagination.current = currentPage;
-      getExamList(props.courseId)
+      pagination.pageSize = pageSize
+      pagination.current = currentPage
+      getExamList(props.courseId, currentPage)
     },
     total: 0,
     current: 1,
@@ -193,7 +194,7 @@
     }
   ])
   const getExamList = (
-      courseId = null, currentPage = 1, pageSize = 5, 
+      courseId = null, currentPage = 1, pageSize = 5,
       examinationName = null, examinationId = null
   ) => {
     examListLoading.value = true;

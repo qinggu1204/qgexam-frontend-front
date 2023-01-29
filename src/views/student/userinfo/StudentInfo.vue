@@ -1,4 +1,7 @@
 <template>
+  <div style="display: inline;float: right">
+    <a href="src/views/face/face_registration.html" target="_blank">人脸识别</a>
+  </div>
   <div v-if="infoLoading" class="loading-wrapper">
     <Loading></Loading>
   </div>

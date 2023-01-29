@@ -143,7 +143,8 @@
       let result = await reqFaceSearch(params)
       console.log("###", result)
       if (result.code !== 200) return;
-      if (result.data >= 75) {
+      const {similarValue} = result.data;
+      if (similarValue >= 75) {
         faceStore.setAuth(true);
         message.success('人脸比对通过！');
         if (faceStore.examinationId) 

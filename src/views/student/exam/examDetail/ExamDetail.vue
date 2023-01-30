@@ -610,6 +610,13 @@
     window.onblur = function () {
       // 只要切屏，记录flag isCutting = true
       isCutting.value = true;
+      if (
+          isCutting.value && router.currentRoute.value.name === 'exam'
+          && status.value === 'doing'
+      ) {
+        // 切屏后返回，发送切屏请求
+        studentStore.ScreenCutting({examinationId: props.examinationId});
+      }
     }
     window.onfocus = async function() {
       if (
@@ -618,18 +625,17 @@
       ) {
         // 若切屏超过5次，直接结束考试
         const num = await getScreenCuttingNumber();
-        if (num >= 5) {
+        if (num > 5) {
           await router.push('/');
           message.error('切屏超过5次，已强制收卷，按作弊处理！');
           saveOrSubmit('submit');
-          return;
+        } else {
+          Modal.warning({
+            title: '切屏警告',
+            content: `检测到您已切屏，该行为已被记录到后台，请诚信考试！本场考试您已经切屏${num}次，切屏5次以上将会取消考试资格！`,
+          })
         }
-        // 切屏后返回，发送切屏请求
-        studentStore.ScreenCutting({examinationId: props.examinationId});
-        Modal.warning({
-          title: '切屏警告',
-          content: '检测到您已切屏，该行为已被记录到后台，请诚信考试！切屏5次以上将会取消考试资格！',
-        })
+
       }
     }
   })
@@ -795,11 +801,11 @@
         examinationId: props.examinationId,
         question: answer.value
       })
-      if (result.code === 200) 
+      if (result.code === 200)
         message.success('交卷成功！');
       await router.push('/');
     }
-      
+
     saveLoading.value = false, submitLoading.value = false;
   }
 
@@ -927,7 +933,7 @@
     let link = 'http://localhost:8080';
     window.open(link, '_blank');
   }
-  
+
   // 显示实时人脸不匹配
   const showFaceWarn = () => {
     Modal.warning({
